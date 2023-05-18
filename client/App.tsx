@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View } from 'react-native';
-import Registration from './components/pages/Registration';
 import Navigation from './components/Navigation';
 
 export default function App() {

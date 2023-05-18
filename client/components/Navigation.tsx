@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Registration from './pages/Registration';
 import MainPage from './pages/MainPage';
 import Autorization from './pages/Autorization';
+import GamePage from './pages/GamePage';
 import CreateLobbyPage from './pages/CreateLobbyPage';
 import Lobby from './pages/Lobby';
 
@@ -28,6 +29,10 @@ export default function Navigation(): JSX.Element {
           component={Autorization}
           options={{ title: 'Авторизация' }}
         />
+                <Stack.Screen
+          name="GamePage"
+          component={GamePage}
+          options={{ title: 'Игра' }}
         <Stack.Screen
           name="CreateLobbyPage"
           component={CreateLobbyPage}
