@@ -8,6 +8,10 @@ import GamePage from "./pages/GamePage";
 import CreateLobbyPage from "./pages/CreateLobbyPage";
 import Lobby from "./pages/Lobby";
 import FactPage from "./pages/FactPage";
+import ResultPage from './pages/ResultPage';
+import GeneralPage from './pages/GeneralPage';
+import ScorePage from './pages/ScorePage';
+import ProfilePage from './pages/ProfilePage';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +50,14 @@ export default function Navigation(): JSX.Element {
           component={FactPage}
           options={{ title: "Введите факт" }}
         />
+        <Stack.Screen 
+        name='ResultPage'
+        component={ResultPage}
+        options={{title: 'Результат'}}
+        />
+        <Stack.Screen name='ScorePage' component={ScorePage} />
+        <Stack.Screen name='GeneralPage' component={GeneralPage} />
+        <Stack.Screen name='ProfilePage' component={ProfilePage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

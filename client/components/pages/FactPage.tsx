@@ -8,8 +8,8 @@ export default function FactPage({navigation}): JSX.Element {
       <Text>FactPage</Text>
       <TextInput value={fact} onChangeText={setFact} style={styles.input} />
       <Button
-        onPress={() => navigation.navigate('///')}
-        title="Таня"
+        onPress={() => navigation.navigate('GamePage')}
+        title="Готов!"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
       />

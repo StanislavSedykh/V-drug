@@ -5,14 +5,14 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
   return (
     <View>
       <Button
-        onPress={() => navigation.navigate("///")}
+        onPress={() => navigation.navigate("Lobby")}
         title="Создать игру"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
       />
 
       <Button
-        onPress={() => navigation.navigate("///")}
+        onPress={() => navigation.navigate("Lobby")}
         title="Присоединиться к игре"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
