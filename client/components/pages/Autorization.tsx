@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
-export default function Autorization(): JSX.Element {
+export default function Autorization({navigation}): JSX.Element {
   const [text, setText] = useState('');
   return (
     <View>
@@ -9,6 +9,12 @@ export default function Autorization(): JSX.Element {
         value={text}
         onChangeText={setText}
         style={styles.input}
+      />
+      <Button
+        onPress={() => navigation.navigate("CreateLobbyPage")}
+        title="Войти"
+        color="#841584"
+        accessibilityLabel="Learn more about this purple button"
       />
     </View>
   );
