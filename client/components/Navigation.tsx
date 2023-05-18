@@ -7,6 +7,7 @@ import Autorization from "./pages/Autorization";
 import GamePage from "./pages/GamePage";
 import CreateLobbyPage from "./pages/CreateLobbyPage";
 import Lobby from "./pages/Lobby";
+import FactPage from "./pages/FactPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +41,11 @@ export default function Navigation(): JSX.Element {
           options={{ title: "" }}
         />
         <Stack.Screen name="Lobby" component={Lobby} options={{ title: "" }} />
+        <Stack.Screen
+          name="FactPage"
+          component={FactPage}
+          options={{ title: "Введите факт" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
