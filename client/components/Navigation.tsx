@@ -7,6 +7,7 @@ import Autorization from "./pages/Autorization";
 import GamePage from "./pages/GamePage";
 import CreateLobbyPage from "./pages/CreateLobbyPage";
 import Lobby from "./pages/Lobby";
+import FactPage from "./pages/FactPage";
 import ResultPage from './pages/ResultPage';
 import GeneralPage from './pages/GeneralPage';
 import ScorePage from './pages/ScorePage';
@@ -44,6 +45,11 @@ export default function Navigation(): JSX.Element {
           options={{ title: "" }}
         />
         <Stack.Screen name="Lobby" component={Lobby} options={{ title: "" }} />
+        <Stack.Screen
+          name="FactPage"
+          component={FactPage}
+          options={{ title: "Введите факт" }}
+        />
         <Stack.Screen 
         name='ResultPage'
         component={ResultPage}
