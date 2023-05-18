@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
-export default function Registration(): JSX.Element {
+export default function Registration({navigation}): JSX.Element {
   const [text, setText] = useState('');
   return (
     <View>
@@ -9,6 +9,12 @@ export default function Registration(): JSX.Element {
         value={text}
         onChangeText={setText}
         style={styles.input}
+      />
+      <Button
+        onPress={() => navigation.navigate("CreateLobbyPage")}
+        title="Зарегистрироваться"
+        color="#841584"
+        accessibilityLabel="Learn more about this purple button"
       />
     </View>
   );
