@@ -2,8 +2,9 @@ import express from 'express';
 import morgan from 'morgan';
 import session from 'express-session';
 import store from 'session-file-store';
-import path from 'path';
 import apiRouter from './routes/apiRouter';
+
+const cors = require('cors');
 
 require('dotenv').config();
 
@@ -23,10 +24,16 @@ const sessionConfig = {
   },
 };
 
-
+app.use(
+  cors({
+    credentials: true,
+    origin: true,
+  }),
+);
 
 app.use(morgan('dev'));
 app.use(session(sessionConfig));
+app.use(express.json());
 
 app.use('/api', apiRouter);
 
