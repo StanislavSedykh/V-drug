@@ -10,13 +10,13 @@ export default function Lobby({ navigation }): JSX.Element {
       <Text>Beb</Text>
       <Text>Bob</Text>
       <Button
-        onPress={() => navigation.navigate("///")}
+        onPress={() => navigation.navigate("FactPage")}
         title="Начать игру"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
       />
       <Button
-        onPress={() => navigation.navigate("///")}
+        onPress={() => navigation.navigate("CreateLobbyPage")}
         title="Отменить"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
