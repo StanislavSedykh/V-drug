@@ -5,6 +5,8 @@ import Registration from './pages/Registration';
 import MainPage from './pages/MainPage';
 import Autorization from './pages/Autorization';
 import GamePage from './pages/GamePage';
+import CreateLobbyPage from './pages/CreateLobbyPage';
+import Lobby from './pages/Lobby';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +33,15 @@ export default function Navigation(): JSX.Element {
           name="GamePage"
           component={GamePage}
           options={{ title: 'Игра' }}
+        <Stack.Screen
+          name="CreateLobbyPage"
+          component={CreateLobbyPage}
+          options={{ title: '' }}
+        />
+        <Stack.Screen
+          name="Lobby"
+          component={Lobby}
+          options={{ title: '' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
