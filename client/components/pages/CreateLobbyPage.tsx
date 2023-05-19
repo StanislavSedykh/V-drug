@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
+import { useAppDispatch } from '../../features/redux/hooks';
+import { logoutThunk } from '../../features/redux/slices/user/thunkAction';
 
 export default function CreateLobbyPage({ navigation }): JSX.Element {
   const [number, setNumber] = useState('');
+  const dispatch = useAppDispatch()
+
+  const logoutHandler = () => {
+    dispatch(logoutThunk());
+    navigation.navigate('Registration')
+  }
   return (
     <View>
       <TextInput
@@ -22,6 +30,12 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
       <Button
         onPress={() => navigation.navigate('Lobby')}
         title="Присоединиться к игре"
+        color="#841584"
+        accessibilityLabel="Learn more about this purple button"
+      />
+      <Button
+        onPress={logoutHandler}
+        title="Выйти"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
       />
