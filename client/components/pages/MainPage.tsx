@@ -15,7 +15,7 @@ export default function MainPage({ navigation }): JSX.Element {
       />
       <Button
         onPress={() => navigation.navigate('Autorization')}
-        title="Авторизация"
+        title="Войти"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
       />
