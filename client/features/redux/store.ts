@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from '../sagas/rootSaga';
 // import userReducer from './slices/user/userSlice';
+import userReducer from './slices/user/userSlicer';
 // import transactionReducer from './slices/transaction/transactionSlice';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -14,9 +15,13 @@ const rootReducer = combineReducers({
 
 
 const store = configureStore({
-    reducer: rootReducer,
+    reducer: {rootReducer,
+       user: userReducer,}
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
   })
+
+export default store;
+
 
 sagaMiddleware.run(rootSaga);
 // Infer the `RootState` and `AppDispatch` types from the store itself

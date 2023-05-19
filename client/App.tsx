@@ -1,14 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
 import Navigation from "./components/Navigation";
-import { useEffect } from "react";
+import { Provider } from "react-redux";
+import store from "./features/redux/store";
 import axios from "axios";
+
+
 const ws = new WebSocket("ws://localhost:3000");
 
+axios.defaults.withCredentials = true;
 
 export default function App() {
-  useEffect(() => {
-    axios('http://localhost:3000/ololo')
-  });
   return <Navigation />;
 }
 

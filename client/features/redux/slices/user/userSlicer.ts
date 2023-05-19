@@ -13,7 +13,7 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<UserType>) => action.payload,
     renameUser: (state, action: PayloadAction<string>) => {
       if (state.status === 'logged') {
-        state.username = action.payload;
+        state.name = action.payload;
       }
     },
     logoutUser: (state) => ({ status: 'guest' }),
