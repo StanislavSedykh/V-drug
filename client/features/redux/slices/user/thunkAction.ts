@@ -17,9 +17,9 @@ export const logoutThunk: ThunkActionCreater = () => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
-export const signUpThunk: ThunkActionCreater<SignUpType> = (userData) => (dispatch) => {
+export const signUpThunk: ThunkActionCreater<FormData> = (userData) => (dispatch) => {
   axios
-    .post<BackendUserType>('/api/auth/signup', userData)
+    .post<BackendUserType>('http://localhost:3001/api/auth/signup', userData)
     .then(({ data }) => dispatch(setUser({ ...data, status: 'logged' })))
     .catch((err) => console.log(err));
 };
