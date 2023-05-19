@@ -5,17 +5,18 @@ import store from 'session-file-store';
 import { WebSocketServer } from 'ws';
 import http from 'http';
 import apiRouter from './routes/apiRouter';
+import { pathMiddleware } from '../middlewares';
+import broad from '../webSocket';
 
 const cors = require('cors');
 
-const map = new Map();
 require('dotenv').config();
 
 const PORT = process.env.SERVER_PORT || 3000;
 const app = express();
 const FileStore = store(session);
 
-const sessionConfig = {
+const sessionConfig = session ({
   name: 'user_sid',
   secret: process.env.SESSION_SECRET ?? 'test',
   resave: true,
@@ -25,7 +26,7 @@ const sessionConfig = {
     maxAge: 1000 * 60 * 60 * 12,
     httpOnly: true,
   },
-};
+});
 
 app.use(
   cors({
@@ -35,12 +36,13 @@ app.use(
 );
 
 app.use(morgan('dev'));
-app.use(session(sessionConfig));
+app.use(sessionConfig);
 app.use(express.json());
-
+app.use(pathMiddleware);
 app.use('/api', apiRouter);
 
 const server = http.createServer(app);
+const map = new Map();
 const wss = new WebSocketServer({ clientTracking: false, noServer: true });
 
 server.on('upgrade', (request, socket, head) => {
@@ -58,37 +60,11 @@ server.on('upgrade', (request, socket, head) => {
     // socket.removeListener('error', onSocketError);
 
     wss.handleUpgrade(request, socket, head, (ws) => {
-      wss.emit('connection', ws, request);
+      wss.emit('connection', ws, request, map);
     });
   });
 });
 
-wss.on('connection', (ws, request) => {
-  const { user } = request.session;
+broad();
 
-  map.set(user.id, [ws, user]);
-
-  map.forEach(([wsItem, userItem]) => {
-    wsItem.send(
-      JSON.stringify({
-        type: 'WS_USER_ONLINE',
-        payload: Array.from(map.values()).map(([, userI]) => userI),
-      }),
-    );
-  });
-
-  ws.on('error', console.error);
-
-  ws.on('message', (message) => {
-    //
-    // Here we can now use session parameters.
-    //
-    console.log(`Received message ${message} from user ${user}`);
-  });
-
-  ws.on('close', () => {
-    map.delete(user.id);
-  });
-});
-
-app.listen(PORT, () => console.log(`App has started on port ${PORT}`));
+server.listen(PORT, () => console.log(`App has started on port ${PORT}`));
