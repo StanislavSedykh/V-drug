@@ -7,7 +7,7 @@ export default function Registration({ navigation }): JSX.Element {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<string>('');
   const inputChangeHandler = () => {
     // setText();
   };
@@ -19,12 +19,14 @@ export default function Registration({ navigation }): JSX.Element {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      base64: true,
     });
 
     console.log(result);
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setImage(result.assets[0].uri
+      );
     }
   };
 
@@ -36,9 +38,16 @@ export default function Registration({ navigation }): JSX.Element {
       formData.append('password', password);
       formData.append('image', image);
 
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Content-Disposition': 'form-data',
+        }
+      }
       const response = await axios.post(
         'http://localhost:3001/api/auth/signup',
-        formData
+        formData,
+        config
       );
 
       console.log(response.data);

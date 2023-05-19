@@ -2,17 +2,17 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'images/');
+    cb(null, 'public');
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + file.originalname);
+    cb(null, `uploads/${Date.now()}-${file.originalname}`);
   },
 });
-const types = ['image/png', 'image/jpg', 'image/jpeg', 'images/HEIC', 'images/HEIF'];
+const types = ['image/png', 'image/jpg', 'image/jpeg', 'image/HEIC', 'image/HEIF'];
 const fileFilter = (req, file, cb) => {
   if (types.includes(file.mimetype)) {
     cb(null, true);
-  }else{
+  } else {
     cb(null, false);
   }
 };
