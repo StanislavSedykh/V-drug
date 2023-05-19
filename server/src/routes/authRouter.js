@@ -1,22 +1,26 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const fileMiddleware = require('../../middleware/multer');
 const { User } = require('../../db/models');
+
 
 const authRouter = express.Router();
 
-authRouter.post('/signup', async (req, res) => {
-  const { name, email, password } = req.body;
-  if (!name && !email && !password) return res.sendStatus(401);
+authRouter.post('/signup', fileMiddleware.single('photo'),  async (req, res) => {
+  const { name, email, password} = req.body;
+  const photo = req.file
+  if (!name && !email && !password && !photo) return res.sendStatus(401);
   try {
     const [user, created] = await User.findOrCreate({
       where: { email },
       defaults: {
         password: await bcrypt.hash(password, 10),
         name,
+        photo
       },
     });
     if (!created) return res.sendStatus(401);
-    req.session.user = { id: user.id, name, email };
+    req.session.user = { id: user.id, name, email, photo};
     return res.json({ ...req.session.user });
   } catch (err) {
     console.log(err);
