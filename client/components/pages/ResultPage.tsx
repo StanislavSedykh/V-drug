@@ -6,7 +6,7 @@ import Navigation from '../Navigation';
 export default function ResultPage({navigation}):JSX.Element {
   return (
 <View style={styles.fixToText}>
-  <Button title='Общиая статситика'  onPress={() => navigation.navigate('GeneralPage')}/>
+  <Button title='Общая статистика'  onPress={() => navigation.navigate('GeneralPage')}/>
   <Button title='Личная статистика' onPress={() => navigation.navigate('ScorePage')}/>
 </View>
   )
