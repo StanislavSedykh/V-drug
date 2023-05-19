@@ -12,7 +12,9 @@ export const checkUserThunk: ThunkActionCreater = () => (dispatch) => {
 };
 
 export const logoutThunk: ThunkActionCreater = () => (dispatch) => {
-  axios('/api/auth/logout')
+  axios.post(`http://${
+    Platform.OS === 'android'|| Platform.OS === 'ios'  ? '192.168.1.204' : 'localhost'
+  }:3001/api/auth/logout`)
     .then(() => dispatch(logoutUser()))
     .catch((err) => console.log(err));
 };
