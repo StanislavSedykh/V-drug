@@ -2,8 +2,6 @@ import React from 'react';
 import { Button, Text, View } from 'react-native';
 
 export default function MainPage({ navigation }): JSX.Element {
-  console.log(navigation);
-  
   return (
     <View>
       <Text> MainPage</Text>
@@ -15,7 +13,7 @@ export default function MainPage({ navigation }): JSX.Element {
       />
       <Button
         onPress={() => navigation.navigate('Autorization')}
-        title="Авторизация"
+        title="Войти"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
       />
