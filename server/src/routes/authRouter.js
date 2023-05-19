@@ -6,21 +6,21 @@ const { User } = require('../../db/models');
 
 const authRouter = express.Router();
 
-authRouter.post('/signup', fileMiddleware.single('photo'),  async (req, res) => {
-  const { name, email, password} = req.body;
-  const photo = req.file
-  if (!name && !email && !password && !photo) return res.sendStatus(401);
+authRouter.post('/signup', fileMiddleware.single('image'),  async (req, res) => {
+  console.log(req.body);
+  const { name, email, password, image} = req.body;
+  if (!name && !email && !password  && !image) return res.sendStatus(401);
   try {
     const [user, created] = await User.findOrCreate({
       where: { email },
       defaults: {
         password: await bcrypt.hash(password, 10),
         name,
-        photo
+        photo:image
       },
     });
     if (!created) return res.sendStatus(401);
-    req.session.user = { id: user.id, name, email, photo};
+    req.session.user = { id: user.id, name, email, image};
     return res.json({ ...req.session.user });
   } catch (err) {
     console.log(err);
