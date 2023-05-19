@@ -17,7 +17,7 @@ export default function Registration({ navigation }): JSX.Element {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<string>('');
   const inputChangeHandler = () => {
     // setText();
   };
@@ -31,18 +31,21 @@ export default function Registration({ navigation }): JSX.Element {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      base64: true,
     });
 
     console.log(result);
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setImage(result.assets[0].uri
+      );
     }
   };
 
   const registerHandler = async () => {
     try {
       dispatch(signUpThunk({ email, password, name, image } as SignUpType));
+
       navigation.navigate('CreateLobbyPage');
     } catch (error) {
       console.log(error);
