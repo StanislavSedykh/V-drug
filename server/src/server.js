@@ -5,6 +5,9 @@ import store from 'session-file-store';
 import { WebSocketServer } from 'ws';
 import http from 'http';
 import apiRouter from './routes/apiRouter';
+import authRouter from './routes/authRouter';
+
+const path = require('path');
 
 const cors = require('cors');
 
@@ -22,7 +25,7 @@ const sessionConfig = {
   store: new FileStore(),
   saveUninitialized: false,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 12,
+    maxAge: 1000 * 60 * 60 * 24,
     httpOnly: true,
   },
 };
@@ -34,11 +37,13 @@ app.use(
   }),
 );
 
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use(morgan('dev'));
 app.use(session(sessionConfig));
 app.use(express.json());
 
 app.use('/api', apiRouter);
+app.use('/api/auth', authRouter);
 
 const server = http.createServer(app);
 const wss = new WebSocketServer({ clientTracking: false, noServer: true });
