@@ -9,14 +9,13 @@ import userReducer from './slices/user/userSlicer';
 const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
-    // user: userSlice,
+  user: userReducer,
     // ws: wsSlice,
 })
 
 
 const store = configureStore({
-    reducer: {rootReducer,
-       user: userReducer,}
+    reducer: rootReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
   })
 
