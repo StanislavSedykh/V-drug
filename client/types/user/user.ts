@@ -5,7 +5,6 @@ export type LoggedUserType = {
 export type BackendUserType = {
   id: number;
   username: string;
-  cash: number;
 };
 
 export type GuestUserType = {
