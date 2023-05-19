@@ -1,11 +1,11 @@
 import type { AnyAction, ThunkAction } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
-// import userReducer from './slices/user/userSlice';
+import userReducer from './slices/user/userSlicer';
 // import transactionReducer from './slices/transaction/transactionSlice';
 
 const store = configureStore({
   reducer: {
-    // user: userReducer,
+    user: userReducer,
     // transaction: transactionReducer,
   },
 });

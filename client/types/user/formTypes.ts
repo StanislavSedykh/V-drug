@@ -7,7 +7,7 @@ export type SignUpType = {
 };
 
 export type LoginType = {
-    name: string;
+    email: string;
     password: string;
     score?: number;
 }
