@@ -9,16 +9,17 @@ import userReducer from './slices/user/userSlicer';
 const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
-    // user: userSlice,
-    // ws: wsSlice,
-})
-
+  
+  user: userReducer,
+  // user: userSlice,
+  // ws: wsSlice,
+});
 
 const store = configureStore({
-    reducer: {rootReducer,
-       user: userReducer,}
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
-  })
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(sagaMiddleware),
+});
 
 export default store;
 
@@ -29,5 +30,12 @@ export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, AnyAction>;
-export type ThunkActionCreater<ThunkArgument = void> = (arg: ThunkArgument) => AppThunk;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  AnyAction
+>;
+export type ThunkActionCreater<ThunkArgument = void> = (
+  arg: ThunkArgument
+) => AppThunk;

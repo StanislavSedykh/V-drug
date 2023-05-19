@@ -2,7 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import session from 'express-session';
 import store from 'session-file-store';
-// import { WebSocketServer } from 'ws';
+import { WebSocketServer } from 'ws';
 import http from 'http';
 import apiRouter from './routes/apiRouter';
 import { pathMiddleware } from '../middlewares';

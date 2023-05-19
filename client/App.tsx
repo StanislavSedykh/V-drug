@@ -7,6 +7,8 @@ import axios from "axios";
 
 const ws = new WebSocket("ws://localhost:3000");
 
+const ws = new WebSocket('ws://localhost:3000');
+
 axios.defaults.withCredentials = true;
 
 export default function App() {
