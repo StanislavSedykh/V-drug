@@ -2,7 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import session from 'express-session';
 import store from 'session-file-store';
-import { WebSocketServer } from 'ws';
+// import { WebSocketServer } from 'ws';
 import http from 'http';
 import apiRouter from './routes/apiRouter';
 import authRouter from './routes/authRouter';
@@ -45,55 +45,55 @@ app.use(express.json());
 app.use('/api', apiRouter);
 app.use('/api/auth', authRouter);
 
-const server = http.createServer(app);
-const wss = new WebSocketServer({ clientTracking: false, noServer: true });
+// const server = http.createServer(app);
+// const wss = new WebSocketServer({ clientTracking: false, noServer: true });
 
-server.on('upgrade', (request, socket, head) => {
-  console.log('Parsing session from request...');
+// server.on('upgrade', (request, socket, head) => {
+//   console.log('Parsing session from request...');
 
-  sessionConfig(request, {}, () => {
-    if (!request.session.user) {
-      socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
-      socket.destroy();
-      return;
-    }
+//   sessionConfig(request, {}, () => {
+//     if (!request.session.user) {
+//       socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
+//       socket.destroy();
+//       return;
+//     }
 
-    console.log('Session is parsed!');
+//     console.log('Session is parsed!');
 
-    // socket.removeListener('error', onSocketError);
+//     // socket.removeListener('error', onSocketError);
 
-    wss.handleUpgrade(request, socket, head, (ws) => {
-      wss.emit('connection', ws, request);
-    });
-  });
-});
+//     wss.handleUpgrade(request, socket, head, (ws) => {
+//       wss.emit('connection', ws, request);
+//     });
+//   });
+// });
 
-wss.on('connection', (ws, request) => {
-  const { user } = request.session;
+// wss.on('connection', (ws, request) => {
+//   const { user } = request.session;
 
-  map.set(user.id, [ws, user]);
+//   map.set(user.id, [ws, user]);
 
-  map.forEach(([wsItem, userItem]) => {
-    wsItem.send(
-      JSON.stringify({
-        type: 'WS_USER_ONLINE',
-        payload: Array.from(map.values()).map(([, userI]) => userI),
-      }),
-    );
-  });
+//   map.forEach(([wsItem, userItem]) => {
+//     wsItem.send(
+//       JSON.stringify({
+//         type: 'WS_USER_ONLINE',
+//         payload: Array.from(map.values()).map(([, userI]) => userI),
+//       }),
+//     );
+//   });
 
-  ws.on('error', console.error);
+//   ws.on('error', console.error);
 
-  ws.on('message', (message) => {
-    //
-    // Here we can now use session parameters.
-    //
-    console.log(`Received message ${message} from user ${user}`);
-  });
+//   ws.on('message', (message) => {
+//     //
+//     // Here we can now use session parameters.
+//     //
+//     console.log(`Received message ${message} from user ${user}`);
+//   });
 
-  ws.on('close', () => {
-    map.delete(user.id);
-  });
-});
+//   ws.on('close', () => {
+//     map.delete(user.id);
+//   });
+// });
 
 app.listen(PORT, () => console.log(`App has started on port ${PORT}`));
