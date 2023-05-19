@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
+import { useAppDispatch } from '../../features/redux/hooks';
+import { signUpThunk } from '../../features/redux/slices/user/thunkAction';
+import { SignUpType } from '../../types/user/formTypes';
 
 export default function Registration({ navigation }): JSX.Element {
   const [password, setPassword] = useState('');
@@ -11,6 +14,8 @@ export default function Registration({ navigation }): JSX.Element {
   const inputChangeHandler = () => {
     // setText();
   };
+
+  const dispatch = useAppDispatch();
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -32,25 +37,8 @@ export default function Registration({ navigation }): JSX.Element {
 
   const registerHandler = async () => {
     try {
-      const formData = new FormData();
-      formData.append('email', email);
-      formData.append('name', name);
-      formData.append('password', password);
-      formData.append('image', image);
+      dispatch(signUpThunk({ email, password, name, image } as SignUpType));
 
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Content-Disposition': 'form-data',
-        }
-      }
-      const response = await axios.post(
-        'http://localhost:3001/api/auth/signup',
-        formData,
-        config
-      );
-
-      console.log(response.data);
       navigation.navigate('CreateLobbyPage');
     } catch (error) {
       console.log(error);
