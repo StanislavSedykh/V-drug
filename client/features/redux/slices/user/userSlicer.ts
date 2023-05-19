@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { FetchingUserType, UserType } from '../../../../types/user/user';
-// import type { FetchingUserType, UserType } from '../../../../types/user/userTypes';
 
 const initialState: FetchingUserType = {
   status: 'fetching',
