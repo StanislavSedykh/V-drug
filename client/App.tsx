@@ -9,10 +9,13 @@ const ws = new WebSocket("ws://localhost:3001");
 axios.defaults.withCredentials = true;
 
 export default function App() {
-  <Provider store={store}>
-    <Navigation />;
-  </Provider>;
+  return (
+    <Provider store={store}>
+      <Navigation />;
+    </Provider>
+  );
 }
+
 
 const styles = StyleSheet.create({
   container: {
