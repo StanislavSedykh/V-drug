@@ -10,6 +10,7 @@ import scoreReducer from './slices/user/csoreSlicer';
 const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
+  
   user: userReducer,
   score: scoreReducer,
   // user: userSlice,
@@ -23,6 +24,7 @@ const store = configureStore({
 });
 
 export default store;
+
 
 sagaMiddleware.run(rootSaga);
 // Infer the `RootState` and `AppDispatch` types from the store itself
