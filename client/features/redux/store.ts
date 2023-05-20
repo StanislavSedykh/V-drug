@@ -5,26 +5,15 @@ import rootSaga from '../sagas/rootSaga';
 // import userReducer from './slices/user/userSlice';
 import userReducer from './slices/user/userSlicer';
 import scoreReducer from './slices/user/csoreSlicer';
+import numberReducer from './slices/number/numberSlicer';
 // import transactionReducer from './slices/transaction/transactionSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
-<<<<<<< HEAD
-    // user: userSlice,
-    // ws: wsSlice,
-    user: userReducer
-})
-
-
-const store = configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
-  })
-=======
-  
   user: userReducer,
   score: scoreReducer,
+  number: numberReducer,
   // user: userSlice,
   // ws: wsSlice,
 });
@@ -34,9 +23,6 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),
 });
->>>>>>> origin
-
-export default store;
 
 
 sagaMiddleware.run(rootSaga);
@@ -54,3 +40,5 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 export type ThunkActionCreater<ThunkArgument = void> = (
   arg: ThunkArgument
 ) => AppThunk;
+
+export default store;
