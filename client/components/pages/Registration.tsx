@@ -45,7 +45,6 @@ export default function Registration({ navigation }): JSX.Element {
   const registerHandler = async () => {
     try {
       dispatch(signUpThunk({ email, password, name, image } as SignUpType));
-
       navigation.navigate('CreateLobbyPage');
     } catch (error) {
       console.log(error);
