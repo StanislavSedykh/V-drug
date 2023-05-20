@@ -26,7 +26,6 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
       />
-
       <Button
         onPress={() => navigation.navigate('Lobby')}
         title="Присоединиться к игре"

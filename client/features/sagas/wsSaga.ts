@@ -1,64 +1,56 @@
-import { eventChannel, END } from 'redux-saga';
-import type { EventChannel } from 'redux-saga';
-import type { ActionPattern } from 'redux-saga/effects';
-import { take, put, call, takeEvery, fork } from 'redux-saga/effects';
-import { wsCloseAction, wsConnectAction } from '../redux/wsActions';
-import { WS_CLOSE, WS_CONNECT, WS_INIT, WsSagaTypes } from '../../types/webSocket/wsSagaTypes';
-import { wsSet } from '../redux/slices/ws/wsSlice';
+import { END, eventChannel } from "redux-saga";
+import { SET_WS, SOCKET_INIT } from "../../types/webSocket/webSocket";
+import { Platform } from "react-native";
+import { call, put, take, takeEvery } from "redux-saga/effects";
 
+function createSocketChannel(socket, action) {
+  return eventChannel((emit) => {
+    socket.onopen = () => {
+      console.log("action----->", action?.type);
+      emit({ type: SET_WS, payload: true });
+    };
 
-function createSocketChannel(socket: WebSocket): EventChannel<WsSagaTypes> {
-    
-    return eventChannel((emit) => {
-      socket.onopen = () => {
-        emit(wsConnectAction());
-      };
-  
-      socket.onerror = function (error) {
-        emit(wsCloseAction());
-      };
-  
-      socket.onmessage = function (event: MessageEvent<string>) {
-        const receivedData = JSON.parse(event.data) as WsSagaTypes;
-        emit(receivedData);
-      };
-  
-      socket.onclose = function (event) {
-        emit(wsCloseAction());
-      };
-  
-      return () => {
-        console.log('Socket off');
-        emit(END);
-      };
-    });
-  }
+    socket.onerror = function (error) {
+      emit({ type: SET_WS, payload: null });
+    };
 
+    socket.onmessage = function (event) {
+      emit(JSON.parse(event.data));
+    };
 
-  function* wsWorker(): Generator<unknown, void, WsSagaTypes> {
-    const socket = new WebSocket('ws://localhost:3001');
-    const socketChannel = yield call(createSocketChannel, socket);
+    socket.onclose = function (event) {
+      emit({ type: SET_WS, payload: null });
+    };
 
-    while(true){
-      try{
-        const actionFromBack = yield take(socketChannel as unknown as ActionPattern<WsSagaTypes>);
-        console.log('----', actionFromBack)
-        switch (actionFromBack.type) {
-          case WS_CONNECT:
-            yield put(wsSet(true))
-            break;
-          case WS_CLOSE:
-            yield put(wsSet(false))
-            break;
-          default:
-            break;
-        }
-      }catch{
-        console.log('socket error');
-      }
+    return () => {
+      console.log("Socket off");
+      emit(END);
+    };
+  });
+}
+
+function createWebSocketConnection() {
+  const newSocket = new WebSocket(
+    `ws://${Platform.OS === "android" ? "192.168.2.252" : "localhost"}:3001`
+  );
+  console.log("Created WS:", newSocket);
+  return newSocket;
+}
+
+function* wsWorker(action) {
+  const socket = yield call(createWebSocketConnection);
+  const socketChannel = yield call(createSocketChannel, socket, action);
+
+  while (true) {
+    try {
+      const backAction = yield take(socketChannel);
+      yield put(backAction);
+    } catch {
+      console.log("socket error");
     }
   }
+}
 
-  export default function* wsWatcher(): Generator {
-    yield takeEvery(WS_INIT, wsWorker);
-  }
+export default function* wsWatcher() {
+  yield takeEvery(SOCKET_INIT, wsWorker);
+}

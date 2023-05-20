@@ -11,3 +11,9 @@ export type LoginType = {
     password: string;
     score?: number;
 }
+
+export type UserType = {
+    id: number;
+    name: string;
+    score?: number;
+}

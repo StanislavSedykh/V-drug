@@ -13,7 +13,7 @@ export const checkUserThunk: ThunkActionCreater = () => (dispatch) => {
 
 export const logoutThunk: ThunkActionCreater = () => (dispatch) => {
   axios.post(`http://${
-    Platform.OS === 'android'|| Platform.OS === 'ios'  ? '192.168.1.204' : 'localhost'
+    Platform.OS === 'android'|| Platform.OS === 'ios'  ? '192.168.2.252' : 'localhost'
   }:3001/api/auth/logout`)
     .then(() => dispatch(logoutUser()))
     .catch((err) => console.log(err));
@@ -24,7 +24,7 @@ export const signUpThunk: ThunkActionCreater<SignUpType> =
     axios
       .post<BackendUserType>(
         `http://${
-          Platform.OS === 'android'|| Platform.OS === 'ios'  ? '192.168.1.204' : 'localhost'
+          Platform.OS === 'android'|| Platform.OS === 'ios'  ? '192.168.2.252' : 'localhost'
         }:3001/api/auth/signup`,
         userData
       )
@@ -37,7 +37,7 @@ export const loginThunk: ThunkActionCreater<LoginType> =
     axios
       .post<BackendUserType>(
         `http://${
-          Platform.OS === 'android'|| Platform.OS === 'ios'  ? '192.168.1.204' : 'localhost'
+          Platform.OS === 'android'|| Platform.OS === 'ios'  ? '192.168.2.252' : 'localhost'
         }:3001/api/auth/login`,
         userData
       )
