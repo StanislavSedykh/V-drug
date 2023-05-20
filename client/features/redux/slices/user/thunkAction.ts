@@ -7,7 +7,13 @@ import { Platform } from 'react-native';
 import { setScore } from './csoreSlicer';
 
 export const checkUserThunk: ThunkActionCreater = () => (dispatch) => {
-  axios<BackendUserType>('/api/auth/check')
+  axios<BackendUserType>(
+    `http://${
+      Platform.OS === 'android' || Platform.OS === 'ios'
+        ? '192.168.1.204'
+        : 'localhost'
+    }:3001/api/auth/check`
+  )
     .then(({ data }) => dispatch(setUser({ ...data, status: 'logged' })))
     .catch(() => dispatch(setUser({ status: 'guest' })));
 };
@@ -57,12 +63,12 @@ export const loginThunk: ThunkActionCreater<LoginType> =
 
 export const scoreThunk: ThunkActionCreater = () => (dispatch) => {
   axios(
-      `http://${
-        Platform.OS === 'android' || Platform.OS === 'ios'
-          ? '192.168.1.204'
-          : 'localhost'
-      }:3001/api/scores`
-    )
+    `http://${
+      Platform.OS === 'android' || Platform.OS === 'ios'
+        ? '192.168.1.204'
+        : 'localhost'
+    }:3001/api/scores`
+  )
     .then(({ data }) => dispatch(setScore(data.score)))
     .catch((err) => console.log(err));
 };

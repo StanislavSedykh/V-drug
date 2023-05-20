@@ -8,17 +8,17 @@ const initialState: NumberType = {
     number: 0
 }
 
-export const numberSlice = createSlice({
-    name: 'number',
+export const pinSlice = createSlice({
+    name: 'pin',
     initialState,
     reducers: {
-        setNumber: (state, action) => {
+        setPin: (state, action) => {
             state.number = action.payload
         }
     }
 })
 
 
-export const { setNumber } = numberSlice.actions;
+export const { setPin } = pinSlice.actions;
 
-export default numberSlice.reducer;
+export default pinSlice.reducer;

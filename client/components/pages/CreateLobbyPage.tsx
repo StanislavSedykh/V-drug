@@ -2,15 +2,27 @@ import React, { useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
 import { useAppDispatch } from '../../features/redux/hooks';
 import { logoutThunk } from '../../features/redux/slices/user/thunkAction';
+import { setPinThunk } from '../../features/redux/slices/pin/pinThunk';
+import { GameType } from '../../types/game/game';
 
 export default function CreateLobbyPage({ navigation }): JSX.Element {
-  const [number, setNumber] = useState('');
+  const [count, setCount] = useState(0);
   const dispatch = useAppDispatch();
 
   const logoutHandler = () => {
     dispatch(logoutThunk());
     navigation.navigate('Registration');
   };
+
+  const createGameHandler = () => {
+    try {
+      dispatch(setPinThunk({count}))
+      navigation.navigate('Lobby');
+    }
+    catch (error) {
+      console.log(error) 
+    }
+  }
   return (
     <View>
       <Button
@@ -21,13 +33,13 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
       />
       <TextInput
         style={styles.input}
-        value={number}
-        onChangeText={setNumber}
+        value={count}
+        onChangeText={setCount}
         placeholder="введите кол-во игроков"
         keyboardType="numeric"
       />
       <Button
-        onPress={() => navigation.navigate('Lobby')}
+        onPress={createGameHandler}
         title="Создать игру"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
