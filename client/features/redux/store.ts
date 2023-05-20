@@ -4,12 +4,14 @@ import createSagaMiddleware from 'redux-saga';
 import rootSaga from '../sagas/rootSaga';
 // import userReducer from './slices/user/userSlice';
 import userReducer from './slices/user/userSlicer';
+import scoreReducer from './slices/user/csoreSlicer';
 // import transactionReducer from './slices/transaction/transactionSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
   user: userReducer,
+  score: scoreReducer,
   // user: userSlice,
   // ws: wsSlice,
 });

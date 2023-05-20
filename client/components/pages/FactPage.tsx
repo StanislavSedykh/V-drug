@@ -1,11 +1,36 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
-export default function FactPage({navigation}): JSX.Element {
+const pseudoBase = [
+  {
+    name: 'Vasya Pupkin',
+    id: 1,
+  },
+  {
+    name: 'Tapac',
+    id: 2,
+  },
+  {
+    name: 'Lyubitel Sobak',
+    id: 3,
+  },
+  {
+    name: 'Beb',
+    id: 4,
+  },
+  {
+    name: 'Bob',
+    id: 5,
+  },
+];
+
+export default function FactPage({ navigation }): JSX.Element {
   const [fact, setFact] = useState('');
   return (
     <View>
-      <Text>FactPage</Text>
+      {pseudoBase.map((el) => (
+        <Text key={el.id}>{el.name}</Text>
+      ))}
       <TextInput value={fact} onChangeText={setFact} style={styles.input} />
       <Button
         onPress={() => navigation.navigate('GamePage')}

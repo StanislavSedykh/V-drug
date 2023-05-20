@@ -1,9 +1,13 @@
-import express from 'express';
+const express = require('express');
 
-const router = express.Router();
+const apiRouter = express.Router();
 
-router.get('/', (req, res) => {
-  res.json({ hello: 'world' });
+const { User, Game } = require('../../db/models');
+
+apiRouter.get('/scores', async (req, res) => {
+  const scores = await User.findOne({ where: { id: req.session.user.id }, attributes: ['score'] });
+  return res.json(scores);
 });
 
-export default router;
+
+module.exports = apiRouter;

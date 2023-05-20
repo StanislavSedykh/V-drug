@@ -9,6 +9,7 @@ import { pathMiddleware } from '../middlewares';
 import broad from '../webSocket';
 import authRouter from './routes/authRouter';
 
+
 const path = require('path');
 
 const cors = require('cors');
