@@ -2,9 +2,9 @@ import { eventChannel, END } from 'redux-saga';
 import type { EventChannel } from 'redux-saga';
 import type { ActionPattern } from 'redux-saga/effects';
 import { take, put, call, takeEvery, fork } from 'redux-saga/effects';
-import { WS_CLOSE, WS_CONNECT, WS_INIT, type WsSagaTypes } from '../../types/wsSagaTypes';
 import { wsCloseAction, wsConnectAction } from '../redux/wsActions';
-import { wsSet } from '../redux/slices/wsSlice';
+import { WS_CLOSE, WS_CONNECT, WS_INIT, WsSagaTypes } from '../../types/webSocket/wsSagaTypes';
+import { wsSet } from '../redux/slices/ws/wsSlice';
 
 
 function createSocketChannel(socket: WebSocket): EventChannel<WsSagaTypes> {
@@ -36,7 +36,7 @@ function createSocketChannel(socket: WebSocket): EventChannel<WsSagaTypes> {
 
 
   function* wsWorker(): Generator<unknown, void, WsSagaTypes> {
-    const socket = new WebSocket('ws://localhost:3001');
+    const socket = new WebSocket('ws://localhost:3000');
     const socketChannel = yield call(createSocketChannel, socket);
 
     while(true){
@@ -55,7 +55,6 @@ function createSocketChannel(socket: WebSocket): EventChannel<WsSagaTypes> {
         }
       }catch{
         console.log('socket error');
-
       }
     }
   }

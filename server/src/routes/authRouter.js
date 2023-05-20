@@ -30,7 +30,7 @@ authRouter.post('/signup', fileMiddleware.single('image'), async (req, res) => {
   }
 });
 
-authRouter.post('/signin', async (req, res) => {
+authRouter.post('/login', async (req, res) => {
   const { email, password } = req.body;
   if (!email && !password) return res.sendStatus(401);
   try {
