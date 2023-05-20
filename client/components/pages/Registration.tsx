@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
-import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Button,
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import axios from 'axios';
 import { useAppDispatch } from '../../features/redux/hooks';
 import { signUpThunk } from '../../features/redux/slices/user/thunkAction';
 import { SignUpType } from '../../types/user/formTypes';
@@ -79,6 +86,10 @@ export default function Registration({ navigation }): JSX.Element {
       {image && (
         <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
       )}
+      <Button
+        title="Сделать фото"
+        onPress={() => navigation.navigate('MakePhoto')}
+      />
     </View>
   );
 }

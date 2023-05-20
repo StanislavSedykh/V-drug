@@ -5,14 +5,20 @@ import { logoutThunk } from '../../features/redux/slices/user/thunkAction';
 
 export default function CreateLobbyPage({ navigation }): JSX.Element {
   const [number, setNumber] = useState('');
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const logoutHandler = () => {
     dispatch(logoutThunk());
-    navigation.navigate('Registration')
-  }
+    navigation.navigate('Registration');
+  };
   return (
     <View>
+      <Button
+        onPress={() => navigation.navigate('ProfilePage')}
+        title="Профиль"
+        color="#841584"
+        accessibilityLabel="Learn more about this purple button"
+      />
       <TextInput
         style={styles.input}
         value={number}

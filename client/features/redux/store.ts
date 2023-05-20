@@ -4,11 +4,13 @@ import createSagaMiddleware from 'redux-saga';
 import rootSaga from '../sagas/rootSaga';
 // import userReducer from './slices/user/userSlice';
 import userReducer from './slices/user/userSlicer';
+import scoreReducer from './slices/user/csoreSlicer';
 // import transactionReducer from './slices/transaction/transactionSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
+<<<<<<< HEAD
     // user: userSlice,
     // ws: wsSlice,
     user: userReducer
@@ -19,6 +21,20 @@ const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
   })
+=======
+  
+  user: userReducer,
+  score: scoreReducer,
+  // user: userSlice,
+  // ws: wsSlice,
+});
+
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(sagaMiddleware),
+});
+>>>>>>> origin
 
 export default store;
 
@@ -29,5 +45,12 @@ export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, AnyAction>;
-export type ThunkActionCreater<ThunkArgument = void> = (arg: ThunkArgument) => AppThunk;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  AnyAction
+>;
+export type ThunkActionCreater<ThunkArgument = void> = (
+  arg: ThunkArgument
+) => AppThunk;
