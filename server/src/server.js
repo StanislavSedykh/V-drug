@@ -8,7 +8,6 @@ import apiRouter from './routes/apiRouter';
 import { pathMiddleware } from '../middlewares';
 import broad from '../webSocket';
 import authRouter from './routes/authRouter';
-import { WebSocketServer } from 'ws';
 
 
 const path = require('path');

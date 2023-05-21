@@ -14,3 +14,12 @@ gameRouter.post('/', async (req, res) => {
     res.sendStatus(500);
   }
 });
+gameRouter.delete('/', async (req, res) => {
+  try {
+    await Game.destroy({ where: { id: req.session.user.id } });
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});

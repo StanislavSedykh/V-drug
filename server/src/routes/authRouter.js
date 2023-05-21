@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
-const storage = require('../../middleware/multer');
+const storage = require('../../middlewares/multer');
 const { User } = require('../../db/models');
 
 const authRouter = express.Router();
@@ -9,7 +9,7 @@ const fileMiddleware = multer({ storage });
 
 authRouter.post('/signup', fileMiddleware.single('image'), async (req, res) => {
   console.log(req.body);
-  console.log(req.files, req.file);
+  console.log(req.file);
   const { name, email, password, image } = req.body;
   if (!name && !email && !password && !image) return res.sendStatus(401);
   try {
@@ -37,7 +37,7 @@ authRouter.post('/login', async (req, res) => {
     const user = await User.findOne({ where: { email } });
     if (!user) return res.sendStatus(401);
     if (user && (await bcrypt.compare(password, user.password))) {
-      req.session.user = { id: user.id, name: user.name, email };
+      req.session.user = { id: user.id, name: user.name, email, image: user.photo };
       return res.json({ ...req.session.user });
     }
     return res.sendStatus(401);
