@@ -3,6 +3,7 @@ import type { ThunkActionCreater } from '../../store';
 import { Platform } from 'react-native';
 import { setCount } from './countSlicer';
 import { CountGameType, GameType } from '../../../../types/game/game';
+import {API_URL} from '@env'
 
 export const setCountThunk: ThunkActionCreater<CountGameType> =
   (gameData) =>
@@ -11,7 +12,7 @@ export const setCountThunk: ThunkActionCreater<CountGameType> =
       .post<GameType>(
         `http://${
           Platform.OS === 'android' || Platform.OS === 'ios'
-            ? '192.168.1.66'
+            ? `${API_URL}`
             : 'localhost'
         }:3001/api/games`,
         gameData

@@ -36,7 +36,7 @@ function createSocketChannel(socket: WebSocket): EventChannel<WsSagaTypes> {
 
 
   function* wsWorker(): Generator<unknown, void, WsSagaTypes> {
-    const socket = new WebSocket('ws://localhost:3000');
+    const socket = new WebSocket('ws://localhost:3001');
     const socketChannel = yield call(createSocketChannel, socket);
 
     while(true){

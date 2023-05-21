@@ -5,12 +5,14 @@ import { LoginType, SignUpType } from '../../../../types/user/formTypes';
 import { logoutUser, setUser } from './userSlicer';
 import { Platform } from 'react-native';
 import { setScore } from './csoreSlicer';
+import env from 'react-dotenv'
+import {API_URL} from "@env"
 
 export const checkUserThunk: ThunkActionCreater = () => (dispatch) => {
   axios<BackendUserType>(
     `http://${
       Platform.OS === 'android' || Platform.OS === 'ios'
-        ? '192.168.1.66'
+        ? `${API_URL}`
         : 'localhost'
     }:3001/api/auth/check`
   )
@@ -23,7 +25,7 @@ export const logoutThunk: ThunkActionCreater = () => (dispatch) => {
     .post(
       `http://${
         Platform.OS === 'android' || Platform.OS === 'ios'
-          ? '192.168.1.66'
+          ? `${API_URL}`
           : 'localhost'
       }:3001/api/auth/logout`
     )
@@ -37,7 +39,7 @@ export const signUpThunk: ThunkActionCreater<SignUpType> =
       .post<BackendUserType>(
         `http://${
           Platform.OS === 'android' || Platform.OS === 'ios'
-            ? '192.168.1.66'
+            ? `${API_URL}`
             : 'localhost'
         }:3001/api/auth/signup`,
         userData
@@ -52,7 +54,7 @@ export const loginThunk: ThunkActionCreater<LoginType> =
       .post<BackendUserType>(
         `http://${
           Platform.OS === 'android' || Platform.OS === 'ios'
-            ? '192.168.1.66'
+            ? `${API_URL}`
             : 'localhost'
         }:3001/api/auth/login`,
         userData
@@ -63,12 +65,12 @@ export const loginThunk: ThunkActionCreater<LoginType> =
 
 export const scoreThunk: ThunkActionCreater = () => (dispatch) => {
   axios(
-    `http://${
-      Platform.OS === 'android' || Platform.OS === 'ios'
-        ? '192.168.1.66'
-        : 'localhost'
-    }:3001/api/scores`
-  )
+      `http://${
+        Platform.OS === 'android' || Platform.OS === 'ios'
+          ? `${API_URL}`
+          : 'localhost'
+      }:3001/api/scores`
+    )
     .then(({ data }) => dispatch(setScore(data.score)))
     .catch((err) => console.log(err));
 };
