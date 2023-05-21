@@ -3,9 +3,7 @@ import {
   Button,
   Image,
   StyleSheet,
-  Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
@@ -17,7 +15,7 @@ export default function Registration({ navigation }): JSX.Element {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [image, setImage] = useState<string>('');
+  const [image, setImage] = useState('');
   const inputChangeHandler = () => {
     // setText();
   };

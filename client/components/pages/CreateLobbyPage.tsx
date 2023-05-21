@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
 import { useAppDispatch } from '../../features/redux/hooks';
 import { logoutThunk } from '../../features/redux/slices/user/thunkAction';
-import { setPinThunk } from '../../features/redux/slices/pin/pinThunk';
-import { GameType } from '../../types/game/game';
+import { setCountThunk } from '../../features/redux/slices/count/countThunk';
 
 export default function CreateLobbyPage({ navigation }): JSX.Element {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState('');
   const dispatch = useAppDispatch();
 
   const logoutHandler = () => {
@@ -16,13 +15,12 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
 
   const createGameHandler = () => {
     try {
-      dispatch(setPinThunk({count}))
+      dispatch(setCountThunk({ count }));
       navigation.navigate('Lobby');
+    } catch (error) {
+      console.log(error);
     }
-    catch (error) {
-      console.log(error) 
-    }
-  }
+  };
   return (
     <View>
       <Button

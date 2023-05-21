@@ -17,7 +17,7 @@ const cors = require('cors');
 
 require('dotenv').config();
 
-const PORT = process.env.SERVER_PORT || 3000;
+const PORT = process.env.SERVER_PORT || 3001;
 const app = express();
 const FileStore = store(session);
 

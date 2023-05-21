@@ -2,23 +2,23 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { GameType } from '../../../../types/game/game';
 
 type NumberType = {
-    number: GameType['pin'];
+    count: GameType['count'];
 }
 const initialState: NumberType = {
-    number: 0
+    count: ''
 }
 
 export const pinSlice = createSlice({
     name: 'pin',
     initialState,
     reducers: {
-        setPin: (state, action) => {
-            state.number = action.payload
+        setCount: (state, action) => {
+            state.count = action.payload
         }
     }
 })
 
 
-export const { setPin } = pinSlice.actions;
+export const { setCount } = pinSlice.actions;
 
 export default pinSlice.reducer;
