@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
 import { useAppDispatch } from '../../features/redux/hooks';
 import { logoutThunk } from '../../features/redux/slices/user/thunkAction';
-import { setCountThunk } from '../../features/redux/slices/count/countThunk';
+import { setCountThunk } from '../../features/redux/slices/game/countThunk';
 
 export default function CreateLobbyPage({ navigation }): JSX.Element {
   const [count, setCount] = useState('');
@@ -42,9 +42,8 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
       />
-
       <Button
-        onPress={() => navigation.navigate('Lobby')}
+        onPress={() => navigation.navigate('TakePartPage')}
         title="Присоединиться к игре"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"

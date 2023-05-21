@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { GameType } from '../../../../types/game/game';
 
-type NumberType = {
+type CountType = {
     count: GameType['count'];
 }
-const initialState: NumberType = {
+const initialState: CountType = {
     count: ''
 }
 
-export const pinSlice = createSlice({
-    name: 'pin',
+export const countSlice = createSlice({
+    name: 'count',
     initialState,
     reducers: {
         setCount: (state, action) => {
@@ -19,6 +19,6 @@ export const pinSlice = createSlice({
 })
 
 
-export const { setCount } = pinSlice.actions;
+export const { setCount } = countSlice.actions;
 
-export default pinSlice.reducer;
+export default countSlice.reducer;

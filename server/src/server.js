@@ -9,7 +9,7 @@ import { pathMiddleware } from '../middlewares';
 import broad from '../webSocket';
 import authRouter from './routes/authRouter';
 import gameRouter from './routes/gameRouter';
-
+import participantRouter from './routes/participantRouter';
 
 const path = require('path');
 
@@ -47,7 +47,8 @@ app.use(express.json());
 app.use(pathMiddleware);
 app.use('/api', apiRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/games', gameRouter)
+app.use('/api/games', gameRouter);
+app.use('/api/participants', participantRouter);
 
 const server = http.createServer(app);
 const map = new Map();
