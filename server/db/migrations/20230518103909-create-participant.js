@@ -12,19 +12,20 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: {
-            tableName: 'Games'
+            tableName: 'Games',
           },
-          key: 'id'
-        }
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
       user_id: {
         type: Sequelize.INTEGER,
         references: {
           model: {
-            tableName: 'Users'
+            tableName: 'Users',
           },
-          key: 'id'
-        }
+          key: 'id',
+        },
       },
       fact: {
         type: Sequelize.STRING,
@@ -39,7 +40,7 @@ module.exports = {
       },
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable('Participants');
   },
 };
