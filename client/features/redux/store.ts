@@ -10,18 +10,6 @@ import scoreReducer from './slices/user/csoreSlicer';
 const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
-<<<<<<< HEAD
-    // user: userSlice,
-    // ws: wsSlice,
-    user: userReducer
-})
-
-
-const store = configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
-  })
-=======
   
   user: userReducer,
   score: scoreReducer,
@@ -34,7 +22,6 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),
 });
->>>>>>> origin
 
 export default store;
 
