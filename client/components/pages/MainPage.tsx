@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, View } from "react-native";
+import { useAppDispatch, useAppSelector } from "../../features/redux/hooks";
+import { socketInit } from "../../features/websocket/wsActions";
 
 export default function MainPage({ navigation }): JSX.Element {
+  const user = useAppSelector((state) => state.user.user);
+  console.log(user);
+
+  useEffect(() => {
+    if (user.status === "logged") {
+      navigation.navigate("CreateLobbyPage");
+    }
+  }, [user.status]);
   return (
     <View>
       <Button

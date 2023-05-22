@@ -1,4 +1,5 @@
-const { SET_WS, SOCKET_INIT } = require('../../types/webSocket');
+import { SET_WS, SOCKET_INIT } from "../../types/webSocket/webSocket";
+
 
 export const setWs = (payload) => ({ type: SET_WS, payload });
 export const socketInit = () => ({ type: SOCKET_INIT });

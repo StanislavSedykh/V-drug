@@ -1,33 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Text, View } from 'react-native';
 
-const pseudoBase = [
-  {
-    name: 'Vasya Pupkin',
-    id: 1,
-  },
-  {
-    name: 'Tapac',
-    id: 2,
-  },
-  {
-    name: 'Lyubitel Sobak',
-    id: 3,
-  },
-  {
-    name: 'Beb',
-    id: 4,
-  },
-  {
-    name: 'Bob',
-    id: 5,
-  },
-];
-
 export default function Lobby({ navigation }): JSX.Element {
+  
+  useEffect(() => {
+    const random = Math.floor(Math.random() * 10000) + 1;
+  }, [])  
   return (
     <View>
-      {pseudoBase.map((el) => <Text key={el.id}>{el.name}</Text>)}
+      <Text>{random}</Text>
       <Button
         onPress={() => navigation.navigate('FactPage')}
         title="Начать игру"

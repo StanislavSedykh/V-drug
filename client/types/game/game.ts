@@ -1,5 +1,5 @@
 export type GameType = {
   id: number;
-  pin: string;
+  pin: number;
   count: number;
 };

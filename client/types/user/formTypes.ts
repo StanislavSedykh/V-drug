@@ -7,13 +7,22 @@ export type SignUpType = {
 };
 
 export type LoginType = {
-    email: string;
-    password: string;
-    score?: number;
-}
+  email: string;
+  password: string;
+  score?: number;
+};
 
 export type UserType = {
-    id: number;
-    name: string;
-    score?: number;
-}
+  id: number;
+  name: string;
+  score?: number;
+};
+
+export type PlayerType = {
+  id: number | null;
+  name: string;
+  img: string;
+  score?: number;
+  ingame: boolean;
+  status: string
+};

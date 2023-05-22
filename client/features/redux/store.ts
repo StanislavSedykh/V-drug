@@ -1,25 +1,28 @@
-import { AnyAction, ThunkAction, combineReducers } from '@reduxjs/toolkit';
-import { configureStore } from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga';
-import rootSaga from '../sagas/rootSaga';
-import userReducer from './slices/user/userSlicer';
+import { AnyAction, ThunkAction, combineReducers } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
+import createSagaMiddleware from "redux-saga";
+import rootSaga from "../sagas/rootSaga";
+import userReducer from "./slices/user/userSlicer";
+import scoreReducer from "./slices/user/csoreSlicer";
+import numberReducer from "./slices/number/numberSlicer";
+import errorSlice from "./slices/error/errorSlice";
+import wsReducer from "../websocket/wsReducer";
+import fetchingSlice from "./slices/fetchingSlice/fetchingSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
-const rootReducer = combineReducers({
-  user: userReducer,
-});
-
 const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(sagaMiddleware),
+  reducer: {
+    user: userReducer,
+    score: scoreReducer,
+    number: numberReducer,
+    error: errorSlice,
+    ws: wsReducer,
+    fetching: fetchingSlice,
+  },
+  middleware: (mid) => [...mid(), sagaMiddleware],
 });
 
-export default store;
-
-
-sagaMiddleware.run(rootSaga);
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
@@ -34,3 +37,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 export type ThunkActionCreater<ThunkArgument = void> = (
   arg: ThunkArgument
 ) => AppThunk;
+
+sagaMiddleware.run(rootSaga);
+
+export default store;

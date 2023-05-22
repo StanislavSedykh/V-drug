@@ -4,11 +4,10 @@ import session from 'express-session';
 import store from 'session-file-store';
 import http from 'http';
 import apiRouter from './routes/apiRouter';
-import { pathMiddleware } from '../middlewares';
-import { wss } from '../webSocket';
 import authRouter from './routes/authRouter';
 
 const cors = require('cors');
+const wss = require('../webSocket/index');
 
 require('dotenv').config();
 
@@ -38,8 +37,8 @@ app.use(
 app.use(express.static('public'));
 app.use(morgan('dev'));
 app.use(sessionConfig);
+
 app.use(express.json());
-app.use(pathMiddleware);
 app.use('/api', apiRouter);
 app.use('/api/auth', authRouter);
 
@@ -48,8 +47,8 @@ const map = new Map();
 
 server.on('upgrade', (request, socket, head) => {
   console.log('Parsing session from request...');
-
   sessionConfig(request, {}, () => {
+    console.log('-----', request.session);
     if (!request.session.user) {
       socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
       socket.destroy();

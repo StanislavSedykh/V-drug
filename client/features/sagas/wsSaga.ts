@@ -1,12 +1,15 @@
 import { END, eventChannel } from "redux-saga";
-import { SET_WS, SOCKET_INIT } from "../../types/webSocket/webSocket";
+import {
+  SET_WS,
+  SOCKET_INIT,
+  UPDATE_STATUS,
+} from "../../types/webSocket/webSocket";
 import { Platform } from "react-native";
-import { call, put, take, takeEvery } from "redux-saga/effects";
+import { call, fork, put, take, takeEvery } from "redux-saga/effects";
 
-function createSocketChannel(socket, action) {
+function createSocketChannel(socket) {
   return eventChannel((emit) => {
     socket.onopen = () => {
-      console.log("action----->", action?.type);
       emit({ type: SET_WS, payload: true });
     };
 
@@ -31,15 +34,45 @@ function createSocketChannel(socket, action) {
 
 function createWebSocketConnection() {
   const newSocket = new WebSocket(
-    `ws://${Platform.OS === "android" ? "192.168.2.252" : "localhost"}:3001`
+    `ws://${
+      Platform.OS === "android" || Platform.OS === "ios"
+        ? "192.168.2.252"
+        : "localhost"
+    }:3001`
+    
   );
   console.log("Created WS:", newSocket);
   return newSocket;
 }
 
+function* updateStatus(socket) {
+  while (true) {
+    const message = yield take(UPDATE_STATUS);
+    socket.send(JSON.stringify(message));
+  }
+}
+
+function* joinGameWorker(socket) {
+  while (true) {
+    const message = yield take('JOIN_ROOM');
+    socket.send(JSON.stringify(message));
+  }
+}
+
+function* closeConnection(socket) {
+  const message = yield take('CLOSE_WEBSOCKET');
+  // socket.send(JSON.stringify(message));
+  socket.close();
+  yield put({ type: SET_WS, payload: null });
+}
+
 function* wsWorker(action) {
   const socket = yield call(createWebSocketConnection);
   const socketChannel = yield call(createSocketChannel, socket, action);
+
+  yield fork(updateStatus, socket);
+  yield fork(closeConnection, socket);
+  yield fork(joinGameWorker, socket);
 
   while (true) {
     try {

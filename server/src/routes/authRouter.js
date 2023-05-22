@@ -8,8 +8,6 @@ const authRouter = express.Router();
 const fileMiddleware = multer({ storage });
 
 authRouter.post('/signup', fileMiddleware.single('image'), async (req, res) => {
-  // console.log(req.body);
-  // console.log(req.files, req.file);
   const { name, email, password, image } = req.body;
   if (!name && !email && !password && !image) return res.sendStatus(401);
   try {

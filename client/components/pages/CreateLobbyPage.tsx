@@ -1,18 +1,31 @@
-import React, { useState } from 'react';
-import { Button, StyleSheet, TextInput, View } from 'react-native';
-import { useAppDispatch } from '../../features/redux/hooks';
-import { logoutThunk } from '../../features/redux/slices/user/thunkAction';
+import React, { useEffect, useState } from "react";
+import { Button, StyleSheet, TextInput, View } from "react-native";
+import { useAppDispatch, useAppSelector } from "../../features/redux/hooks";
+import { logoutThunk } from "../../features/redux/slices/user/thunkAction";
+import { socketInit } from "../../features/websocket/wsActions";
 
 export default function CreateLobbyPage({ navigation }): JSX.Element {
-  const [number, setNumber] = useState('');
-  const dispatch = useAppDispatch()
+  const [number, setNumber] = useState("");
+  const dispatch = useAppDispatch();
+  const ws = useAppSelector((state) => state.ws);
+  console.log("111111111111111", ws);
+
+  useEffect(() => {
+    dispatch(socketInit());
+  }, []);
 
   const logoutHandler = () => {
     dispatch(logoutThunk());
-    navigation.navigate('Registration')
-  }
+    navigation.navigate("Registration");
+  };
   return (
     <View>
+      <Button
+        onPress={() => navigation.navigate("ProfilePage")}
+        title="Профиль"
+        color="#841584"
+        accessibilityLabel="Learn more about this purple button"
+      />
       <TextInput
         style={styles.input}
         value={number}
@@ -21,13 +34,13 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
         keyboardType="numeric"
       />
       <Button
-        onPress={() => navigation.navigate('Lobby')}
+        onPress={() => navigation.navigate("Lobby")}
         title="Создать игру"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
       />
       <Button
-        onPress={() => navigation.navigate('Lobby')}
+        onPress={() => navigation.navigate("Lobby")}
         title="Присоединиться к игре"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"

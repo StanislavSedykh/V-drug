@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Image,
@@ -7,22 +7,37 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import { useAppDispatch } from '../../features/redux/hooks';
-import { signUpThunk } from '../../features/redux/slices/user/thunkAction';
-import { SignUpType } from '../../types/user/formTypes';
+} from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import { useAppDispatch, useAppSelector } from "../../features/redux/hooks";
+import { signUpThunk } from "../../features/redux/slices/user/thunkAction";
+import { SignUpType } from "../../types/user/formTypes";
+import { setError } from "../../features/redux/slices/error/errorSlice";
 
 export default function Registration({ navigation }): JSX.Element {
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [image, setImage] = useState<string>('');
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [image, setImage] = useState<string>("");
+
   const inputChangeHandler = () => {
     // setText();
   };
+  const user = useAppSelector((state) => state.user);
+  const status = useAppSelector((state) => state.fetching.status);
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (user.id) {
+      dispatch(setError({ error: "Вы уже зарезервованы" }));
+    }
+  }, [user]);
+  useEffect(() => {
+    if (status === "logged") {
+      navigation.navigate("CreateLobbyPage");
+    }
+  }, [status]);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -34,19 +49,14 @@ export default function Registration({ navigation }): JSX.Element {
       base64: true,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
-      setImage(result.assets[0].uri
-      );
+      setImage(result.assets[0].uri);
     }
   };
 
   const registerHandler = async () => {
     try {
-      dispatch(signUpThunk({ email, password, name, image } as SignUpType));
-
-      navigation.navigate('CreateLobbyPage');
+      dispatch(signUpThunk({ email, password, name, image }));
     } catch (error) {
       console.log(error);
     }
@@ -89,7 +99,7 @@ export default function Registration({ navigation }): JSX.Element {
       )}
       <Button
         title="Сделать фото"
-        onPress={() => navigation.navigate('MakePhoto')}
+        onPress={() => navigation.navigate("MakePhoto")}
       />
     </View>
   );
