@@ -51,9 +51,6 @@ export default function Registration({ navigation, route }): JSX.Element {
 
     dispatch(signUpThunk(apiUrl, options));
   }
-  const inputChangeHandler = () => {
-    // setText();
-  };
   useEffect(() => {
     setPhoto(route.params?.photo);
   }, [route.params?.photo]);
