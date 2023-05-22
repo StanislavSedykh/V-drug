@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
+import { useAppDispatch } from '../../features/redux/hooks';
 
 
 
 export default function FactPage({ navigation }): JSX.Element {
   const [fact, setFact] = useState('');
+  const dispatch = useAppDispatch()
+
+  const set
   return (
     <View>
       <TextInput value={fact} onChangeText={setFact} style={styles.input} />
