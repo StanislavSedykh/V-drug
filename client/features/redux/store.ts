@@ -5,7 +5,9 @@ import rootSaga from '../sagas/rootSaga';
 // import userReducer from './slices/user/userSlice';
 import userReducer from './slices/user/userSlicer';
 import scoreReducer from './slices/user/csoreSlicer';
-import numberReducer from './slices/number/numberSlicer';
+import countReducer from './slices/game/countSlicer';
+import pinReducer from './slices/game/pinSlicer';
+import pinPartReducer from './slices/game/pinPartSlicer';
 // import transactionReducer from './slices/transaction/transactionSlice';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -13,7 +15,9 @@ const sagaMiddleware = createSagaMiddleware();
 const rootReducer = combineReducers({
   user: userReducer,
   score: scoreReducer,
-  number: numberReducer,
+  count: countReducer,
+  pin: pinReducer,
+  pinPart: pinPartReducer,
   // user: userSlice,
   // ws: wsSlice,
 });
@@ -23,7 +27,6 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),
 });
-
 
 sagaMiddleware.run(rootSaga);
 // Infer the `RootState` and `AppDispatch` types from the store itself

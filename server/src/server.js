@@ -8,12 +8,16 @@ import apiRouter from './routes/apiRouter';
 // import { pathMiddleware } from '../middlewares';
 // import broad from '../webSocket';
 import authRouter from './routes/authRouter';
+import gameRouter from './routes/gameRouter';
+import participantRouter from './routes/participantRouter';
+
+
 
 const cors = require('cors');
 
 require('dotenv').config();
 
-const PORT = process.env.SERVER_PORT || 3000;
+const PORT = process.env.SERVER_PORT || 3001;
 const app = express();
 const FileStore = store(session);
 
@@ -44,6 +48,8 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(pathMiddleware);
 app.use('/api', apiRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/games', gameRouter);
+app.use('/api/participants', participantRouter);
 
 const server = http.createServer(app);
 // const map = new Map();

@@ -8,7 +8,13 @@ import { setScore } from './csoreSlicer';
 import {API_URL} from '@env'
 
 export const checkUserThunk: ThunkActionCreater = () => (dispatch) => {
-  axios<BackendUserType>('/api/auth/check')
+  axios<BackendUserType>(
+    `http://${
+      Platform.OS === 'android' || Platform.OS === 'ios'
+        ? `${API_URL}`
+        : 'localhost'
+    }:3001/api/auth/check`
+  )
     .then(({ data }) => dispatch(setUser({ ...data, status: 'logged' })))
     .catch(() => dispatch(setUser({ status: 'guest' })));
 };
