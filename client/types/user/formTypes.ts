@@ -1,5 +1,11 @@
+export type ImageUpload = {
+  name?: string | null,
+  type?: string,
+  uri: string
+}
+
 export type SignUpType = {
-  image: string;
+  image: ImageUpload;
   name: string;
   email: string;
   password: string;
