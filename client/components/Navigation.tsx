@@ -1,5 +1,4 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Registration from './pages/Registration';
 import MainPage from './pages/MainPage';
@@ -14,48 +13,77 @@ import ScorePage from './pages/ScorePage';
 import ProfilePage from './pages/ProfilePage';
 import MakePhoto from './pages/MakePhoto';
 import TakePartPage from './pages/TakePartPage';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 export default function Navigation(): JSX.Element {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShadowVisible: false }}>
         <Stack.Screen
           name="MainPage"
           component={MainPage}
-          options={{ title: 'Главная страница' }}
+          options={{
+            title: 'Главная страница',
+            headerLeft: null,
+            gestureEnabled: false,
+          }}
         />
         <Stack.Screen
           name="Registration"
           component={Registration}
-          options={{ title: 'Регистрация' }}
+          options={{
+            title: 'Регистрация',
+            headerLeft: null,
+            gestureEnabled: false,
+          }}
         />
         <Stack.Screen
           name="Autorization"
           component={Autorization}
-          options={{ title: 'Авторизация' }}
+          options={{
+            title: 'Авторизация',
+            headerLeft: null,
+            gestureEnabled: false,
+          }}
         />
         <Stack.Screen
           name="GamePage"
           component={GamePage}
-          options={{ title: 'Игра' }}
+          options={{ title: 'Игра', headerLeft: null, gestureEnabled: false }}
         />
         <Stack.Screen
           name="CreateLobbyPage"
           component={CreateLobbyPage}
-          options={{ title: '' }}
+          options={{
+            title: '',
+            headerLeft: null,
+            gestureEnabled: false,
+          }}
         />
-        <Stack.Screen name="Lobby" component={Lobby} options={{ title: '' }} />
+        <Stack.Screen
+          name="Lobby"
+          component={Lobby}
+          options={{ title: '', headerLeft: null, gestureEnabled: false }}
+        />
         <Stack.Screen
           name="FactPage"
           component={FactPage}
-          options={{ title: 'Введите факт' }}
+          options={{
+            title: 'Введите факт',
+            headerLeft: null,
+            gestureEnabled: false,
+          }}
         />
         <Stack.Screen
           name="ResultPage"
           component={ResultPage}
-          options={{ title: 'Результат' }}
+          options={{
+            title: 'Результат',
+            headerLeft: null,
+            gestureEnabled: false,
+          }}
         />
         <Stack.Screen name="ScorePage" component={ScorePage} />
         <Stack.Screen name="GeneralPage" component={GeneralPage} />

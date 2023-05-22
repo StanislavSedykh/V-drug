@@ -11,7 +11,7 @@ export const checkUserThunk: ThunkActionCreater = () => (dispatch) => {
   axios<BackendUserType>(
     `http://${
       Platform.OS === 'android' || Platform.OS === 'ios'
-        ? `${API_URL}`
+        ? API_URL
         : 'localhost'
     }:3001/api/auth/check`
   )
@@ -24,7 +24,7 @@ export const logoutThunk: ThunkActionCreater = () => (dispatch) => {
     .post(
       `http://${
         Platform.OS === 'android' || Platform.OS === 'ios'
-          ? '192.168.1.204'
+          ? API_URL
           : 'localhost'
       }:3001/api/auth/logout`
     )

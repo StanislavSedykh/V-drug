@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Image,
@@ -14,8 +14,9 @@ import { ImageUpload, SignUpType } from '../../types/user/formTypes';
 import { API_URL } from '@env'
 
 
-export default function Registration({ navigation }): JSX.Element {
+export default function Registration({ navigation, route }): JSX.Element {
   const [password, setPassword] = useState('');
+  const [photo, setPhoto] = useState(route.params?.photo);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [image, setImage] = useState<string>('');
@@ -50,6 +51,9 @@ export default function Registration({ navigation }): JSX.Element {
 
     dispatch(signUpThunk(apiUrl, options));
   }
+  useEffect(() => {
+    setPhoto(route.params?.photo);
+  }, [route.params?.photo]);
   const dispatch = useAppDispatch();
   
   const pickImage = async () => {
@@ -64,6 +68,12 @@ export default function Registration({ navigation }): JSX.Element {
     console.log(result);
     
     if (!result.canceled) {
+      const uri = result.assets[0].uri;
+      setImage(uri);
+      setPhoto({
+        uri: uri,
+        base64: `data:image/jpg;base64,${result.base64}`,
+      });
       setImage(result.assets[0].uri);
       try {
         await uploadImageAsync(result.assets[0].uri);
@@ -75,11 +85,29 @@ export default function Registration({ navigation }): JSX.Element {
   
   const registerHandler = async () => {
     try {
+      let selectedImage;
+      if (image) {
+        selectedImage = { uri: image };
+      } else {
+        selectedImage = {
+          uri: photo.uri,
+          base64: `data:image/png;base64,${photo.base64}`,
+        };
+      }
+      dispatch(
+        signUpThunk({
+          email,
+          password,
+          name,
+          image: selectedImage,
+        })
+      );
       navigation.navigate('CreateLobbyPage');
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <View>
       <TextInput
@@ -113,13 +141,14 @@ export default function Registration({ navigation }): JSX.Element {
         accessibilityLabel="Learn more about this purple button"
       />
       <Button title="Загрузить фото" onPress={pickImage} />
-      {image && (
-        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+      {image && <Image source={{ uri: image }} style={styles.image} />}
+      {photo && (
+        <Image
+          source={{ uri: `data:image/png;base64,${photo}` }}
+          style={styles.photo}
+        />
       )}
-      <Button
-        title="Сделать фото"
-        onPress={() => navigation.navigate('MakePhoto')}
-      />
+      <Button title="Камера" onPress={() => navigation.navigate('MakePhoto')} />
     </View>
   );
 }
@@ -130,5 +159,13 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+  },
+  photo: {
+    width: 200,
+    height: 200,
+  },
+  image: {
+    width: 200,
+    height: 200,
   },
 });
