@@ -1,37 +1,75 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Image, StyleSheet, TextInput, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  Button,
+  Image,
+  Platform,
+  StyleSheet,
+  TextInput,
+  View,
+} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useAppDispatch } from '../../features/redux/hooks';
 import { signUpThunk } from '../../features/redux/slices/user/thunkAction';
-import { SignUpType } from '../../types/user/formTypes';
+import { ImageUpload, SignUpType } from '../../types/user/formTypes';
+import { API_URL } from '@env'
+
 
 export default function Registration({ navigation, route }): JSX.Element {
   const [password, setPassword] = useState('');
+  const [photo, setPhoto] = useState(route.params?.photo);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [image, setImage] = useState('');
-  const [photo, setPhoto] = useState(route.params?.photo);
+  const [image, setImage] = useState<string>('');
+
+  async function uploadImageAsync(uri: any) {
+    const apiUrl = `http://${
+            Platform.OS === 'android' || Platform.OS === 'ios'
+              ? API_URL
+              : 'localhost'
+          }:3001/api/auth/signup`
+    const uriParts = uri.split('.');
+    const fileType = uriParts[uriParts.length - 1];
+
+    const formData= new FormData();
+    formData.append('image', {
+      uri,
+      name: `image.${fileType}`,
+      type: `image/${fileType}`,
+    });
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('password', password);
+
+    const options = {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+
+    dispatch(signUpThunk(apiUrl, options));
+  }
   const inputChangeHandler = () => {
     // setText();
   };
-  console.log(photo);
   useEffect(() => {
     setPhoto(route.params?.photo);
   }, [route.params?.photo]);
   const dispatch = useAppDispatch();
-
+  
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-      base64: true,
+      
     });
-
+    
     console.log(result);
-
+    
     if (!result.canceled) {
       const uri = result.assets[0].uri;
       setImage(uri);
@@ -39,9 +77,15 @@ export default function Registration({ navigation, route }): JSX.Element {
         uri: uri,
         base64: `data:image/jpg;base64,${result.base64}`,
       });
+      setImage(result.assets[0].uri);
+      try {
+        await uploadImageAsync(result.assets[0].uri);
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
-
+  
   const registerHandler = async () => {
     try {
       let selectedImage;
