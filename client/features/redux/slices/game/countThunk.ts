@@ -12,7 +12,7 @@ export const setCountThunk: ThunkActionCreater<CountGameType> =
       .post<GameType>(
         `http://${
           Platform.OS === 'android' || Platform.OS === 'ios'
-            ? `${API_URL}`
+            ? API_URL
             : 'localhost'
         }:3001/api/games`,
         gameData
@@ -25,7 +25,7 @@ export const deleteGameThunk: ThunkActionCreater = () => (dispatch) => {
   axios.delete(
     `http://${
       Platform.OS === 'android' || Platform.OS === 'ios'
-        ? `${API_URL}`
+        ? API_URL
         : 'localhost'
     }:3001/api/games`
   );
@@ -35,7 +35,7 @@ export const setPinThunk: ThunkActionCreater = () => (dispatch) => {
   axios(
     `http://${
       Platform.OS === 'android' || Platform.OS === 'ios'
-        ? `${API_URL}`
+        ? API_URL
         : 'localhost'
     }:3001/api/games`
   )
@@ -48,7 +48,7 @@ export const setPinPartThank: ThunkActionCreater<PinPartType> =
     axios.post<GameType['pin']>(
       `http://${
         Platform.OS === 'android' || Platform.OS === 'ios'
-          ? `${API_URL}`
+          ? API_URL
           : 'localhost'
       }:3001/api/participants`,
       pinPartData

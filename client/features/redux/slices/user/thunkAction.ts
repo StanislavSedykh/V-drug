@@ -12,7 +12,7 @@ export const checkUserThunk: ThunkActionCreater = () => (dispatch) => {
   axios<BackendUserType>(
     `http://${
       Platform.OS === 'android' || Platform.OS === 'ios'
-        ? `${API_URL}`
+        ? API_URL
         : 'localhost'
     }:3001/api/auth/check`
   )
@@ -25,7 +25,7 @@ export const logoutThunk: ThunkActionCreater = () => (dispatch) => {
     .post(
       `http://${
         Platform.OS === 'android' || Platform.OS === 'ios'
-          ? `${API_URL}`
+          ? API_URL
           : 'localhost'
       }:3001/api/auth/logout`
     )
@@ -39,7 +39,7 @@ export const signUpThunk: ThunkActionCreater<SignUpType> =
       .post<BackendUserType>(
         `http://${
           Platform.OS === 'android' || Platform.OS === 'ios'
-            ? `${API_URL}`
+            ? API_URL
             : 'localhost'
         }:3001/api/auth/signup`,
         userData
@@ -54,7 +54,7 @@ export const loginThunk: ThunkActionCreater<LoginType> =
       .post<BackendUserType>(
         `http://${
           Platform.OS === 'android' || Platform.OS === 'ios'
-            ? `${API_URL}`
+            ? API_URL
             : 'localhost'
         }:3001/api/auth/login`,
         userData
@@ -67,7 +67,7 @@ export const scoreThunk: ThunkActionCreater = () => (dispatch) => {
   axios(
       `http://${
         Platform.OS === 'android' || Platform.OS === 'ios'
-          ? `${API_URL}`
+          ? API_URL
           : 'localhost'
       }:3001/api/scores`
     )
