@@ -34,7 +34,7 @@ export default function Registration({ navigation }): JSX.Element {
 
     const dispatch = useAppDispatch();
 
-    const formData = new FormData();
+    const formData= new FormData();
     formData.append('image', {
       uri,
       name: `image.${fileType}`,
@@ -54,7 +54,7 @@ export default function Registration({ navigation }): JSX.Element {
     };
     dispatch(signUpThunk(apiUrl, options));
   }
-
+  
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -170,9 +170,11 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 100,
     overflow: 'hidden',
+
     borderWidth: 3,
     borderColor: 'red',
   },
+
   photo: {
     width: 200,
     height: 200,
