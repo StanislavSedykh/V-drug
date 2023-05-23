@@ -8,7 +8,9 @@ export default function FactPage({ navigation }): JSX.Element {
   const [fact, setFact] = useState('');
   const dispatch = useAppDispatch()
 
-  const set
+  const setFactHandler = () => {
+    dispatch()
+  }
   return (
     <View>
       <TextInput value={fact} onChangeText={setFact} style={styles.input} />
