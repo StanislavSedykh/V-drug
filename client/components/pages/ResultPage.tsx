@@ -1,16 +1,13 @@
 import React from 'react'
 import { Button, View,   StyleSheet } from 'react-native'
+import ButtonStandart from '../UI/ButtonStandart';
 
 
 export default function ResultPage({navigation}):JSX.Element {
   return (
 <View style={styles.fixToText}>
-  <Button title='Общая статистика'     color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-        style={styles.button} onPress={() => navigation.navigate('GeneralPage')}/>
-  <Button title='Личная статистика'     color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-        style={styles.button} onPress={() => navigation.navigate('ScorePage')}/>
+  <ButtonStandart title='Общая статистика' onPress={() => navigation.navigate('GeneralPage')}/>
+  <ButtonStandart title='Личная статистика' onPress={() => navigation.navigate('ScorePage')}/>
 </View>
   )
 }
@@ -26,7 +23,4 @@ const styles = StyleSheet.create({
     color: '#9400d3',
     backgoundColor: '#9400d3'
   },
-  button:{
-    marginVertical: 10,
-  }
 });
