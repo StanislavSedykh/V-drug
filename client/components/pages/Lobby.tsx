@@ -1,40 +1,27 @@
-import React, { useEffect } from 'react';
-import { Button, Image, StyleSheet, Text, View } from 'react-native';
-import { useAppDispatch, useAppSelector } from '../../features/redux/hooks';
+import React, { useEffect, useState } from "react";
+import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { useAppDispatch, useAppSelector } from "../../features/redux/hooks";
 import {
   deleteGameThunk,
   setPinThunk,
-} from '../../features/redux/slices/game/countThunk';
-
-const pseudoBase = [
-  {
-    name: 'Vasya Pupkin',
-    id: 1,
-  },
-  {
-    name: 'Tapac',
-    id: 2,
-  },
-  {
-    name: 'Lyubitel Sobak',
-    id: 3,
-  },
-  {
-    name: 'Beb',
-    id: 4,
-  },
-  {
-    name: 'Bob',
-    id: 5,
-  },
-];
+} from "../../features/redux/slices/game/countThunk";
+import { updateGameStatus } from "../../features/redux/slices/game/gameSlice";
 
 export default function Lobby({ navigation }): JSX.Element {
+  const [changeStatus, setChangeStatus] = useState(false);
+  const { allPlayers, roomPin, status } = useAppSelector((state) => state.game);
+  const user = useAppSelector((state) => state.user);
+  const creatorId = useAppSelector((state) => state.game.userid);
   const dispatch = useAppDispatch();
   const { pin } = useAppSelector((state) => state.pin);
+
+  useEffect(() => {
+    dispatch(updateGameStatus("PlayerFind"));
+  }, []);
+
   const deleteHandler = () => {
     dispatch(deleteGameThunk());
-    navigation.navigate('CreateLobbyPage');
+    navigation.navigate("CreateLobbyPage");
   };
 
   useEffect(() => {
@@ -46,18 +33,18 @@ export default function Lobby({ navigation }): JSX.Element {
   }, []);
   return (
     <View>
-      {pseudoBase.map((el) => (
+      {allPlayers.map((el) => (
         <View key={el.id}>
           <Image
             style={styles.tinyLogo}
-            source={require('../../assets/favicon.png')}
+            source={require("../../assets/favicon.png")}
           />
           <Text>{el.name}</Text>
         </View>
       ))}
       <Text>Ваш PIN: {pin}</Text>
       <Button
-        onPress={() => navigation.navigate('FactPage')}
+        onPress={() => navigation.navigate("FactPage")}
         title="Начать игру"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"

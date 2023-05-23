@@ -10,9 +10,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { useAppDispatch, useAppSelector } from "../../features/redux/hooks";
 import { signUpThunk } from "../../features/redux/slices/user/thunkAction";
-import { SignUpType } from "../../types/user/formTypes";
 import { setError } from "../../features/redux/slices/error/errorSlice";
-import { ImageUpload, SignUpType } from '../../types/user/formTypes';
 import { API_URL } from '@env'
 
 export default function Registration({ navigation }): JSX.Element {
@@ -74,8 +72,6 @@ export default function Registration({ navigation }): JSX.Element {
       quality: 1,
       
     });
-    
-    console.log(result);
     
     if (!result.canceled) {
       setImage(result.assets[0].uri);

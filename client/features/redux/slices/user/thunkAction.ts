@@ -30,7 +30,7 @@ export const logoutThunk: ThunkActionCreater = () => (dispatch) => {
     .post(
       `http://${
         Platform.OS === "android" || Platform.OS === "ios"
-          ? "192.168.2.252"
+          ? API_URL
           : "localhost"
       }:3001/api/auth/logout`
     )

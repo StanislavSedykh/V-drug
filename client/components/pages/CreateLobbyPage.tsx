@@ -3,12 +3,11 @@ import { Button, StyleSheet, TextInput, View } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../../features/redux/hooks';
 import { logoutThunk } from '../../features/redux/slices/user/thunkAction';
 import { setCountThunk } from '../../features/redux/slices/game/countThunk';
+import { socketInit } from '../../features/websocket/wsActions';
 
 export default function CreateLobbyPage({ navigation }): JSX.Element {
   const [count, setCount] = useState('');
   const dispatch = useAppDispatch();
-  const ws = useAppSelector((state) => state.ws);
-  console.log("111111111111111", ws);
 
   useEffect(() => {
     dispatch(socketInit());
@@ -18,6 +17,7 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
     dispatch(logoutThunk());
     navigation.navigate('Registration');
   };
+
   return (
     <View>
       <Button

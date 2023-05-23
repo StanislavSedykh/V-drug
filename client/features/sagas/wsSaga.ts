@@ -6,6 +6,7 @@ import {
 } from "../../types/webSocket/webSocket";
 import { Platform } from "react-native";
 import { call, fork, put, take, takeEvery } from "redux-saga/effects";
+import { API_URL } from "@env";
 
 function createSocketChannel(socket) {
   return eventChannel((emit) => {
@@ -36,12 +37,11 @@ function createWebSocketConnection() {
   const newSocket = new WebSocket(
     `ws://${
       Platform.OS === "android" || Platform.OS === "ios"
-        ? "192.168.2.252"
+        ? API_URL
         : "localhost"
     }:3001`
     
   );
-  console.log("Created WS:", newSocket);
   return newSocket;
 }
 

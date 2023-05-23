@@ -5,7 +5,6 @@ import { socketInit } from "../../features/websocket/wsActions";
 
 export default function MainPage({ navigation }): JSX.Element {
   const user = useAppSelector((state) => state.user.user);
-  console.log(user);
 
   useEffect(() => {
     if (user.status === "logged") {
