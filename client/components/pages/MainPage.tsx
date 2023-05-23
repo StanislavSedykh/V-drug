@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
+import ButtonStandart from '../ButtonStandart';
 
 export default function MainPage({ navigation }): JSX.Element {
 
@@ -7,43 +8,11 @@ export default function MainPage({ navigation }): JSX.Element {
   return (
     <View style={styles.container}>
       <Text style={styles.title}> Вдруг</Text>
-      <Button
-        onPress={() => navigation.navigate('Registration')}
-        title="Зарегистрироваться"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-        style={styles.button}
-      />
-      <Button
-        onPress={() => navigation.navigate('Autorization')}
-        title="Войти"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-        style={styles.button}
-      />
-
-      <Button
-        onPress={() => navigation.navigate('GamePage')}
-        title="Дежурная страница игры"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-        style={styles.button}
-      />
-
-        <Button
-        onPress={() => navigation.navigate('ResultPage')}
-        title="ResultPage"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-        style={styles.button}
-      />
-       <Button
-        onPress={() => navigation.navigate('ProfilePage')}
-        title="ProfilePage"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-        style={styles.button}
-      />
+      <ButtonStandart  title="Зарегистрироваться" onPress={() => navigation.navigate('Registration')}/>
+ <ButtonStandart  title="Войти" onPress={() => navigation.navigate('Autorization')}/>  
+<ButtonStandart        title="Дежурная страница игры" onPress={() => navigation.navigate('GamePage')}/>
+      <ButtonStandart         title="ResultPage"      onPress={() => navigation.navigate('ResultPage')}/>
+         <ButtonStandart         title="ProfilePage"         onPress={() => navigation.navigate('ProfilePage')}/>
     </View>
   );
 }
@@ -62,5 +31,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginVertical: 10,
+    borderRadius: 30,
   },
 });
