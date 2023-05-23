@@ -11,13 +11,9 @@ import * as ImagePicker from 'expo-image-picker';
 import { useAppDispatch } from '../../features/redux/hooks';
 import { signUpThunk } from '../../features/redux/slices/user/thunkAction';
 import { ImageUpload, SignUpType } from '../../types/user/formTypes';
-import { API_URL } from '@env'
-
-
-
+import { API_URL } from '@env';
 
 export default function Registration({ navigation, route }): JSX.Element {
-
   const [password, setPassword] = useState('');
   const [photo, setPhoto] = useState(route.params?.photo);
   const [email, setEmail] = useState('');
@@ -26,14 +22,12 @@ export default function Registration({ navigation, route }): JSX.Element {
 
   async function uploadImageAsync(uri: any) {
     const apiUrl = `http://${
-            Platform.OS === 'android' || Platform.OS === 'ios'
-              ? API_URL
-              : 'localhost'
-          }:3001/api/auth/signup`
+      Platform.OS === 'android' || Platform.OS === 'ios' ? API_URL : 'localhost'
+    }:3001/api/auth/signup`;
     const uriParts = uri.split('.');
     const fileType = uriParts[uriParts.length - 1];
 
-    const formData= new FormData();
+    const formData = new FormData();
     formData.append('image', {
       uri,
       name: `image.${fileType}`,
@@ -58,7 +52,7 @@ export default function Registration({ navigation, route }): JSX.Element {
     setPhoto(route.params?.photo);
   }, [route.params?.photo]);
   const dispatch = useAppDispatch();
-  
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -66,9 +60,9 @@ export default function Registration({ navigation, route }): JSX.Element {
       aspect: [4, 3],
       quality: 0.1,
     });
-    
+
     console.log(result);
-    
+
     if (!result.canceled) {
       const uri = result.assets[0].uri;
       setImage(uri);
@@ -84,7 +78,7 @@ export default function Registration({ navigation, route }): JSX.Element {
       }
     }
   };
-  
+
   const registerHandler = async () => {
     try {
       let selectedImage;
@@ -149,11 +143,10 @@ export default function Registration({ navigation, route }): JSX.Element {
       {photo && (
         <Image
           source={{ uri: `data:image/png;base64,${photo}` }}
-          style={styles.photo}
+          style={styles.image}
         />
       )}
       <Button title="Камера" onPress={() => navigation.navigate('MakePhoto')} />
-
     </View>
   );
 }
@@ -178,11 +171,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     width: '80%',
     borderRadius: 5,
-
+  },
   photo: {
     width: 200,
     height: 200,
-
   },
   image: {
     width: 200,
@@ -192,5 +184,5 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderWidth: 3,
     borderColor: "red"
-  }}})
+  }})
 
