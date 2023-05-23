@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../features/redux/hooks';
 import TextInputStandart from '../UI/TextInputStandart';
 import ButtonStandart from '../UI/ButtonStandart';
 
+
 export default function Autorization({ navigation }): JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,6 +34,10 @@ export default function Autorization({ navigation }): JSX.Element {
       <ButtonStandart
         onPress={autorizationHandler}
         title="Войти"
+      />
+      <ButtonStandart
+        title="Главная страница"
+        onPress={() => navigation.navigate('MainPage')}
       />
     </View>
   );

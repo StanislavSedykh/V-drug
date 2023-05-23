@@ -4,7 +4,9 @@ import {
   Image,
   Platform,
   StyleSheet,
+  Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
@@ -18,12 +20,13 @@ import ImageStandart from '../UI/ImageStandart';
 import { Camera } from 'expo-camera';
 import CameraButton from '../UI/CameraButton';
 
-export default function Registration({ navigation, route }): JSX.Element {
+export default function Registration({ navigation }): JSX.Element {
   const [password, setPassword] = useState('');
-  const [photo, setPhoto] = useState(route.params?.photo);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [image, setImage] = useState<string>('');
+  const [permission, requestPermission] = Camera.useCameraPermissions();
+  const dispatch = useAppDispatch();
 
   async function uploadImageAsync(uri: any) {
     const apiUrl = `http://${
@@ -52,10 +55,6 @@ export default function Registration({ navigation, route }): JSX.Element {
     };
     dispatch(signUpThunk(apiUrl, options));
   }
-  useEffect(() => {
-    setPhoto(route.params?.photo);
-  }, [route.params?.photo]);
-  const dispatch = useAppDispatch();
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -68,18 +67,35 @@ export default function Registration({ navigation, route }): JSX.Element {
     console.log(result);
 
     if (!result.canceled) {
-      const uri = result.assets[0].uri;
-      setImage(uri);
-      setPhoto({
-        uri: uri,
-        base64: `data:image/jpg;base64,${result.base64}`,
-      });
       setImage(result.assets[0].uri);
       try {
         await uploadImageAsync(result.assets[0].uri);
       } catch (err) {
         console.log(err);
       }
+    }
+  };
+
+  const takePhoto = async () => {
+    try {
+      await requestPermission();
+      if (permission && permission.status === 'granted') {
+        const result = await ImagePicker.launchCameraAsync({
+          allowsEditing: true,
+          aspect: [4, 3],
+        });
+
+        if (!result.canceled) {
+          setImage(result.assets[0].uri);
+          try {
+            await uploadImageAsync(result.assets[0].uri);
+          } catch (err) {
+            console.log(err);
+          }
+        }
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -110,48 +126,45 @@ export default function Registration({ navigation, route }): JSX.Element {
 
   return (
     <View style={styles.container}>
-      <TextInputStandart  
-      onChangeText={setEmail}
-      placeholder="email"
+      <TextInputStandart
+        onChangeText={setEmail}
+        placeholder="email"
         keyboardType="email-address"
         textContentType="emailAddress"
         autoCapitalize="none"
         autoCorrect={false}
         spellCheck={false}
         maxLength={320}
-        />
-         <TextInputStandart  
-                 value={name}
-                onChangeText={setName}
-         placeholder="имя/name"
-        keyboardType='deafult'
+      />
+      <TextInputStandart
+        value={name}
+        onChangeText={setName}
+        placeholder="имя/name"
+        keyboardType="deafult"
         textContentType="none"
         autoCapitalize="sentences"
         autoCorrect={true}
         spellCheck={true}
         maxLength={100}
-        />
-      <TextInputStandart  
-              value={password}
-                 onChangeText={setPassword}
-                placeholder="пароль/password"
-        keyboardType='deafult'
+      />
+      <TextInputStandart
+        value={password}
+        onChangeText={setPassword}
+        placeholder="пароль/password"
+        keyboardType="deafult"
         textContentType="none"
         autoCapitalize="sentences"
         autoCorrect={false}
         spellCheck={false}
         maxLength={100}
-        />
-      <ButtonStandart  title="Зарегистрироваться" onPress={registerHandler}/>
-      <CameraButton title="🖼" onPress={pickImage}/>
-
-      {image && <ImageStandart source={{ uri: image }}  />}
-      {photo && (
-        <ImageStandart
-          source={{ uri: `data:image/png;base64,${photo}` }}
-        />
+      />
+      <ButtonStandart title="Зарегистрироваться" onPress={registerHandler} />
+      <CameraButton title="🖼" onPress={pickImage} />
+      <CameraButton title="📷" onPress={takePhoto} />
+      {image && (
+        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
       )}
-      <CameraButton title="📷" onPress={() => navigation.navigate('MakePhoto')} />
+      <ButtonStandart title="Главная страница" onPress={() => navigation.navigate('MainPage')} />
     </View>
   );
 }
@@ -163,5 +176,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
   },
-})
-
+});

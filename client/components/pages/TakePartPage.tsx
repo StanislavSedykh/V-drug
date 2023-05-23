@@ -5,12 +5,13 @@ import { setPinPartThank } from '../../features/redux/slices/game/countThunk';
 import TextInputStandart from '../UI/TextInputStandart';
 import ButtonStandart from '../UI/ButtonStandart';
 
-export default function TakePartPage(): JSX.Element {
+export default function TakePartPage({ navigation }): JSX.Element {
   const [pinPart, setPinPart] = useState('');
   const dispatch = useAppDispatch();
   const pinPartHandler = () => {
     try {
-      dispatch(setPinPartThank( {pinPart} ));
+      dispatch(setPinPartThank({ pinPart }));
+      navigation.navigate('FactPage');
     } catch (error) {
       console.log(error);
     }
@@ -26,6 +27,10 @@ export default function TakePartPage(): JSX.Element {
       <ButtonStandart
         onPress={pinPartHandler}
         title="Поехали!"
+      />
+      <ButtonStandart
+        title="Назад"
+        onPress={() => navigation.navigate('CreateLobbyPage')}
       />
     </View>
   );
