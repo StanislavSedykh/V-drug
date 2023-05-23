@@ -17,7 +17,7 @@ export default function Autorization({ navigation }): JSX.Element {
     }
   };
   return (
-    <View>
+    <View style={styles.container}>
       <TextInput
         value={email}
         onChangeText={setEmail}
@@ -41,6 +41,12 @@ export default function Autorization({ navigation }): JSX.Element {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
   input: {
     height: 40,
     margin: 12,

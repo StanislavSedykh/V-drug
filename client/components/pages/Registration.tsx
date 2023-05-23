@@ -15,6 +15,7 @@ import { API_URL } from '@env'
 
 
 export default function Registration({ navigation, route }): JSX.Element {
+
   const [password, setPassword] = useState('');
   const [photo, setPhoto] = useState(route.params?.photo);
   const [email, setEmail] = useState('');
@@ -61,7 +62,8 @@ export default function Registration({ navigation, route }): JSX.Element {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.1,
+
       
     });
     
@@ -109,7 +111,7 @@ export default function Registration({ navigation, route }): JSX.Element {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <TextInput
         value={email}
         onChangeText={setEmail}
@@ -139,8 +141,10 @@ export default function Registration({ navigation, route }): JSX.Element {
         title="Зарегистрироваться"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
+        style={styles.button}
       />
       <Button title="Загрузить фото" onPress={pickImage} />
+
       {image && <Image source={{ uri: image }} style={styles.image} />}
       {photo && (
         <Image
@@ -149,23 +153,44 @@ export default function Registration({ navigation, route }): JSX.Element {
         />
       )}
       <Button title="Камера" onPress={() => navigation.navigate('MakePhoto')} />
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
   input: {
     height: 40,
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    width: '80%',
+    borderRadius: 5,
   },
+  button: {
+    marginVertical: 10,
+    width: '80%',
+    borderRadius: 5,
+  },
+
+  image: {
+    width: 200,
+    height: 200,
+    marginVertical: 10,
+    borderRadius: 100,
+    overflow: "hidden",
+    borderWidth: 3,
+    borderColor: "red"
+  },})
   photo: {
     width: 200,
     height: 200,
   },
-  image: {
-    width: 200,
-    height: 200,
-  },
 });
+
