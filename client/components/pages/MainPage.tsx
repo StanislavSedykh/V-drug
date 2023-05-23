@@ -3,16 +3,21 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 import ButtonStandart from '../ButtonStandart';
 
 export default function MainPage({ navigation }): JSX.Element {
-
-  
   return (
     <View style={styles.container}>
-      <Text style={styles.title}> Вдруг</Text>
-      <ButtonStandart  title="Зарегистрироваться" onPress={() => navigation.navigate('Registration')}/>
- <ButtonStandart  title="Войти" onPress={() => navigation.navigate('Autorization')}/>  
-<ButtonStandart        title="Дежурная страница игры" onPress={() => navigation.navigate('GamePage')}/>
-      <ButtonStandart         title="ResultPage"      onPress={() => navigation.navigate('ResultPage')}/>
-         <ButtonStandart         title="ProfilePage"         onPress={() => navigation.navigate('ProfilePage')}/>
+      <Text style={styles.title}> В-друг</Text>
+      <ButtonStandart
+        title="Зарегистрироваться"
+        onPress={() => navigation.navigate('Registration')}
+      />
+      <ButtonStandart
+        title="Войти"
+        onPress={() => navigation.navigate('Autorization')}
+      />
+      <ButtonStandart
+        title="ResultPage"
+        onPress={() => navigation.navigate('ResultPage')}
+      />
     </View>
   );
 }

@@ -3,6 +3,7 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { loginThunk } from '../../features/redux/slices/user/thunkAction';
 import { LoginType } from '../../types/user/formTypes';
 import { useAppDispatch } from '../../features/redux/hooks';
+import ButtonStandart from '../ButtonStandart';
 
 export default function Autorization({ navigation }): JSX.Element {
   const [email, setEmail] = useState('');
@@ -35,6 +36,10 @@ export default function Autorization({ navigation }): JSX.Element {
         title="Войти"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
+      />
+      <ButtonStandart
+        title="Главная страница"
+        onPress={() => navigation.navigate('MainPage')}
       />
     </View>
   );

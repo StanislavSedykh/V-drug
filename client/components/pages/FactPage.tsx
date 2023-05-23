@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, StyleSheet, TextInput, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { BackHandler, Button, StyleSheet, TextInput, View } from 'react-native';
 import { useAppDispatch } from '../../features/redux/hooks';
 import { setFactThunk } from '../../features/redux/slices/fact/factThunk';
 
@@ -15,9 +15,26 @@ export default function FactPage({ navigation }): JSX.Element {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+    return () => backHandler.remove();
+  }, []);
+
   return (
     <View style={styles.container}>
-      <TextInput value={fact} onChangeText={setFact} style={styles.input} placeholder='                               Факт'/>
+      <TextInput
+        value={fact}
+        onChangeText={setFact}
+        style={styles.input}
+        placeholder="                               Факт"
+      />
       <Button
         onPress={setFactHandler}
         title="Готов!"

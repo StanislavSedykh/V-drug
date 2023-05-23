@@ -164,6 +164,7 @@ export default function Registration({ navigation }): JSX.Element {
       {image && (
         <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
       )}
+      <ButtonStandart title="Главная страница" onPress={() => navigation.navigate('MainPage')} />
     </View>
   );
 }
