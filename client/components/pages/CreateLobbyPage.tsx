@@ -22,7 +22,7 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
     }
   };
   return (
-    <View>
+    <View style={styles.container}>
       <Button
         onPress={() => navigation.navigate('ProfilePage')}
         title="Профиль"
@@ -59,6 +59,12 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
   input: {
     height: 40,
     margin: 12,

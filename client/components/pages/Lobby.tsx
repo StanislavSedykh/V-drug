@@ -45,17 +45,17 @@ export default function Lobby({ navigation }): JSX.Element {
     return () => clearTimeout(timer);
   }, []);
   return (
-    <View>
+    <View style={styles.container} >
       {pseudoBase.map((el) => (
         <View key={el.id}>
           <Image
-            style={styles.tinyLogo}
+            style={styles.avatar}
             source={require('../../assets/favicon.png')}
           />
-          <Text>{el.name}</Text>
+          <Text style={styles.playerName}>{el.name}</Text>
         </View>
       ))}
-      <Text>Ваш PIN: {pin}</Text>
+      <Text style={styles.pin}>Ваш PIN: {pin}</Text>
       <Button
         onPress={() => navigation.navigate('FactPage')}
         title="Начать игру"
@@ -74,10 +74,29 @@ export default function Lobby({ navigation }): JSX.Element {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 50,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    padding: 20,
   },
-  tinyLogo: {
+  player: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  avatar: {
     width: 50,
     height: 50,
+    marginRight: 10,
+  },
+  playerName: {
+    fontSize: 18,
+  },
+  pin: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    marginBottom: 20,
   },
 });

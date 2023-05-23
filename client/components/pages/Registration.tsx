@@ -14,6 +14,7 @@ import { ImageUpload, SignUpType } from '../../types/user/formTypes';
 import { API_URL } from '@env'
 
 
+
 export default function Registration({ navigation }): JSX.Element {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -57,7 +58,8 @@ export default function Registration({ navigation }): JSX.Element {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.1,
+
       
     });
     
@@ -81,7 +83,7 @@ export default function Registration({ navigation }): JSX.Element {
     }
   };
   return (
-    <View>
+    <View style={styles.container}>
       <TextInput
         value={email}
         onChangeText={setEmail}
@@ -111,24 +113,47 @@ export default function Registration({ navigation }): JSX.Element {
         title="Зарегистрироваться"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
+        style={styles.button}
       />
       <Button title="Загрузить фото" onPress={pickImage} />
       {image && (
-        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+        <Image source={{ uri: image }} style={styles.image} resizeMode={"cover"}/>
       )}
       <Button
         title="Сделать фото"
         onPress={() => navigation.navigate('MakePhoto')}
+        style={styles.button}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
   input: {
     height: 40,
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    width: '80%',
+    borderRadius: 5,
   },
-});
+  button: {
+    marginVertical: 10,
+    width: '80%',
+    borderRadius: 5,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    marginVertical: 10,
+    borderRadius: 100,
+    overflow: "hidden",
+    borderWidth: 3,
+    borderColor: "red"
+  },})
