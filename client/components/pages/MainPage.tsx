@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
-import ButtonStandart from '../ButtonStandart';
+import ButtonStandart from '../UI/ButtonStandart';
 
 export default function MainPage({ navigation }): JSX.Element {
 

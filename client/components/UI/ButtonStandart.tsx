@@ -1,9 +1,14 @@
 import React from 'react'
 import { Pressable, StyleSheet, Text } from 'react-native';
 
-export default function ButtonStandart({title, onPress}): JSX.Element {
+type ButtonStandartProps = {
+  title: string;
+  onPress: () => void;
+  style?: string
+}
+export default function ButtonStandart({title, onPress, style}: ButtonStandartProps): JSX.Element {
   return (
-    <Pressable style={styles.button} onPress={onPress}>
+    <Pressable style={style ? style :styles.button} onPress={onPress}>
       <Text style={styles.text}>{title}</Text>
     </Pressable>
   );
@@ -14,7 +19,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 32,
+    paddingHorizontal: 20,
     borderRadius: 50,
     borderWidth: 2 ,
     borderColor: '#808080',

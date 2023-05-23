@@ -12,11 +12,11 @@ import { useAppDispatch } from '../../features/redux/hooks';
 import { signUpThunk } from '../../features/redux/slices/user/thunkAction';
 import { ImageUpload, SignUpType } from '../../types/user/formTypes';
 import { API_URL } from '@env';
-import ButtonStandart from '../ButtonStandart';
-import TextInputStandart from '../TextInputStandart';
-import ImageStandart from '../ImageStandart';
+import ButtonStandart from '../UI/ButtonStandart';
+import TextInputStandart from '../UI/TextInputStandart';
+import ImageStandart from '../UI/ImageStandart';
 import { Camera } from 'expo-camera';
-import CameraButton from '../CameraButton';
+import CameraButton from '../UI/CameraButton';
 
 export default function Registration({ navigation, route }): JSX.Element {
   const [password, setPassword] = useState('');
