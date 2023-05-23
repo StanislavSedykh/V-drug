@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
 import { useAppDispatch } from '../../features/redux/hooks';
 import { logoutThunk } from '../../features/redux/slices/user/thunkAction';
 import { setCountThunk } from '../../features/redux/slices/game/countThunk';
+import { BackHandler } from 'react-native';
 
 export default function CreateLobbyPage({ navigation }): JSX.Element {
   const [count, setCount] = useState('');
@@ -14,6 +15,10 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
   };
 
   const createGameHandler = () => {
+    if (count === '' || parseInt(count) < 4) {
+      alert('Введите число игроков 4 или больше');
+      return;
+    }
     try {
       dispatch(setCountThunk({ count }));
       navigation.navigate('Lobby');
@@ -21,8 +26,19 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+    return () => backHandler.remove();
+  }, []);
   return (
-    <View>
+    <View style={styles.container}>
       <Button
         onPress={() => navigation.navigate('ProfilePage')}
         title="Профиль"
@@ -59,6 +75,12 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
   input: {
     height: 40,
     margin: 12,
