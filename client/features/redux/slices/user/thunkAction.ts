@@ -34,11 +34,9 @@ export const logoutThunk: ThunkActionCreater = () => (dispatch) => {
 
 export const signUpThunk: ThunkActionCreater<SignUpType> =
   (apiUrl, options) => (dispatch) => {
-    fetch(apiUrl, options)
-      .then(({ body }) => dispatch(setUser({ ...body, status: 'logged' })))
-      .then((response) => {
-        console.log('response', response);
-      })
+    fetch(apiUrl, options).then((response) => response.json())
+    .then((body) => dispatch(setUser({ ...body, status: 'logged' })))
+    .then((body) => console.log(body))
       .catch((error) => {
         console.log('error', error);
       });

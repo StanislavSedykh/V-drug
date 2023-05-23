@@ -12,6 +12,11 @@ import { useAppDispatch } from '../../features/redux/hooks';
 import { signUpThunk } from '../../features/redux/slices/user/thunkAction';
 import { ImageUpload, SignUpType } from '../../types/user/formTypes';
 import { API_URL } from '@env';
+import ButtonStandart from '../ButtonStandart';
+import TextInputStandart from '../TextInputStandart';
+import ImageStandart from '../ImageStandart';
+import { Camera } from 'expo-camera';
+import CameraButton from '../CameraButton';
 
 export default function Registration({ navigation, route }): JSX.Element {
   const [password, setPassword] = useState('');
@@ -45,7 +50,6 @@ export default function Registration({ navigation, route }): JSX.Element {
         'Content-Type': 'multipart/form-data',
       },
     };
-
     dispatch(signUpThunk(apiUrl, options));
   }
   useEffect(() => {
@@ -106,47 +110,48 @@ export default function Registration({ navigation, route }): JSX.Element {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        value={email}
-        onChangeText={setEmail}
-        style={styles.input}
-        placeholder="email"
+      <TextInputStandart  
+      onChangeText={setEmail}
+      placeholder="email"
         keyboardType="email-address"
         textContentType="emailAddress"
         autoCapitalize="none"
         autoCorrect={false}
         spellCheck={false}
         maxLength={320}
-      />
-      <TextInput
-        value={name}
-        onChangeText={setName}
-        style={styles.input}
-        placeholder="имя/name"
-      />
-      <TextInput
-        value={password}
-        onChangeText={setPassword}
-        style={styles.input}
-        placeholder="пароль/password"
-      />
-      <Button
-        onPress={registerHandler}
-        title="Зарегистрироваться"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-        style={styles.button}
-      />
-      <Button title="Загрузить фото" onPress={pickImage} />
+        />
+         <TextInputStandart  
+                 value={name}
+                onChangeText={setName}
+         placeholder="имя/name"
+        keyboardType='deafult'
+        textContentType="none"
+        autoCapitalize="sentences"
+        autoCorrect={true}
+        spellCheck={true}
+        maxLength={100}
+        />
+      <TextInputStandart  
+              value={password}
+                 onChangeText={setPassword}
+                placeholder="пароль/password"
+        keyboardType='deafult'
+        textContentType="none"
+        autoCapitalize="sentences"
+        autoCorrect={false}
+        spellCheck={false}
+        maxLength={100}
+        />
+      <ButtonStandart  title="Зарегистрироваться" onPress={registerHandler}/>
+      <CameraButton title="🖼" onPress={pickImage}/>
 
-      {image && <Image source={{ uri: image }} style={styles.image} />}
+      {image && <ImageStandart source={{ uri: image }}  />}
       {photo && (
-        <Image
+        <ImageStandart
           source={{ uri: `data:image/png;base64,${photo}` }}
-          style={styles.image}
         />
       )}
-      <Button title="Камера" onPress={() => navigation.navigate('MakePhoto')} />
+      <CameraButton title="📷" onPress={() => navigation.navigate('MakePhoto')} />
     </View>
   );
 }
@@ -158,31 +163,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
   },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-    width: '80%',
-    borderRadius: 5,
-  },
-
-  button: {
-    marginVertical: 10,
-    width: '80%',
-    borderRadius: 5,
-  },
-  photo: {
-    width: 200,
-    height: 200,
-  },
-  image: {
-    width: 200,
-    height: 200,
-    marginVertical: 10,
-    borderRadius: 100,
-    overflow: "hidden",
-    borderWidth: 3,
-    borderColor: "red"
-  }})
+})
 
