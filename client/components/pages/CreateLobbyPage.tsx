@@ -4,11 +4,13 @@ import { useAppDispatch, useAppSelector } from '../../features/redux/hooks';
 import { logoutThunk } from '../../features/redux/slices/user/thunkAction';
 import { setCountThunk } from '../../features/redux/slices/game/countThunk';
 import { socketInit } from '../../features/websocket/wsActions';
+import { BackHandler } from 'react-native';
 
 export default function CreateLobbyPage({ navigation }): JSX.Element {
   const [count, setCount] = useState('');
   const dispatch = useAppDispatch();
-
+  const user = useAppSelector((state) => state.user.user)
+  
   useEffect(() => {
     dispatch(socketInit());
   }, []);
@@ -18,6 +20,30 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
     navigation.navigate('Registration');
   };
 
+  const createGameHandler = () => {
+    if (count === '' || parseInt(count) < 4) {
+      alert('Введите число игроков 4 или больше');
+      return;
+    }
+    try {
+      dispatch(setCountThunk({ count }));
+      navigation.navigate('Lobby');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const backAction = () => {
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+    return () => backHandler.remove();
+  }, []);
+  
   return (
     <View>
       <Button
@@ -34,7 +60,7 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
         keyboardType="numeric"
       />
       <Button
-        onPress={() => navigation.navigate("Lobby")}
+        onPress={() => createGameHandler()}
         title="Создать игру"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
