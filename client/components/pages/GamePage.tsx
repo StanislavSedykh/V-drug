@@ -5,7 +5,7 @@ export default function GamePage({ navigation }): JSX.Element {
   return (
     <View>
       <Text>Раунд 1 из 6</Text>
-      <Text>Я выебал собаку</Text>
+      <Text>Я гладил собаку</Text>
       <Button
         onPress={() => navigation.navigate('///')}
         title="Таня"

@@ -17,7 +17,7 @@ export default function FactPage({ navigation }): JSX.Element {
   };
   return (
     <View style={styles.container}>
-      <TextInput value={fact} onChangeText={setFact} style={styles.input} />
+      <TextInput value={fact} onChangeText={setFact} style={styles.input} placeholder='                               Факт'/>
       <Button
         onPress={setFactHandler}
         title="Готов!"
@@ -37,8 +37,10 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
+    width: 300,
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    borderRadius: 10,
   },
 });

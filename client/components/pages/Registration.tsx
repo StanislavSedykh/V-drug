@@ -14,6 +14,10 @@ import { useAppDispatch } from '../../features/redux/hooks';
 import { signUpThunk } from '../../features/redux/slices/user/thunkAction';
 import { ImageUpload, SignUpType } from '../../types/user/formTypes';
 import { API_URL } from '@env';
+import ButtonStandart from '../ButtonStandart';
+import TextInputStandart from '../TextInputStandart';
+import ImageStandart from '../ImageStandart';
+import CameraButton from '../CameraButton';
 import { Camera, CameraType } from 'expo-camera';
 
 export default function Registration({ navigation }): JSX.Element {
@@ -22,8 +26,7 @@ export default function Registration({ navigation }): JSX.Element {
   const [name, setName] = useState('');
   const [image, setImage] = useState<string>('');
   const [permission, requestPermission] = Camera.useCameraPermissions();
-  const [type, setType] = useState(CameraType.back);
-  const [useCamera, setUseCamera] = useState(false);
+  const dispatch = useAppDispatch();
 
   async function uploadImageAsync(uri: any) {
     const apiUrl = `http://${
@@ -32,9 +35,7 @@ export default function Registration({ navigation }): JSX.Element {
     const uriParts = uri.split('.');
     const fileType = uriParts[uriParts.length - 1];
 
-    const dispatch = useAppDispatch();
-
-    const formData= new FormData();
+    const formData = new FormData();
     formData.append('image', {
       uri,
       name: `image.${fileType}`,
@@ -54,7 +55,7 @@ export default function Registration({ navigation }): JSX.Element {
     };
     dispatch(signUpThunk(apiUrl, options));
   }
-  
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -98,15 +99,35 @@ export default function Registration({ navigation }): JSX.Element {
     }
   };
 
-  const takeCamera = async () => {
-    setUseCamera(!useCamera);
+  const registerHandler = async () => {
+    try {
+      let selectedImage;
+      if (image) {
+        selectedImage = { uri: image };
+      } else {
+        selectedImage = {
+          uri: photo.uri,
+          base64: `data:image/png;base64,${photo.base64}`,
+        };
+      }
+      dispatch(
+        signUpThunk({
+          email,
+          password,
+          name,
+          image: selectedImage,
+        })
+      );
+      navigation.navigate('CreateLobbyPage');
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <View style={styles.container}>
-      <TextInput
-        value={email}
+      <TextInputStandart
         onChangeText={setEmail}
-        style={styles.input}
         placeholder="email"
         keyboardType="email-address"
         textContentType="emailAddress"
@@ -115,27 +136,31 @@ export default function Registration({ navigation }): JSX.Element {
         spellCheck={false}
         maxLength={320}
       />
-      <TextInput
+      <TextInputStandart
         value={name}
         onChangeText={setName}
-        style={styles.input}
         placeholder="имя/name"
+        keyboardType="deafult"
+        textContentType="none"
+        autoCapitalize="sentences"
+        autoCorrect={true}
+        spellCheck={true}
+        maxLength={100}
       />
-      <TextInput
+      <TextInputStandart
         value={password}
         onChangeText={setPassword}
-        style={styles.input}
         placeholder="пароль/password"
+        keyboardType="deafult"
+        textContentType="none"
+        autoCapitalize="sentences"
+        autoCorrect={false}
+        spellCheck={false}
+        maxLength={100}
       />
-      <Button
-        onPress={'CreateLobbyPage'}
-        title="Зарегистрироваться"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-        style={styles.button}
-      />
-      <Button onPress={pickImage} title="Загрузить фото из галереи" />
-      <Button onPress={takePhoto} title="Использовать камеру" />
+      <ButtonStandart title="Зарегистрироваться" onPress={registerHandler} />
+      <CameraButton title="🖼" onPress={pickImage} />
+      <CameraButton title="📷" onPress={takePhoto} />
       {image && (
         <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
       )}
@@ -149,37 +174,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-    width: '80%',
-    borderRadius: 5,
-  },
-  button: {
-    marginVertical: 10,
-    width: '80%',
-    borderRadius: 5,
-  },
-
-  image: {
-    width: 200,
-    height: 200,
-    marginVertical: 10,
-    borderRadius: 100,
-    overflow: 'hidden',
-
-    borderWidth: 3,
-    borderColor: 'red',
-  },
-
-  photo: {
-    width: 200,
-    height: 200,
-  },
-  camera: {
-    flex: 0.5,
   },
 });
