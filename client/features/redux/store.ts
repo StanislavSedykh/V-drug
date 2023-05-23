@@ -8,6 +8,7 @@ import scoreReducer from './slices/user/csoreSlicer';
 import countReducer from './slices/game/countSlicer';
 import pinReducer from './slices/game/pinSlicer';
 import pinPartReducer from './slices/game/pinPartSlicer';
+import factReducer from './slices/fact/factSlicer';
 // import transactionReducer from './slices/transaction/transactionSlice';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   count: countReducer,
   pin: pinReducer,
   pinPart: pinPartReducer,
+  fact: factReducer,
   // user: userSlice,
   // ws: wsSlice,
 });

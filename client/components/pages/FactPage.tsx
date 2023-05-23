@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
 import { useAppDispatch } from '../../features/redux/hooks';
-
-
+import { setFactThunk } from '../../features/redux/slices/fact/factThunk';
 
 export default function FactPage({ navigation }): JSX.Element {
   const [fact, setFact] = useState('');
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const setFactHandler = () => {
-    dispatch()
-  }
+    try {
+      dispatch(setFactThunk(fact));
+      navigation.navigate('GamePage');
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <View style={styles.container}>
       <TextInput value={fact} onChangeText={setFact} style={styles.input} />
       <Button
-        onPress={() => navigation.navigate('GamePage')}
+        onPress={setFactHandler}
         title="Готов!"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"

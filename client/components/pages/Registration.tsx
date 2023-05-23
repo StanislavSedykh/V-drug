@@ -4,7 +4,9 @@ import {
   Image,
   Platform,
   StyleSheet,
+  Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
@@ -12,13 +14,16 @@ import { useAppDispatch } from '../../features/redux/hooks';
 import { signUpThunk } from '../../features/redux/slices/user/thunkAction';
 import { ImageUpload, SignUpType } from '../../types/user/formTypes';
 import { API_URL } from '@env';
+import { Camera, CameraType } from 'expo-camera';
 
-export default function Registration({ navigation, route }): JSX.Element {
+export default function Registration({ navigation }): JSX.Element {
   const [password, setPassword] = useState('');
-  const [photo, setPhoto] = useState(route.params?.photo);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [image, setImage] = useState<string>('');
+  const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [type, setType] = useState(CameraType.back);
+  const [useCamera, setUseCamera] = useState(false);
 
   async function uploadImageAsync(uri: any) {
     const apiUrl = `http://${
@@ -26,6 +31,8 @@ export default function Registration({ navigation, route }): JSX.Element {
     }:3001/api/auth/signup`;
     const uriParts = uri.split('.');
     const fileType = uriParts[uriParts.length - 1];
+
+    const dispatch = useAppDispatch();
 
     const formData = new FormData();
     formData.append('image', {
@@ -45,13 +52,8 @@ export default function Registration({ navigation, route }): JSX.Element {
         'Content-Type': 'multipart/form-data',
       },
     };
-
     dispatch(signUpThunk(apiUrl, options));
   }
-  useEffect(() => {
-    setPhoto(route.params?.photo);
-  }, [route.params?.photo]);
-  const dispatch = useAppDispatch();
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -64,12 +66,6 @@ export default function Registration({ navigation, route }): JSX.Element {
     console.log(result);
 
     if (!result.canceled) {
-      const uri = result.assets[0].uri;
-      setImage(uri);
-      setPhoto({
-        uri: uri,
-        base64: `data:image/jpg;base64,${result.base64}`,
-      });
       setImage(result.assets[0].uri);
       try {
         await uploadImageAsync(result.assets[0].uri);
@@ -79,31 +75,32 @@ export default function Registration({ navigation, route }): JSX.Element {
     }
   };
 
-  const registerHandler = async () => {
+  const takePhoto = async () => {
     try {
-      let selectedImage;
-      if (image) {
-        selectedImage = { uri: image };
-      } else {
-        selectedImage = {
-          uri: photo.uri,
-          base64: `data:image/png;base64,${photo.base64}`,
-        };
+      await requestPermission();
+      if (permission && permission.status === 'granted') {
+        const result = await ImagePicker.launchCameraAsync({
+          allowsEditing: true,
+          aspect: [4, 3],
+        });
+
+        if (!result.canceled) {
+          setImage(result.assets[0].uri);
+          try {
+            await uploadImageAsync(result.assets[0].uri);
+          } catch (err) {
+            console.log(err);
+          }
+        }
       }
-      dispatch(
-        signUpThunk({
-          email,
-          password,
-          name,
-          image: selectedImage,
-        })
-      );
-      navigation.navigate('CreateLobbyPage');
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   };
 
+  const takeCamera = async () => {
+    setUseCamera(!useCamera);
+  };
   return (
     <View style={styles.container}>
       <TextInput
@@ -131,22 +128,17 @@ export default function Registration({ navigation, route }): JSX.Element {
         placeholder="пароль/password"
       />
       <Button
-        onPress={registerHandler}
+        onPress={'CreateLobbyPage'}
         title="Зарегистрироваться"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
         style={styles.button}
       />
-      <Button title="Загрузить фото" onPress={pickImage} />
-
-      {image && <Image source={{ uri: image }} style={styles.image} />}
-      {photo && (
-        <Image
-          source={{ uri: `data:image/png;base64,${photo}` }}
-          style={styles.photo}
-        />
+      <Button onPress={pickImage} title="Загрузить фото из галереи" />
+      <Button onPress={takePhoto} title="Использовать камеру" />
+      {image && (
+        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
       )}
-      <Button title="Камера" onPress={() => navigation.navigate('MakePhoto')} />
     </View>
   );
 }
@@ -184,5 +176,8 @@ const styles = StyleSheet.create({
   photo: {
     width: 200,
     height: 200,
+  },
+  camera: {
+    flex: 0.5,
   },
 });
