@@ -11,20 +11,18 @@ import { setScore } from "./csoreSlicer";
 import { setStatus } from "../fetchingSlice/fetchingSlice";
 import { setError } from "../error/errorSlice";
 import { setUser } from "./userSlicer";
+import {API_URL} from '@env'
 
 export const checkUserThunk: ThunkActionCreater = () => (dispatch) => {
   axios(
     `http://${
-      Platform.OS === "android" || Platform.OS === "ios"
-        ? "192.168.2.252"
-        : "localhost"
+      Platform.OS === 'android' || Platform.OS === 'ios'
+        ? `${API_URL}`
+        : 'localhost'
     }:3001/api/auth/check`
   )
-    .then(({ data }) => dispatch(setUser({ ...data, status: "logged" })))
-    .catch((e) => {
-      console.log(e);
-      dispatch(setUser({ status: "guest" }));
-    });
+    .then(({ data }) => dispatch(setUser({ ...data, status: 'logged' })))
+    .catch(() => dispatch(setUser({ status: 'guest' })));
 };
 
 export const logoutThunk: ThunkActionCreater = () => (dispatch) => {
@@ -41,23 +39,14 @@ export const logoutThunk: ThunkActionCreater = () => (dispatch) => {
 };
 
 export const signUpThunk: ThunkActionCreater<SignUpType> =
-  (userData) => (dispatch) => {
-    axios
-      .post<PlayerType>(
-        `http://${
-          Platform.OS === "android" || Platform.OS === "ios"
-            ? "192.168.2.252"
-            : "localhost"
-        }:3001/api/auth/signup`,
-        userData
-      )
-      .then(({ data }) => {
-        dispatch(setName(data));
-        dispatch(setStatus("logged"));
+  (apiUrl, options) => (dispatch) => {
+    fetch(apiUrl, options)
+      .then(({ body }) => dispatch(setUser({ ...body, status: 'logged' })))
+      .then((response) => {
+        console.log('response', response);
       })
-      .catch(() => {
-        dispatch(setError({ error: "Login zanyat" }));
-        dispatch(setStatus("guest"));
+      .catch((error) => {
+        console.log('error', error);
       });
   };
 
@@ -66,9 +55,9 @@ export const loginThunk: ThunkActionCreater<LoginType> =
     axios
       .post<BackendUserType>(
         `http://${
-          Platform.OS === "android" || Platform.OS === "ios"
-            ? "192.168.2.252"
-            : "localhost"
+          Platform.OS === 'android' || Platform.OS === 'ios'
+            ? API_URL
+            : 'localhost'
         }:3001/api/auth/login`,
         userData
       )
@@ -78,12 +67,12 @@ export const loginThunk: ThunkActionCreater<LoginType> =
 
 export const scoreThunk: ThunkActionCreater = () => (dispatch) => {
   axios(
-    `http://${
-      Platform.OS === "android" || Platform.OS === "ios"
-        ? "192.168.2.252"
-        : "localhost"
-    }:3001/api/scores`
-  )
+      `http://${
+        Platform.OS === 'android' || Platform.OS === 'ios'
+          ? API_URL
+          : 'localhost'
+      }:3001/api/scores`
+    )
     .then(({ data }) => dispatch(setScore(data.score)))
     .catch((err) => console.log(err));
 };

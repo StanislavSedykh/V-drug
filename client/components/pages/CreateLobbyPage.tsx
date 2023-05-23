@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Button, StyleSheet, TextInput, View } from "react-native";
-import { useAppDispatch, useAppSelector } from "../../features/redux/hooks";
-import { logoutThunk } from "../../features/redux/slices/user/thunkAction";
-import { socketInit } from "../../features/websocket/wsActions";
+import React, { useEffect, useState } from 'react';
+import { Button, StyleSheet, TextInput, View } from 'react-native';
+import { useAppDispatch, useAppSelector } from '../../features/redux/hooks';
+import { logoutThunk } from '../../features/redux/slices/user/thunkAction';
+import { setCountThunk } from '../../features/redux/slices/game/countThunk';
 
 export default function CreateLobbyPage({ navigation }): JSX.Element {
-  const [number, setNumber] = useState("");
+  const [count, setCount] = useState('');
   const dispatch = useAppDispatch();
   const ws = useAppSelector((state) => state.ws);
   console.log("111111111111111", ws);
@@ -16,7 +16,7 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
 
   const logoutHandler = () => {
     dispatch(logoutThunk());
-    navigation.navigate("Registration");
+    navigation.navigate('Registration');
   };
   return (
     <View>
@@ -28,8 +28,8 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
       />
       <TextInput
         style={styles.input}
-        value={number}
-        onChangeText={setNumber}
+        value={count}
+        onChangeText={setCount}
         placeholder="введите кол-во игроков"
         keyboardType="numeric"
       />
@@ -40,7 +40,7 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
         accessibilityLabel="Learn more about this purple button"
       />
       <Button
-        onPress={() => navigation.navigate("Lobby")}
+        onPress={() => navigation.navigate('TakePartPage')}
         title="Присоединиться к игре"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"

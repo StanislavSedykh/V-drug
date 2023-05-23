@@ -15,6 +15,7 @@ import ProfilePage from "./pages/ProfilePage";
 import MakePhoto from "./pages/MakePhoto";
 import { useAppDispatch } from "../features/redux/hooks";
 import { checkUserThunk } from "../features/redux/slices/user/thunkAction";
+import TakePartPage from './pages/TakePartPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -66,6 +67,7 @@ export default function Navigation(): JSX.Element {
         <Stack.Screen name="GeneralPage" component={GeneralPage} />
         <Stack.Screen name="ProfilePage" component={ProfilePage} />
         <Stack.Screen name="MakePhoto" component={MakePhoto} />
+        <Stack.Screen name="TakePartPage" component={TakePartPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

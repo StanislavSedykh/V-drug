@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       photo: {
-        type: Sequelize.BLOB,
+        type: Sequelize.TEXT,
       },
       name: {
         type: Sequelize.STRING,
@@ -22,6 +22,7 @@ module.exports = {
       },
       score: {
         type: Sequelize.INTEGER,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,
@@ -33,7 +34,7 @@ module.exports = {
       },
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable('Users');
   },
 };

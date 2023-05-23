@@ -1,13 +1,18 @@
-import { AnyAction, ThunkAction, combineReducers } from "@reduxjs/toolkit";
-import { configureStore } from "@reduxjs/toolkit";
-import createSagaMiddleware from "redux-saga";
-import rootSaga from "../sagas/rootSaga";
-import userReducer from "./slices/user/userSlicer";
-import scoreReducer from "./slices/user/csoreSlicer";
 import numberReducer from "./slices/number/numberSlicer";
 import errorSlice from "./slices/error/errorSlice";
 import wsReducer from "../websocket/wsReducer";
 import fetchingSlice from "./slices/fetchingSlice/fetchingSlice";
+import { AnyAction, ThunkAction, combineReducers } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from '../sagas/rootSaga';
+// import userReducer from './slices/user/userSlice';
+import userReducer from './slices/user/userSlicer';
+import scoreReducer from './slices/user/csoreSlicer';
+import countReducer from './slices/game/countSlicer';
+import pinReducer from './slices/game/pinSlicer';
+import pinPartReducer from './slices/game/pinPartSlicer';
+// import transactionReducer from './slices/transaction/transactionSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -19,6 +24,9 @@ const store = configureStore({
     error: errorSlice,
     ws: wsReducer,
     fetching: fetchingSlice,
+    count: countReducer,
+  pin: pinReducer,
+  pinPart: pinPartReducer,
   },
   middleware: (mid) => [...mid(), sagaMiddleware],
 });
@@ -41,3 +49,4 @@ export type ThunkActionCreater<ThunkArgument = void> = (
 sagaMiddleware.run(rootSaga);
 
 export default store;
+
