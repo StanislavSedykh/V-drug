@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
 import { useAppDispatch } from '../../features/redux/hooks';
 import { setPinPartThank } from '../../features/redux/slices/game/countThunk';
+import ButtonStandart from '../ButtonStandart';
 
-export default function TakePartPage({navigation}): JSX.Element {
+export default function TakePartPage({ navigation }): JSX.Element {
   const [pinPart, setPinPart] = useState('');
   const dispatch = useAppDispatch();
   const pinPartHandler = () => {
     try {
-      dispatch(setPinPartThank( {pinPart} ));
-      navigation.navigate('FactPage')
+      dispatch(setPinPartThank({ pinPart }));
+      navigation.navigate('FactPage');
     } catch (error) {
       console.log(error);
     }
@@ -28,6 +29,10 @@ export default function TakePartPage({navigation}): JSX.Element {
         title="Поехали!"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
+      />
+      <ButtonStandart
+        title="Назад"
+        onPress={() => navigation.navigate('CreateLobbyPage')}
       />
     </View>
   );
