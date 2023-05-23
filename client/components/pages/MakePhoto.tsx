@@ -1,12 +1,22 @@
 import { Camera, CameraType } from 'expo-camera';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import * as MediaLibrary from 'expo-media-library';
 
-export default function MakePhoto(): JSX.Element {
+export default function MakePhoto({ navigation }): JSX.Element {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [photo, setPhoto] = useState(null);
   const cameraRef = useRef(null);
+  const [hasCameraPermission, setHasCameraPermission] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      MediaLibrary.requestPermissionsAsync();
+      const cameraStatus = await Camera.requestCameraPermissionsAsync();
+      setHasCameraPermission(cameraStatus.status === 'granted');
+    })();
+  }, []);
 
   const takePicture = async () => {
     if (cameraRef) {
@@ -16,6 +26,7 @@ export default function MakePhoto(): JSX.Element {
           quality: 0.1,
         });
         setPhoto(data.base64);
+        navigation.navigate('Registration', { photo: data.base64 });
       } catch (error) {
         console.log(error);
       }
@@ -37,12 +48,6 @@ export default function MakePhoto(): JSX.Element {
         <TouchableOpacity onPress={takePicture}>
           <Text>Сделать фото</Text>
         </TouchableOpacity>
-        {photo && (
-          <Image
-            source={{ uri: `data:image/png;base64,${photo}` }}
-            style={styles.photo}
-          />
-        )}
       </View>
     </Camera>
   );

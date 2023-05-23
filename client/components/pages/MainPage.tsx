@@ -21,6 +21,7 @@ export default function MainPage({ navigation }): JSX.Element {
         accessibilityLabel="Learn more about this purple button"
         style={styles.button}
       />
+
       <Button
         onPress={() => navigation.navigate('GamePage')}
         title="Дежурная страница игры"
@@ -28,6 +29,7 @@ export default function MainPage({ navigation }): JSX.Element {
         accessibilityLabel="Learn more about this purple button"
         style={styles.button}
       />
+
         <Button
         onPress={() => navigation.navigate('ResultPage')}
         title="ResultPage"
