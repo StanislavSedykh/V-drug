@@ -143,7 +143,7 @@ export default function Registration({ navigation, route }): JSX.Element {
       {photo && (
         <Image
           source={{ uri: `data:image/png;base64,${photo}` }}
-          style={styles.photo}
+          style={styles.image}
         />
       )}
       <Button title="Камера" onPress={() => navigation.navigate('MakePhoto')} />
@@ -166,23 +166,23 @@ const styles = StyleSheet.create({
     width: '80%',
     borderRadius: 5,
   },
+
   button: {
     marginVertical: 10,
     width: '80%',
     borderRadius: 5,
   },
-
+  photo: {
+    width: 200,
+    height: 200,
+  },
   image: {
     width: 200,
     height: 200,
     marginVertical: 10,
     borderRadius: 100,
-    overflow: 'hidden',
+    overflow: "hidden",
     borderWidth: 3,
-    borderColor: 'red',
-  },
-  photo: {
-    width: 200,
-    height: 200,
-  },
-});
+    borderColor: "red"
+  }})
+
