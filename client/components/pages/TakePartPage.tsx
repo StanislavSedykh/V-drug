@@ -3,12 +3,13 @@ import { Button, StyleSheet, TextInput, View } from 'react-native';
 import { useAppDispatch } from '../../features/redux/hooks';
 import { setPinPartThank } from '../../features/redux/slices/game/countThunk';
 
-export default function TakePartPage(): JSX.Element {
+export default function TakePartPage({navigation}): JSX.Element {
   const [pinPart, setPinPart] = useState('');
   const dispatch = useAppDispatch();
   const pinPartHandler = () => {
     try {
       dispatch(setPinPartThank( {pinPart} ));
+      navigation.navigate('FactPage')
     } catch (error) {
       console.log(error);
     }
