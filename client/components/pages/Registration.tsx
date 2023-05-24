@@ -30,12 +30,14 @@ export default function Registration({ navigation }): JSX.Element {
 
   async function uploadImageAsync(uri: any) {
     const apiUrl = `http://${
-      Platform.OS === 'android' || Platform.OS === 'ios' ? API_URL : 'localhost'
-    }:3001/api/auth/signup`;
+            Platform.OS === 'android' || Platform.OS === 'ios'
+              ? API_URL
+              : 'localhost'
+          }:3001/api/auth/signup`
     const uriParts = uri.split('.');
     const fileType = uriParts[uriParts.length - 1];
 
-    const formData = new FormData();
+    const formData= new FormData();
     formData.append('image', {
       uri,
       name: `image.${fileType}`,
@@ -55,7 +57,6 @@ export default function Registration({ navigation }): JSX.Element {
     };
     dispatch(signUpThunk(apiUrl, options));
   }
-
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -63,9 +64,7 @@ export default function Registration({ navigation }): JSX.Element {
       aspect: [4, 3],
       quality: 0.1,
     });
-
-    console.log(result);
-
+    
     if (!result.canceled) {
       setImage(result.assets[0].uri);
       try {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 
-export default function ScorePage() {
+export default function ScorePage():JSX.Element {
 
   return (
     <View style={styles.container}>

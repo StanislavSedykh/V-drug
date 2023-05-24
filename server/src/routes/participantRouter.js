@@ -5,7 +5,7 @@ const participantRouter = express.Router();
 
 participantRouter.post('/', async (req, res) => {
   const { id } = req.session.user;
-  const game = await Game.findOne({ where: { pin: req.body.pinPart }, attributes: ['id'] });
+  const game = await Game.findOne({ where: { pin: req.body.pinPart } });
   if (!game) {
     return res.status(404).send('Игра не найдена');
   }
