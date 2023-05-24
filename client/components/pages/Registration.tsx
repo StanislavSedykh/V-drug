@@ -161,7 +161,7 @@ export default function Registration({ navigation }): JSX.Element {
       <CameraButton title="🖼" onPress={pickImage} />
       <CameraButton title="📷" onPress={takePhoto} />
       {image && (
-        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+        <Image source={{ uri: image }} style={styles.img} />
       )}
       <ButtonStandart title="Главная страница" onPress={() => navigation.navigate('MainPage')} />
     </View>
@@ -174,5 +174,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
+  },
+  img:{
+    width: 200,
+    height: 200,
+    marginRight: 10,
+    borderRadius: 50,
+    borderColor: 'green',
+    borderWidth: 3,
+    backgroundColor: 'white',
+    marginBottom: 10
   },
 });
