@@ -14,7 +14,7 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
   const [count, setCount] = useState('');
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user)
-
+  console.log(user)
   useEffect(() => {
     dispatch(socketInit());
   }, []);

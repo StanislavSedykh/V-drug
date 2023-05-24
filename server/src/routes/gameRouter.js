@@ -18,11 +18,16 @@ gameRouter.post('/', async (req, res) => {
 });
 
 gameRouter.get('/', async (req, res) => {
-  const { pin } = await Game.findOne({
-    where: { user_id: req.session.user.id },
-    attributes: ['pin'],
-  });
-  return res.json(pin);
+  try {
+    const { pin } = await Game.findOne({
+      where: { user_id: req.session.user.id },
+      attributes: ['pin'],
+    });
+    return res.json(pin);
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
 });
 
 gameRouter.delete('/', async (req, res) => {
