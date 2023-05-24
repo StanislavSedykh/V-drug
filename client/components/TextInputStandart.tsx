@@ -1,11 +1,11 @@
 import React from 'react'
-import { StyleSheet, TextInput } from 'react-native'
+import { KeyboardTypeOptions, StyleSheet, TextInput, TextInputProps } from 'react-native'
 
 type InputProps = {
   placeholder: string,
-  keyboardType: string,
-  textContentType: string,
-  autoCapitalize: string,
+  keyboardType: KeyboardTypeOptions,
+  textContentType: TextInputProps['textContentType'],
+  autoCapitalize: 'none' | 'sentences' | 'words' | 'characters'
   autoCorrect: boolean,
   spellCheck: boolean,
   maxLength: number,
