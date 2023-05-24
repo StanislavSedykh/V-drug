@@ -9,8 +9,8 @@ participantRouter.post('/', async (req, res) => {
   if (!game) {
     return res.status(404).send('Игра не найдена');
   }
-  await Participant.create({ user_id: id, game_id: game.id });
-  res.sendStatus(200);
+  await Participant.create({ user_id: id, game_id: game.id }); 
+  return res.sendStatus(200);
 });
 
 module.exports = participantRouter;

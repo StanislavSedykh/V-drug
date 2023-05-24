@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useAppSelector } from "../../features/redux/hooks";
 import { Button, StyleSheet, Text, View } from 'react-native';
+import ButtonStandart from '../UI/ButtonStandart';
 
 export default function MainPage({ navigation }): JSX.Element {
   const user = useAppSelector((state) => state.user);
@@ -12,44 +13,18 @@ export default function MainPage({ navigation }): JSX.Element {
   }, [user.status]);
   return (
     <View style={styles.container}>
-      <Text style={styles.title}> Вдруг</Text>
-
-      <Button
-        onPress={() => navigation.navigate("Registration")}
+      <Text style={styles.title}> В-друг</Text>
+      <ButtonStandart
         title="Зарегистрироваться"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-        style={styles.button}
+        onPress={() => navigation.navigate('Registration')}
       />
-      <Button
+      <ButtonStandart
         onPress={() => navigation.navigate("Autorization")}
         title="Войти"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-        style={styles.button}
       />
-
-      <Button
-        onPress={() => navigation.navigate('GamePage')}
-        title="Дежурная страница игры"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-        style={styles.button}
-      />
-
-        <Button
-        onPress={() => navigation.navigate('ResultPage')}
+      <ButtonStandart
         title="ResultPage"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-        style={styles.button}
-      />
-      <Button
-        onPress={() => navigation.navigate("ProfilePage")}
-        title="ProfilePage"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-        style={styles.button}
+        onPress={() => navigation.navigate("ResultPage")}
       />
     </View>
   );
@@ -69,5 +44,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginVertical: 10,
+    borderRadius: 30,
   },
 });

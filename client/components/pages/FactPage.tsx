@@ -1,24 +1,42 @@
-import React, { useState } from 'react';
-import { Button, StyleSheet, TextInput, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { BackHandler, Button, StyleSheet, TextInput, View } from 'react-native';
 import { useAppDispatch } from '../../features/redux/hooks';
+import TextInputStandart from '../UI/TextInputStandart';
+import ButtonStandart from '../UI/ButtonStandart';
 
 
+import { setFactThunk } from '../../features/redux/slices/fact/factThunk';
 
 export default function FactPage({ navigation }): JSX.Element {
   const [fact, setFact] = useState('');
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const setFactHandler = () => {
-    dispatch()
-  }
+    try {
+      dispatch(setFactThunk(fact));
+      navigation.navigate('GamePage');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const backAction = () => {
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+    return () => backHandler.remove();
+  }, []);
+
   return (
     <View style={styles.container}>
-      <TextInput value={fact} onChangeText={setFact} style={styles.input} />
-      <Button
+      <TextInputStandart value={fact} onChangeText={setFact} placeholder='Факт'/>
+      <ButtonStandart
         onPress={() => navigation.navigate('GamePage')}
         title="Готов!"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
       />
     </View>
   );
@@ -30,11 +48,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
   },
 });

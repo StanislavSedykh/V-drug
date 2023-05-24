@@ -4,25 +4,29 @@ import {
   Image,
   Platform,
   StyleSheet,
+  Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useAppDispatch } from '../../features/redux/hooks';
 import { signUpThunk } from '../../features/redux/slices/user/thunkAction';
 import { ImageUpload, SignUpType } from '../../types/user/formTypes';
-import { API_URL } from '@env'
+import { API_URL } from '@env';
+import ButtonStandart from '../UI/ButtonStandart';
+import TextInputStandart from '../UI/TextInputStandart';
+import ImageStandart from '../UI/ImageStandart';
+import { Camera } from 'expo-camera';
+import CameraButton from '../UI/CameraButton';
 
-
-
-
-export default function Registration({ navigation, route }): JSX.Element {
-
+export default function Registration({ navigation }): JSX.Element {
   const [password, setPassword] = useState('');
-  const [photo, setPhoto] = useState(route.params?.photo);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [image, setImage] = useState<string>('');
+  const [permission, requestPermission] = Camera.useCameraPermissions();
+  const dispatch = useAppDispatch();
 
   async function uploadImageAsync(uri: any) {
     const apiUrl = `http://${
@@ -51,14 +55,8 @@ export default function Registration({ navigation, route }): JSX.Element {
         'Content-Type': 'multipart/form-data',
       },
     };
-
     dispatch(signUpThunk(apiUrl, options));
   }
-  useEffect(() => {
-    setPhoto(route.params?.photo);
-  }, [route.params?.photo]);
-  const dispatch = useAppDispatch();
-  
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -68,12 +66,6 @@ export default function Registration({ navigation, route }): JSX.Element {
     });
     
     if (!result.canceled) {
-      const uri = result.assets[0].uri;
-      setImage(uri);
-      setPhoto({
-        uri: uri,
-        base64: `data:image/jpg;base64,${result.base64}`,
-      });
       setImage(result.assets[0].uri);
       try {
         await uploadImageAsync(result.assets[0].uri);
@@ -82,7 +74,30 @@ export default function Registration({ navigation, route }): JSX.Element {
       }
     }
   };
-  
+
+  const takePhoto = async () => {
+    try {
+      await requestPermission();
+      if (permission && permission.status === 'granted') {
+        const result = await ImagePicker.launchCameraAsync({
+          allowsEditing: true,
+          aspect: [4, 3],
+        });
+
+        if (!result.canceled) {
+          setImage(result.assets[0].uri);
+          try {
+            await uploadImageAsync(result.assets[0].uri);
+          } catch (err) {
+            console.log(err);
+          }
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const registerHandler = async () => {
     try {
       let selectedImage;
@@ -110,10 +125,8 @@ export default function Registration({ navigation, route }): JSX.Element {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        value={email}
+      <TextInputStandart
         onChangeText={setEmail}
-        style={styles.input}
         placeholder="email"
         keyboardType="email-address"
         textContentType="emailAddress"
@@ -122,36 +135,35 @@ export default function Registration({ navigation, route }): JSX.Element {
         spellCheck={false}
         maxLength={320}
       />
-      <TextInput
+      <TextInputStandart
         value={name}
         onChangeText={setName}
-        style={styles.input}
         placeholder="имя/name"
+        keyboardType="deafult"
+        textContentType="none"
+        autoCapitalize="sentences"
+        autoCorrect={true}
+        spellCheck={true}
+        maxLength={100}
       />
-      <TextInput
+      <TextInputStandart
         value={password}
         onChangeText={setPassword}
-        style={styles.input}
         placeholder="пароль/password"
+        keyboardType="deafult"
+        textContentType="none"
+        autoCapitalize="sentences"
+        autoCorrect={false}
+        spellCheck={false}
+        maxLength={100}
       />
-      <Button
-        onPress={registerHandler}
-        title="Зарегистрироваться"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-        style={styles.button}
-      />
-      <Button title="Загрузить фото" onPress={pickImage} />
-
-      {image && <Image source={{ uri: image }} style={styles.image} />}
-      {photo && (
-        <Image
-          source={{ uri: `data:image/png;base64,${photo}` }}
-          style={styles.photo}
-        />
+      <ButtonStandart title="Зарегистрироваться" onPress={registerHandler} />
+      <CameraButton title="🖼" onPress={pickImage} />
+      <CameraButton title="📷" onPress={takePhoto} />
+      {image && (
+        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
       )}
-      <Button title="Камера" onPress={() => navigation.navigate('MakePhoto')} />
-
+      <ButtonStandart title="Главная страница" onPress={() => navigation.navigate('MainPage')} />
     </View>
   );
 }
@@ -163,31 +175,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
   },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-    width: '80%',
-    borderRadius: 5,
-  },
-
-  button: {
-    marginVertical: 10,
-    width: '80%',
-    borderRadius: 5,
-
-  photo: {
-    width: 200,
-    height: 200,
-
-  },
-  image: {
-    width: 200,
-    height: 200,
-    marginVertical: 10,
-    borderRadius: 100,
-    overflow: "hidden",
-    borderWidth: 3,
-    borderColor: "red"
-  }}})
+});

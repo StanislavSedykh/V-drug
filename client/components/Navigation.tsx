@@ -11,7 +11,6 @@ import ResultPage from './pages/ResultPage';
 import GeneralPage from './pages/GeneralPage';
 import ScorePage from './pages/ScorePage';
 import ProfilePage from './pages/ProfilePage';
-import MakePhoto from './pages/MakePhoto';
 import TakePartPage from './pages/TakePartPage';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useAppDispatch } from '../features/redux/hooks';
@@ -94,8 +93,15 @@ export default function Navigation(): JSX.Element {
         <Stack.Screen name="ScorePage" component={ScorePage} />
         <Stack.Screen name="GeneralPage" component={GeneralPage} />
         <Stack.Screen name="ProfilePage" component={ProfilePage} />
-        <Stack.Screen name="MakePhoto" component={MakePhoto} />
-        <Stack.Screen name="TakePartPage" component={TakePartPage} />
+        <Stack.Screen
+          name="TakePartPage"
+          component={TakePartPage}
+          options={{
+            title: '',
+            headerLeft: null,
+            gestureEnabled: false,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

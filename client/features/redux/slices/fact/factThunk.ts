@@ -11,7 +11,7 @@ export const setFactThunk: ThunkActionCreater<ParticipantsType['fact']> =
         Platform.OS === 'android' || Platform.OS === 'ios'
           ? API_URL
           : 'localhost'
-      }:3001/api/games`,
-      factData
+      }:3001/api/facts`,
+      { fact: factData } 
     );
   };

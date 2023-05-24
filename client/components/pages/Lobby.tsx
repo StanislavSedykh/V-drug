@@ -55,8 +55,6 @@ export default function Lobby({ navigation }): JSX.Element {
       <Button
         onPress={deleteHandler}
         title="Отменить"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
       />
     </View>
   );
