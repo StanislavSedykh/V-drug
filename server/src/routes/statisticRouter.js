@@ -1,11 +1,11 @@
-const express = require('express');
+// const express = require('express');
 
-const statisticRouter = express.Router();
+// const statisticRouter = express.Router();
 
-// statisticRouter.get('/participants', async (req, res) => {
+// // statisticRouter.get('/participants', async (req, res) => {
 
-// })
+// // })
 
 
 
-module.exports = statisticRouter;
+// module.exports = statisticRouter;
