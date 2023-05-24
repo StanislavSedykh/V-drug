@@ -1,5 +1,6 @@
 const { WebSocketServer } = require('ws');
-const {User, Participant, Game, Answer} = require('../db/models');
+const { User, Participant, Game, Answer } = require('../db/models');
+
 const wss = new WebSocketServer({ clientTracking: false, noServer: true });
 
 wss.on('connection', (ws, request, wsMap) => {
@@ -10,23 +11,16 @@ wss.on('connection', (ws, request, wsMap) => {
     const { type, payload } = JSON.parse(data);
     switch (type) {
       case 'JOIN_ROOM': {
-        const { roomPin, user } = payload;
-        // const foundRoom = await Game.findOne({ where: { pin: roomPin } });
-        // if (!foundRoom) {
-        //   console.log('failed');
-        //   return;
-        // }
-
-        // await Game.create({ userid: user.id, roomid: foundRoom.id });
-        // const gameUsers = await Game.findAll({
-        //   where: { roomid: foundRoom.id },
-        //   include: User,
-        // });
-
         for (const [, wsClient] of wsMap) {
-          wsClient.ws.send(JSON.stringify({ type: 'Game/addPlayers', payload: user }));
+          wsClient.ws.send(JSON.stringify({ type: 'Game/addPlayers', payload: Array.from(wsMap.values()).map((el) => el.user) }));
         }
+        break;
+      }
 
+      case 'START_GAME': {
+        for (const [, wsClient] of wsMap) {
+          wsClient.ws.send(JSON.stringify({ type: 'Game/updateGameStatus', payload }));
+        }
         break;
       }
       default:

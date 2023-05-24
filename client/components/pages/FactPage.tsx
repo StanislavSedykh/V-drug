@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
+import { useAppDispatch } from '../../features/redux/hooks';
 
 
 
 export default function FactPage({ navigation }): JSX.Element {
   const [fact, setFact] = useState('');
+  const dispatch = useAppDispatch()
+
+  const setFactHandler = () => {
+    dispatch()
+  }
   return (
-    <View>
+    <View style={styles.container}>
       <TextInput value={fact} onChangeText={setFact} style={styles.input} />
       <Button
         onPress={() => navigation.navigate('GamePage')}
@@ -19,6 +25,12 @@ export default function FactPage({ navigation }): JSX.Element {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
   input: {
     height: 40,
     margin: 12,

@@ -41,8 +41,8 @@ export default function Navigation(): JSX.Element {
           component={Registration}
           options={{
             title: 'Регистрация',
-            headerLeft: null,
-            gestureEnabled: false,
+            // headerLeft: null,
+            // gestureEnabled: false,
           }}
         />
         <Stack.Screen

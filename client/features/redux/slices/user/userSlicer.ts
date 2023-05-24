@@ -1,36 +1,26 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { PlayerType } from "../../../../types/user/formTypes";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { FetchingUserType, UserType } from '../../../../types/user/user';
 
-const initialState = {
-  id: null,
-  name: "",
-  ingame: true,
-  score: 0,
-  img: "",
-  user: {} as PlayerType,
+const initialState: FetchingUserType = {
+  status: 'fetching',
 };
 
 export const userSlice = createSlice({
-  name: "user",
-  initialState: initialState,
+  name: 'user',
+  initialState: initialState as UserType,
   reducers: {
-    setName: (state, action: PayloadAction<PlayerType>) => {
-      state.name = action.payload.name;
-      state.id = action.payload.id;
+    setUser: (state, action: PayloadAction<UserType>) => action.payload,
+    renameUser: (state, action: PayloadAction<string>) => {
+      if (state.status === 'logged') {
+        state.name = action.payload;
+      }
     },
-    logoutUser: (state) => {
-      state.id = null;
-      state.name = "";
-      state.ingame = true;
-      state.score = 0;
-    },
-    setUser: (state, action: PayloadAction<PlayerType>) => {
-      state.user = action.payload;
-    },
+    logoutUser: (state) => ({ status: 'guest' }),
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { logoutUser, setName, setUser } = userSlice.actions;
+export const { setUser, renameUser, logoutUser } = userSlice.actions;
 
 export default userSlice.reducer;

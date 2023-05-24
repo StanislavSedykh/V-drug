@@ -30,7 +30,7 @@ export type GameStatePlayerFindType = GameStateInfoType & {
 
 
 export type GameStateChoosePictureType = GameStateInfoType & {
-    status: 'ChoosePicture';
+    status: 'ChooseFacts';
 }
 
 

@@ -6,14 +6,21 @@ import {
   setPinThunk,
 } from "../../features/redux/slices/game/countThunk";
 import { updateGameStatus } from "../../features/redux/slices/game/gameSlice";
+import { startGameAction } from "../../features/redux/slices/game/gameAction";
 
 export default function Lobby({ navigation }): JSX.Element {
   const [changeStatus, setChangeStatus] = useState(false);
-  const { allPlayers, roomPin, status } = useAppSelector((state) => state.game);
-  const user = useAppSelector((state) => state.user);
+  const { allPlayers, status} = useAppSelector((state) => state.game);
   const creatorId = useAppSelector((state) => state.game.userid);
   const dispatch = useAppDispatch();
   const { pin } = useAppSelector((state) => state.pin);
+  const {id} = useAppSelector((state) => state.user);
+  console.log(status);
+  useEffect(() => {
+    if (status === 'ChooseFacts') {
+      navigation.navigate('FactPage');
+    }
+  }, [status]);
 
   useEffect(() => {
     dispatch(updateGameStatus("PlayerFind"));
@@ -24,31 +31,27 @@ export default function Lobby({ navigation }): JSX.Element {
     navigation.navigate("CreateLobbyPage");
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      dispatch(setPinThunk());
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
   return (
-    <View>
+    <View style={styles.container} >
       {allPlayers.map((el) => (
         <View key={el.id}>
           <Image
-            style={styles.tinyLogo}
-            source={require("../../assets/favicon.png")}
+            style={styles.avatar}
+            source={require('../../assets/favicon.png')}
           />
-          <Text>{el.name}</Text>
+          <Text style={styles.playerName}>{el.name}</Text>
         </View>
       ))}
-      <Text>Ваш PIN: {pin}</Text>
+      {creatorId === id && (<><Text style={styles.pin}>Ваш PIN: {pin}</Text>
+      
       <Button
-        onPress={() => navigation.navigate("FactPage")}
+        onPress={() => dispatch(startGameAction('ChooseFacts'))}
         title="Начать игру"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
-      />
+      /></>)
+    }
+      
       <Button
         onPress={deleteHandler}
         title="Отменить"
@@ -61,10 +64,29 @@ export default function Lobby({ navigation }): JSX.Element {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 50,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    padding: 20,
   },
-  tinyLogo: {
+  player: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  avatar: {
     width: 50,
     height: 50,
+    marginRight: 10,
+  },
+  playerName: {
+    fontSize: 18,
+  },
+  pin: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    marginBottom: 20,
   },
 });

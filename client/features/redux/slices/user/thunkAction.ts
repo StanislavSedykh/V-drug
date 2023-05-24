@@ -2,14 +2,11 @@ import axios from "axios";
 import type { ThunkActionCreater } from "../../store";
 import {
   LoginType,
-  PlayerType,
   SignUpType,
 } from "../../../../types/user/formTypes";
-import { logoutUser, setName } from "./userSlicer";
+import { logoutUser } from "./userSlicer";
 import { Platform } from "react-native";
 import { setScore } from "./csoreSlicer";
-import { setStatus } from "../fetchingSlice/fetchingSlice";
-import { setError } from "../error/errorSlice";
 import { setUser } from "./userSlicer";
 import {API_URL} from '@env'
 
@@ -40,15 +37,13 @@ export const logoutThunk: ThunkActionCreater = () => (dispatch) => {
 
 export const signUpThunk: ThunkActionCreater<SignUpType> =
   (apiUrl, options) => (dispatch) => {
-    fetch(apiUrl, options)
-      .then(({ body }) => dispatch(setUser({ ...body, status: 'logged' })))
-      .then((response) => {
-        console.log('response', response);
-      })
+    fetch(apiUrl, options).then((response) => response.json())
+    .then((body) => dispatch(setUser({ ...body, status: 'logged' })))
       .catch((error) => {
         console.log('error', error);
       });
   };
+
 
 export const loginThunk: ThunkActionCreater<LoginType> =
   (userData) => (dispatch) => {

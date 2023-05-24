@@ -18,17 +18,9 @@ export type LoginType = {
   score?: number;
 };
 
-export type UserType = {
+export type UsersTypes = {
   id: number;
   name: string;
-  score?: number;
-};
-
-export type PlayerType = {
-  id: number | null;
-  name: string;
-  img: string;
-  score?: number;
-  ingame: boolean;
-  status: string
-};
+  email: string;
+  image: string;
+}

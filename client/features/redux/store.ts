@@ -20,9 +20,7 @@ const store = configureStore({
   reducer: {
     user: userReducer,
     score: scoreReducer,
-    error: errorSlice,
     ws: wsReducer,
-    fetching: fetchingSlice,
     count: countReducer,
     pin: pinReducer,
     pinPart: pinPartReducer,

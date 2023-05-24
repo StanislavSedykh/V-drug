@@ -1,10 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { PlayerType } from "../../../../types/user/formTypes";
 import { GameStateType } from "../../../../types/game/gameTypes";
+import { UsersTypes } from "../../../../types/user/formTypes";
 
 const initialState: GameStateType = {
   status: null,
-  roomPin: null,
   allPlayers: [],
   round: 0,
   userid: null,
@@ -19,7 +19,7 @@ export const gameSlice = createSlice({
     },
 
     addPlayers: (state, action: PayloadAction<PlayerType>) => {
-      state.allPlayers.push(action.payload);
+      state.allPlayers = action.payload;
     },
 
     playerExit: (state, action: PayloadAction<PlayerType["id"]>) => {
@@ -43,17 +43,17 @@ export const gameSlice = createSlice({
 
     setupRoom: (
       state,
-      action: PayloadAction<{ roomPin: string; userid: number }>
+      action: PayloadAction<{ userid: number }>
     ) => {
-      state.roomPin = action.payload.roomPin;
       state.userid = action.payload.userid;
     },
+
     nextRound: (state) => {
       state.round += 1;
     },
+    
     resetRoom: (state) => {
       state.status = null;
-      state.roomPin = null;
       state.allPlayers = [];
       state.round = 0;
       state.userid = null;

@@ -36,11 +36,8 @@ function createSocketChannel(socket) {
 function createWebSocketConnection() {
   const newSocket = new WebSocket(
     `ws://${
-      Platform.OS === "android" || Platform.OS === "ios"
-        ? API_URL
-        : "localhost"
+      Platform.OS === "android" || Platform.OS === "ios" ? API_URL : "localhost"
     }:3001`
-    
   );
   return newSocket;
 }
@@ -54,13 +51,20 @@ function* updateStatus(socket) {
 
 function* joinGameWorker(socket) {
   while (true) {
-    const message = yield take('JOIN_ROOM');
+    const message = yield take("JOIN_ROOM");
+    socket.send(JSON.stringify(message));
+  }
+}
+
+function* startGameWorker(socket) {
+  while (true) {
+    const message = yield take('START_GAME');
     socket.send(JSON.stringify(message));
   }
 }
 
 function* closeConnection(socket) {
-  const message = yield take('CLOSE_WEBSOCKET');
+  const message = yield take("CLOSE_WEBSOCKET");
   // socket.send(JSON.stringify(message));
   socket.close();
   yield put({ type: SET_WS, payload: null });
@@ -68,18 +72,19 @@ function* closeConnection(socket) {
 
 function* wsWorker(action) {
   const socket = yield call(createWebSocketConnection);
-  const socketChannel = yield call(createSocketChannel, socket, action);
+  const socketChannel = yield call(createSocketChannel, socket);
 
   yield fork(updateStatus, socket);
   yield fork(closeConnection, socket);
   yield fork(joinGameWorker, socket);
+  yield fork(startGameWorker, socket);
 
   while (true) {
     try {
       const backAction = yield take(socketChannel);
       yield put(backAction);
-    } catch {
-      console.log("socket error");
+    } catch (e) {
+      console.log("socket error", e);
     }
   }
 }
