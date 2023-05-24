@@ -10,7 +10,7 @@ const upload = multer({ storage });
 authRouter.post('/signup', upload.single('image'), async (req, res) => {
 
   const { name, email, password } = req.body;
-  const image = req.file.path 
+  const image = req.file.path
   if (!name && !email && !password && !image)
     return res.status(400).json({ message: 'User data is missing', status: 400 });
   try {
@@ -49,10 +49,15 @@ authRouter.post('/login', async (req, res) => {
 });
 
 authRouter.get('/check', (req, res) => {
+  try{
   if (req.session.user) {
     return res.json({ ...req.session.user });
   }
   return res.sendStatus(401);
+} catch (err) {
+  console.log(err);
+  return res.sendStatus(500)
+}
 });
 
 authRouter.post('/logout', (req, res) => {
