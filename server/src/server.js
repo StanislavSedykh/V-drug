@@ -3,12 +3,12 @@ import morgan from 'morgan';
 import session from 'express-session';
 import store from 'session-file-store';
 import http from 'http';
+import path from 'path';
 import apiRouter from './routes/apiRouter';
 import authRouter from './routes/authRouter';
 import gameRouter from './routes/gameRouter';
 import participantRouter from './routes/participantRouter';
 import factRouter from './routes/factRouter';
-import path from 'path';
 
 const cors = require('cors');
 const wss = require('../webSocket/index');
@@ -48,11 +48,12 @@ app.use('/api/auth', authRouter);
 app.use('/api/games', gameRouter);
 app.use('/api/participants', participantRouter);
 app.use('/api/facts', factRouter);
-app.get('/public/:img', (req, res)=> {
+
+app.get('/public/:img', (req, res) => {
   console.log(req.params.img);
   const filePath = path.join(__dirname, '../public', req.params.img);
   res.sendFile(filePath);
-})
+});
 
 const server = http.createServer(app);
 const map = new Map();

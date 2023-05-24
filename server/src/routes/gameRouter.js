@@ -19,9 +19,8 @@ gameRouter.post('/', async (req, res) => {
 
 gameRouter.get('/', async (req, res) => {
   try {
-    const {id} = req.session.user
     const { pin } = await Game.findOne({
-      where: { user_id: id },
+      where: { user_id: req.session.user.id },
       attributes: ['pin'],
     });
     return res.json(pin);
