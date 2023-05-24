@@ -31,7 +31,7 @@ export const logoutThunk: ThunkActionCreater = () => (dispatch) => {
           : 'localhost'
       }:3001/api/auth/logout`
     )
-    .then(() => {dispatch(logoutUser()); dispatch(setStatus("guest"))})
+    .then(() => {dispatch(logoutUser()); dispatch(setUser({ status: 'guest' }))})
     .catch((err) => console.log(err));
 };
 

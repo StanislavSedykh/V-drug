@@ -13,5 +13,5 @@ export const setFactThunk: ThunkActionCreater<ParticipantsType['fact']> =
           : 'localhost'
       }:3001/api/facts`,
       { fact: factData } 
-    );
+    )
   };

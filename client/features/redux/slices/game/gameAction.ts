@@ -19,3 +19,8 @@ export const joinGameAction = (payload) => ({
   type: 'JOIN_ROOM',
   payload
 })
+
+export const clearVote = (payload) => ({
+  type: 'CLEAR_VOTE',
+  payload
+})

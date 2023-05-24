@@ -12,6 +12,7 @@ import countReducer from "./slices/game/countSlicer";
 import pinReducer from "./slices/game/pinSlicer";
 import pinPartReducer from "./slices/game/pinPartSlicer";
 import gameSlice from "./slices/game/gameSlice";
+import factSlicer from "./slices/fact/factSlicer";
 // import transactionReducer from './slices/transaction/transactionSlice';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -25,6 +26,7 @@ const store = configureStore({
     pin: pinReducer,
     pinPart: pinPartReducer,
     game: gameSlice,
+    fact: factSlicer,
   },
   middleware: (mid) => [...mid(), sagaMiddleware],
 });
