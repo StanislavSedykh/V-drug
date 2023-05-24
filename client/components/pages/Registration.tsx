@@ -140,7 +140,7 @@ export default function Registration({ navigation }): JSX.Element {
         value={name}
         onChangeText={setName}
         placeholder="имя/name"
-        keyboardType="deafult"
+        keyboardType="default"
         textContentType="none"
         autoCapitalize="sentences"
         autoCorrect={true}
@@ -151,7 +151,7 @@ export default function Registration({ navigation }): JSX.Element {
         value={password}
         onChangeText={setPassword}
         placeholder="пароль/password"
-        keyboardType="deafult"
+        keyboardType="default"
         textContentType="none"
         autoCapitalize="sentences"
         autoCorrect={false}

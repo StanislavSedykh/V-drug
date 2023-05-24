@@ -11,6 +11,7 @@ import authRouter from './routes/authRouter';
 import gameRouter from './routes/gameRouter';
 import participantRouter from './routes/participantRouter';
 import factRouter from './routes/factRouter';
+import statisticRouter from './routes/statisticRouter';
 
 const cors = require('cors');
 
@@ -50,6 +51,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/games', gameRouter);
 app.use('/api/participants', participantRouter);
 app.use('/api/facts', factRouter);
+app.use('/api/static')
 
 const server = http.createServer(app);
 // const map = new Map();
