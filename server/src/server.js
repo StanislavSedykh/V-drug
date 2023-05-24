@@ -67,7 +67,7 @@ const server = http.createServer(app);
 
 //     console.log('Session is parsed!');
 
-//     // socket.removeListener('error', onSocketError);
+    // socket.removeListener('error', onSocketError);
 
 //     wss.handleUpgrade(request, socket, head, (ws) => {
 //       wss.emit('connection', ws, request, map);

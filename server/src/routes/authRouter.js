@@ -11,7 +11,6 @@ authRouter.post('/signup', upload.single('image'), async (req, res) => {
 
   const { name, email, password } = req.body;
   const image = req.file.path 
-  console.log('==========================================>>>>>>>>>>>>>>>>>>>>',name, email, password, image);
   if (!name && !email && !password && !image)
     return res.status(400).json({ message: 'User data is missing', status: 400 });
   try {
