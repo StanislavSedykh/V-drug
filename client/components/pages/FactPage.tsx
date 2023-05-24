@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { BackHandler, Button, StyleSheet, TextInput, View } from 'react-native';
 import { useAppDispatch } from '../../features/redux/hooks';
+import TextInputStandart from '../UI/TextInputStandart';
+import ButtonStandart from '../UI/ButtonStandart';
+
+
 import { setFactThunk } from '../../features/redux/slices/fact/factThunk';
 
 export default function FactPage({ navigation }): JSX.Element {
@@ -29,17 +33,10 @@ export default function FactPage({ navigation }): JSX.Element {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        value={fact}
-        onChangeText={setFact}
-        style={styles.input}
-        placeholder="                               Факт"
-      />
-      <Button
-        onPress={setFactHandler}
+      <TextInputStandart value={fact} onChangeText={setFact} placeholder='Факт'/>
+      <ButtonStandart
+        onPress={() => navigation.navigate('GamePage')}
         title="Готов!"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
       />
     </View>
   );
@@ -51,13 +48,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
-  },
-  input: {
-    height: 40,
-    width: 300,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 10,
   },
 });

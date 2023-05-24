@@ -5,6 +5,7 @@ import {
   deleteGameThunk,
   setPinThunk,
 } from '../../features/redux/slices/game/countThunk';
+import ButtonStandart from '../UI/ButtonStandart';
 
 const pseudoBase = [
   {
@@ -56,17 +57,13 @@ export default function Lobby({ navigation }): JSX.Element {
         </View>
       ))}
       <Text style={styles.pin}>Ваш PIN: {pin}</Text>
-      <Button
+      <ButtonStandart
         onPress={() => navigation.navigate('FactPage')}
         title="Начать игру"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
       />
-      <Button
+      <ButtonStandart
         onPress={deleteHandler}
         title="Отменить"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
       />
     </View>
   );

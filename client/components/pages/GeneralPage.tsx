@@ -25,16 +25,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   itemContainer: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
     padding: 10,
     marginVertical: 5,
-    backgroundColor: '#f6f6f6',
   },
   itemText: {
-    fontSize: 16,
+    fontSize: 30,
     fontWeight: 'bold',
     color: '#333',
+    fontFamily: 'sans-serif',
+
   },
 });
