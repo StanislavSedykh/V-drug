@@ -1,14 +1,17 @@
-import axios from 'axios';
-import type { ThunkActionCreater } from '../../store';
-import { BackendUserType } from '../../../../types/user/user';
-import { LoginType, SignUpType } from '../../../../types/user/formTypes';
-import { logoutUser, setUser } from './userSlicer';
-import { Platform } from 'react-native';
-import { setScore } from './csoreSlicer';
+import axios from "axios";
+import type { ThunkActionCreater } from "../../store";
+import {
+  LoginType,
+  SignUpType,
+} from "../../../../types/user/formTypes";
+import { logoutUser } from "./userSlicer";
+import { Platform } from "react-native";
+import { setScore } from "./csoreSlicer";
+import { setUser } from "./userSlicer";
 import {API_URL} from '@env'
 
 export const checkUserThunk: ThunkActionCreater = () => (dispatch) => {
-  axios<BackendUserType>(
+  axios(
     `http://${
       Platform.OS === 'android' || Platform.OS === 'ios'
         ? API_URL
@@ -28,7 +31,7 @@ export const logoutThunk: ThunkActionCreater = () => (dispatch) => {
           : 'localhost'
       }:3001/api/auth/logout`
     )
-    .then(() => dispatch(logoutUser()))
+    .then(() => {dispatch(logoutUser()); dispatch(setStatus("guest"))})
     .catch((err) => console.log(err));
 };
 
@@ -36,11 +39,11 @@ export const signUpThunk: ThunkActionCreater<SignUpType> =
   (apiUrl, options) => (dispatch) => {
     fetch(apiUrl, options).then((response) => response.json())
     .then((body) => dispatch(setUser({ ...body, status: 'logged' })))
-    .then((body) => console.log(body))
       .catch((error) => {
         console.log('error', error);
       });
   };
+
 
 export const loginThunk: ThunkActionCreater<LoginType> =
   (userData) => (dispatch) => {
@@ -53,7 +56,7 @@ export const loginThunk: ThunkActionCreater<LoginType> =
         }:3001/api/auth/login`,
         userData
       )
-      .then(({ data }) => dispatch(setUser({ ...data, status: 'logged' })))
+      .then(({ data }) => dispatch(setUser({ ...data, status: "logged" })))
       .catch((err) => console.log(err));
   };
 

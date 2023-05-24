@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from "react";
+import { useAppSelector } from "../../features/redux/hooks";
 import { Button, StyleSheet, Text, View } from 'react-native';
 import ButtonStandart from '../UI/ButtonStandart';
 
 export default function MainPage({ navigation }): JSX.Element {
+  const user = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    if (user.status === "logged") {
+      navigation.navigate("CreateLobbyPage");
+    }
+  }, [user.status]);
   return (
     <View style={styles.container}>
       <Text style={styles.title}> В-друг</Text>
@@ -11,12 +19,12 @@ export default function MainPage({ navigation }): JSX.Element {
         onPress={() => navigation.navigate('Registration')}
       />
       <ButtonStandart
+        onPress={() => navigation.navigate("Autorization")}
         title="Войти"
-        onPress={() => navigation.navigate('Autorization')}
       />
       <ButtonStandart
         title="ResultPage"
-        onPress={() => navigation.navigate('ResultPage')}
+        onPress={() => navigation.navigate("ResultPage")}
       />
     </View>
   );

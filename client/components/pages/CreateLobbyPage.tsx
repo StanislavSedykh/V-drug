@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
-import { useAppDispatch } from '../../features/redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../features/redux/hooks';
 import { logoutThunk } from '../../features/redux/slices/user/thunkAction';
-import { setCountThunk } from '../../features/redux/slices/game/countThunk';
+import { setCountThunk, setPinThunk } from '../../features/redux/slices/game/countThunk';
+import { socketInit } from '../../features/websocket/wsActions';
 import { BackHandler } from 'react-native';
+import { setupRoom } from '../../features/redux/slices/game/gameSlice';
+import { joinGameAction } from '../../features/redux/slices/game/gameAction';
 import ButtonStandart from '../UI/ButtonStandart';
 import TextInputStandart from '../UI/TextInputStandart';
 
 export default function CreateLobbyPage({ navigation }): JSX.Element {
   const [count, setCount] = useState('');
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user)
+
+  useEffect(() => {
+    dispatch(socketInit());
+  }, []);
 
   const logoutHandler = () => {
     dispatch(logoutThunk());
@@ -23,22 +31,15 @@ export default function CreateLobbyPage({ navigation }): JSX.Element {
     }
     try {
       dispatch(setCountThunk({ count }));
+      dispatch(setupRoom({userid: user.id}))
+      dispatch(setPinThunk());
+      dispatch(joinGameAction(user))
       navigation.navigate('Lobby');
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    const backAction = () => {
-      return true;
-    };
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction
-    );
-    return () => backHandler.remove();
-  }, []);
+  
   return (
     <View style={styles.container}>
       <ButtonStandart

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import Registration from './pages/Registration';
 import MainPage from './pages/MainPage';
@@ -13,10 +13,16 @@ import ScorePage from './pages/ScorePage';
 import ProfilePage from './pages/ProfilePage';
 import TakePartPage from './pages/TakePartPage';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useAppDispatch } from '../features/redux/hooks';
+import { checkUserThunk } from '../features/redux/slices/user/thunkAction';
 
 const Stack = createStackNavigator();
 
 export default function Navigation(): JSX.Element {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(checkUserThunk());
+  });
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShadowVisible: false }}>
@@ -34,8 +40,8 @@ export default function Navigation(): JSX.Element {
           component={Registration}
           options={{
             title: 'Регистрация',
-            headerLeft: null,
-            gestureEnabled: false,
+            // headerLeft: null,
+            // gestureEnabled: false,
           }}
         />
         <Stack.Screen
