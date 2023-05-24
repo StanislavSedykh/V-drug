@@ -13,7 +13,14 @@ export type SignUpType = {
 };
 
 export type LoginType = {
-    email: string;
-    password: string;
-    score?: number;
+  email: string;
+  password: string;
+  score?: number;
+};
+
+export type UsersTypes = {
+  id: number;
+  name: string;
+  email: string;
+  image: string;
 }

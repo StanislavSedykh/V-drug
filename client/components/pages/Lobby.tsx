@@ -1,53 +1,39 @@
-import React, { useEffect } from 'react';
-import { Button, Image, StyleSheet, Text, View } from 'react-native';
-import { useAppDispatch, useAppSelector } from '../../features/redux/hooks';
+import React, { useEffect, useState } from "react";
+import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { useAppDispatch, useAppSelector } from "../../features/redux/hooks";
 import {
   deleteGameThunk,
   setPinThunk,
-} from '../../features/redux/slices/game/countThunk';
-import ButtonStandart from '../UI/ButtonStandart';
-
-const pseudoBase = [
-  {
-    name: 'Vasya Pupkin',
-    id: 1,
-  },
-  {
-    name: 'Tapac',
-    id: 2,
-  },
-  {
-    name: 'Lyubitel Sobak',
-    id: 3,
-  },
-  {
-    name: 'Beb',
-    id: 4,
-  },
-  {
-    name: 'Bob',
-    id: 5,
-  },
-];
+} from "../../features/redux/slices/game/countThunk";
+import { updateGameStatus } from "../../features/redux/slices/game/gameSlice";
+import { startGameAction } from "../../features/redux/slices/game/gameAction";
 
 export default function Lobby({ navigation }): JSX.Element {
+  const [changeStatus, setChangeStatus] = useState(false);
+  const { allPlayers, status} = useAppSelector((state) => state.game);
+  const creatorId = useAppSelector((state) => state.game.userid);
   const dispatch = useAppDispatch();
   const { pin } = useAppSelector((state) => state.pin);
-  const deleteHandler = () => {
-    dispatch(deleteGameThunk());
-    navigation.navigate('CreateLobbyPage');
-  };
+  const {id} = useAppSelector((state) => state.user);
+  console.log(status);
+  useEffect(() => {
+    if (status === 'ChooseFacts') {
+      navigation.navigate('FactPage');
+    }
+  }, [status]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      dispatch(setPinThunk());
-    }, 1000);
-
-    return () => clearTimeout(timer);
+    dispatch(updateGameStatus("PlayerFind"));
   }, []);
+
+  const deleteHandler = () => {
+    dispatch(deleteGameThunk());
+    navigation.navigate("CreateLobbyPage");
+  };
+
   return (
     <View style={styles.container} >
-      {pseudoBase.map((el) => (
+      {allPlayers.map((el) => (
         <View key={el.id}>
           <Image
             style={styles.avatar}
@@ -56,12 +42,17 @@ export default function Lobby({ navigation }): JSX.Element {
           <Text style={styles.playerName}>{el.name}</Text>
         </View>
       ))}
-      <Text style={styles.pin}>Ваш PIN: {pin}</Text>
-      <ButtonStandart
-        onPress={() => navigation.navigate('FactPage')}
+      {creatorId === id && (<><Text style={styles.pin}>Ваш PIN: {pin}</Text>
+      
+      <Button
+        onPress={() => dispatch(startGameAction('ChooseFacts'))}
         title="Начать игру"
-      />
-      <ButtonStandart
+        color="#841584"
+        accessibilityLabel="Learn more about this purple button"
+      /></>)
+    }
+      
+      <Button
         onPress={deleteHandler}
         title="Отменить"
       />
