@@ -69,11 +69,12 @@ export const scoreThunk: ThunkActionCreater = () => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
-export const addVote: ThunkActionCreater = (vote) => (dispatch) => {
-  axios.get(
+export const addVote: ThunkActionCreater = (factUser) => (dispatch) => {
+  console.log('vote-.>>>>>>>>>>>>>>>>>>>>>>>>',factUser)
+  axios.post(
     `http://${
       Platform.OS === "android" || Platform.OS === "ios" ? API_URL : "localhost"
     }:3001/api/games/answer`,
-    vote
-  ).then((response)=> console.log(response.data)).catch((err)=> console.log(err));
+    factUser
+  ).catch((err)=> console.log(err));
 };
