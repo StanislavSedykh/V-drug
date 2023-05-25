@@ -12,7 +12,12 @@ wss.on('connection', (ws, request, wsMap) => {
     switch (type) {
       case 'JOIN_ROOM': {
         for (const [, wsClient] of wsMap) {
-          wsClient.ws.send(JSON.stringify({ type: 'Game/addPlayers', payload: Array.from(wsMap.values()).map((el) => el.user) }));
+          wsClient.ws.send(
+            JSON.stringify({
+              type: 'Game/addPlayers',
+              payload: Array.from(wsMap.values()).map((el) => el.user),
+            }),
+          );
         }
         break;
       }
@@ -20,6 +25,24 @@ wss.on('connection', (ws, request, wsMap) => {
       case 'START_GAME': {
         for (const [, wsClient] of wsMap) {
           wsClient.ws.send(JSON.stringify({ type: 'Game/updateGameStatus', payload }));
+        }
+        break;
+      }
+      case 'ADD_FACT': {
+        for (const [, wsClient] of wsMap) {
+          wsClient.ws.send(JSON.stringify({ type: 'fact/setFact', payload }));
+        }
+        break;
+      }
+      case 'VOTE': {
+        for (const [, wsClient] of wsMap) {
+          wsClient.ws.send(JSON.stringify({ type: 'Game/userVote', payload }));
+        }
+        break;
+      }
+      case 'CLEAR_VOTE': {
+        for (const [, wsClient] of wsMap) {
+          wsClient.ws.send(JSON.stringify({ type: 'Game/claerAllVote', payload }));
         }
         break;
       }

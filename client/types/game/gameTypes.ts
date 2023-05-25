@@ -18,6 +18,7 @@ export type GameStateInfoType = {
     roomPin: string | null;
     round: number | 0;
     userid: number | null;
+    vote: [],
 }
 
 

@@ -1,13 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { PlayerType } from "../../../../types/user/formTypes";
 import { GameStateType } from "../../../../types/game/gameTypes";
-import { UsersTypes } from "../../../../types/user/formTypes";
 
 const initialState: GameStateType = {
   status: null,
   allPlayers: [],
-  round: 0,
+  round: 1,
   userid: null,
+  vote: [],
 };
 
 export const gameSlice = createSlice({
@@ -51,13 +51,21 @@ export const gameSlice = createSlice({
     nextRound: (state) => {
       state.round += 1;
     },
-    
+
     resetRoom: (state) => {
       state.status = null;
       state.allPlayers = [];
       state.round = 0;
       state.userid = null;
     },
+
+    userVote: (state, action) => {
+      state.vote.push(action.payload);
+    },
+
+    claerAllVote: (state) => {
+      state.vote = [];
+    }
   },
 });
 
@@ -68,6 +76,8 @@ export const {
   updateGameStatus,
   resetRoom,
   updatePlayers,
+  userVote,
+  claerAllVote
 } = gameSlice.actions;
 
 export default gameSlice.reducer;
