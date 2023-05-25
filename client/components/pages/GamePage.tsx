@@ -36,7 +36,7 @@ export default function GamePage({ navigation }): JSX.Element {
 
   useEffect(() => {
     if (allPlayers.length === round - 1  || round - 1 === facts.length) {
-      navigation.navigate("ResultPage");
+      navigation.navigate("ScorePage");
     }
   }, [round]);
 
@@ -61,7 +61,7 @@ export default function GamePage({ navigation }): JSX.Element {
           ))}
         </>
       ) : (
-        <Text>Ожидание игроков</Text>
+        <Text>Ожидание игроков ...</Text>
       )}
     </View>
   );

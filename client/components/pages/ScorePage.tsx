@@ -1,31 +1,33 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useAppSelector } from "../../features/redux/hooks";
+import ButtonStandart from "../UI/ButtonStandart";
 
-export default function ScorePage(): JSX.Element {
+export default function ScorePage({ navigation }): JSX.Element {
   const score = useAppSelector((state) => state.game.score);
   const allPlayers = useAppSelector((state) => state.game.allPlayers);
   const trueanswers = useAppSelector((state) => state.game.trueVote);
   console.log(trueanswers.length);
   return (
     <View style={styles.container}>
-      <Text>
-        Вы ответили правильно на {`${score}`} из {`${allPlayers.length}`}{" "}
-        вопросов{" "}
+      <Text style={styles.scoreText}>
+        Вы ответили правильно на {score} из {allPlayers.length} вопросов
       </Text>
-      {trueanswers.length == 0 ? (
-        <Text>Loh</Text>
+      {trueanswers.length === 0 ? (
+        <Text style={styles.noAnswersText}>Не Ваш день</Text>
       ) : (
-        trueanswers.map((el) => (
-          <>
-            <Text>{el.fact.fact}</Text>
-            <Text>{el.user_name}</Text>
-          </>
+        trueanswers.map((el, index) => (
+          <View style={styles.itemContainer} key={index}>
+            <Text style={styles.factText}>✅ Факт: {el.fact.fact}</Text>
+            <Text style={styles.userNameText}>Чей он: {el.user_name}</Text>
+          </View>
         ))
       )}
+      <ButtonStandart title="Новая игра" onPress={()=> navigation.navigate("CreateLobbyPage")}/>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -34,8 +36,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingTop: 20,
   },
+  scoreText: {
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  noAnswersText: {
+    fontSize: 16,
+    color: "red",
+    fontStyle: "italic",
+  },
   itemContainer: {
-    flexDirection: "row",
+    flexDirection: "col",
     alignItems: "center",
     marginVertical: 8,
     marginHorizontal: 16,
@@ -54,19 +65,12 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5,
   },
-  correct: {
-    fontSize: 24,
+  factText: {
+    fontSize: 25,
     marginRight: 8,
   },
-  text: {
-    flex: 1,
-  },
-  name: {
-    fontSize: 18,
+  userNameText: {
+    fontSize: 25,
     fontWeight: "bold",
-    marginBottom: 4,
-  },
-  fact: {
-    fontSize: 16,
   },
 });

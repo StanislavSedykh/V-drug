@@ -51,7 +51,7 @@ export default function FactPage({ navigation }): JSX.Element {
   return (
     <View style={styles.container}>
       {!factReady ? (
-        <Text>Ожидание игроков</Text>
+        <Text>Ожидание игроков ...</Text>
       ) : (
         <>
           <TextInputStandart
