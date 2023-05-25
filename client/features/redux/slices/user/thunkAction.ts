@@ -75,5 +75,5 @@ export const addVote: ThunkActionCreater = (vote) => (dispatch) => {
       Platform.OS === "android" || Platform.OS === "ios" ? API_URL : "localhost"
     }:3001/api/games/answer`,
     vote
-  );
+  ).then((response)=> console.log(response.data)).catch((err)=> console.log(err));
 };
