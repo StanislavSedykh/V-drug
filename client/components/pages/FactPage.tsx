@@ -20,11 +20,12 @@ export default function FactPage({ navigation }): JSX.Element {
   const dispatch = useAppDispatch();
   const facts = useAppSelector((state) => state.fact.facts);
   const users = useAppSelector((state) => state.game.allPlayers);
+  const user = useAppSelector((state) => state.user)
 
   const setFactHandler = () => {
     try {
       dispatch(setFactThunk(fact));
-      dispatch(addFact(fact));
+      dispatch(addFact({fact: fact, user_id: user.id}));
     } catch (error) {
       console.log(error);
     }
