@@ -6,37 +6,22 @@ export default function ScorePage(): JSX.Element {
   const score = useAppSelector((state) => state.game.score);
   const allPlayers = useAppSelector((state) => state.game.allPlayers);
   const trueanswers = useAppSelector((state) => state.game.trueVote);
+  console.log(trueanswers.length);
   return (
     <View style={styles.container}>
-      <FlatList
-        data={[
-          {
-            correct: "✅",
-            name: "Alex",
-            fact: "Alex is a good boy",
-          },
-        ]}
-        style={styles.itemContainer}
-        style={styles.correct}
-        renderItem={({ item }) => (
-          <Text style={styles.text}>
-            {item.correct} name: {item.name} fact: {item.fact}
-          </Text>
-        )}
-      />
       <Text>
         Вы ответили правильно на {`${score}`} из {`${allPlayers.length}`}{" "}
         вопросов{" "}
       </Text>
-      {trueanswers?.length !== 0 ? (
-        trueanswers.map((elem) => {
-          <>
-            <Text>{elem.fact}</Text>
-            <Text>{elem.user_name}</Text>
-          </>;
-        })
+      {trueanswers.length == 0 ? (
+        <Text>Loh</Text>
       ) : (
-        <Text>Вы самое слабое звено, сосите хуй</Text>
+        trueanswers.map((el) => (
+          <>
+            <Text>{el.fact.fact}</Text>
+            <Text>{el.user_name}</Text>
+          </>
+        ))
       )}
     </View>
   );
