@@ -8,12 +8,16 @@ import {
 } from "../../features/redux/slices/game/gameSlice";
 import { voteAction } from "../../features/redux/slices/game/gameAction";
 import { clearVote } from "../../features/redux/slices/game/gameAction";
+import { addVote } from "../../features/redux/slices/user/thunkAction";
 
 export default function GamePage({ navigation }): JSX.Element {
   const facts = useAppSelector((state) => state.fact.facts);
   const { allPlayers, round, vote } = useAppSelector((state) => state.game);
   const dispatch = useAppDispatch();
   const [voteUser, setVoteUser] = useState(false);
+  const owner = useAppSelector((state)=> state.user);
+
+  console.log(facts);
 
   useEffect(() => {
     if (allPlayers.length === vote.length) {
@@ -29,7 +33,14 @@ export default function GamePage({ navigation }): JSX.Element {
     }
   }, [round]);
 
-  const voteHandler = () => {};
+  const voteHandler = (participant_id) => {
+    if (participant_id === facts[round -1].user_id) {
+      dispatch(addVote({user_id: owner.id, participant_id: participant_id, status: true}))
+    } else {
+      dispatch(addVote({user_id: owner.id, participant_id: participant_id, status: false}))
+    }
+  };
+
   return (
     <View style={styles.container}>
       {!voteUser ? (
@@ -37,11 +48,11 @@ export default function GamePage({ navigation }): JSX.Element {
           <Text style={styles.text}>
             Раунд {`${round}`} из {`${allPlayers.length}`}
           </Text>
-          <Text style={styles.text1}>{`${facts[round - 1]}`}</Text>
+          <Text style={styles.text1}>{`${facts[round - 1].fact}`}</Text>
           {allPlayers.map((user) => (
-            <ButtonStandart
+            <ButtonStandart key={user.id}
               onPress={() => {
-                voteHandler();
+                voteHandler(user.id);
                 dispatch(voteAction(user.name));
                 setVoteUser(true);
               }}
