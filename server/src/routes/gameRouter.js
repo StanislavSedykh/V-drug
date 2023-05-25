@@ -1,5 +1,5 @@
 const express = require('express');
-const { Game, Participant } = require('../../db/models');
+const { Game, Participant, Answers } = require('../../db/models');
 
 const gameRouter = express.Router();
 
@@ -34,6 +34,17 @@ gameRouter.delete('/', async (req, res) => {
   try {
     await Game.destroy({ where: { user_id: req.session.user.id } });
     res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+gameRouter.get('/answer', async (req, res) => {
+  try {
+    const { user_id, participant_id, status } = req.body;
+    const game_id = 1;
+    const answer = await Answers.create({ where: game_id, user_id, participant_id, status });
+    res.status(200).json(answer);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
