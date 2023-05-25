@@ -43,9 +43,7 @@ gameRouter.delete('/', async (req, res) => {
 
 gameRouter.post('/answer', async (req, res) => {
   try {
-    console.log(req.body)
     const { user_id, participant_id, status } = req.body;
-    
     const game_id = 1;
     const answer = await Answer.create({game_id, user_id, participant_id, status });
     res.status(200).json(answer);
