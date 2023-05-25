@@ -1,18 +1,12 @@
 import React from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { useAppSelector } from '../../features/redux/hooks';
 
 export default function GeneralPage() {
+
   return (
     <View style={styles.container}>
-    <FlatList style={styles.itemContainer}
-      data={[
-        {
-        id:'1',
-        name:'Alex'
-        }
-      ]}
-      renderItem={({item}) => <Text style={styles.itemText}>{item.id} --- {item.name}</Text>}
-    />
+    
   </View>
   )
 }
