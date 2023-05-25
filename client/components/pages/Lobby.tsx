@@ -34,67 +34,86 @@ export default function Lobby({ navigation }): JSX.Element {
   };
 
   return (
-    <View style={styles.container} >
-      {allPlayers.map((el) => (
-        <View key={el.id}>
-          <Image
-            style={styles.avatar}
-            source={{uri:  `http://${
-              Platform.OS === 'android' || Platform.OS === 'ios'
-                ? API_URL
-                : 'localhost'
-            }:3001/${el.image}`,}}
+    <View style={styles.container}>
+      <View style={styles.playersContainer}>
+        {allPlayers.map((el, index) => (
+          <View key={el.id} style={index % 2 === 0 ? styles.playerWrapperLeft : styles.playerWrapperRight}>
+            <View style={styles.player}>
+              <Image
+                style={styles.avatar}
+                source={{
+                  uri: `http://${
+                    Platform.OS === 'android' || Platform.OS === 'ios'
+                      ? API_URL
+                      : 'localhost'
+                  }:3001/${el.image}`,
+                }}
+              />
+              <Text style={styles.playerName}>{el.name}</Text>
+            </View>
+          </View>
+        ))}
+      </View>
+  
+      {creatorId === id && (
+        <>
+          <Text style={styles.pin}>Ваш PIN: {pin}</Text>
+  
+          <ButtonStandart
+            onPress={() => dispatch(startGameAction('ChooseFacts'))}
+            title="Начать игру"
           />
-          <Text style={styles.playerName}>{el.name}</Text>
-        </View>
-      ))}
-      {creatorId === id && (<><Text style={styles.pin}>Ваш PIN: {pin}</Text>
-      
-      <ButtonStandart
-        onPress={() => dispatch(startGameAction('ChooseFacts'))}
-        title="Начать игру"
-      /></>)
-    }
-      
-      <ButtonStandart
-        onPress={deleteHandler}
-        title="Отменить"
-      />
+        </>
+      )}
+  
+      <ButtonStandart onPress={deleteHandler} title="Отменить" />
     </View>
-  );
-}
+  );  
+      }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    padding: 20,
-  },
-  player: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  avatar: {
-    width: 80,
-    height: 80,
-    marginRight: 10,
-    borderRadius: 50,
-    borderColor: 'green',
-    borderWidth: 3,
-    backgroundColor: 'white',
-    marginBottom: 10
-  },
-  playerName: {
-    fontSize: 18,
-    marginBottom: 20
-  },
-  pin: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    alignSelf: 'center',
-    marginBottom: 20,
-  },
-});
+      const styles = StyleSheet.create({
+        container: {
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#fff',
+          padding: 20,
+        },
+        playersContainer: {
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+        },
+        playerWrapperLeft: {
+          width: '50%',
+          paddingHorizontal: 5,
+        },
+        playerWrapperRight: {
+          width: '50%',
+          paddingHorizontal: 5,
+        },
+        player: {
+          alignItems: 'center',
+          marginBottom: 10,
+        },
+        avatar: {
+          width: 80,
+          height: 80,
+          borderRadius: 50,
+          borderColor: 'green',
+          borderWidth: 3,
+          backgroundColor: 'white',
+          marginBottom: 10,
+        },
+        playerName: {
+          fontSize: 18,
+          marginBottom: 20,
+        },
+        pin: {
+          fontSize: 24,
+          fontWeight: 'bold',
+          alignSelf: 'center',
+          marginBottom: 20,
+        },
+      });
+      

@@ -27,6 +27,11 @@ export default function Registration({ navigation }): JSX.Element {
   const [image, setImage] = useState<string>('');
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const dispatch = useAppDispatch();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   async function uploadImageAsync(uri: any) {
     const apiUrl = `http://${
@@ -156,7 +161,11 @@ export default function Registration({ navigation }): JSX.Element {
         autoCorrect={false}
         spellCheck={false}
         maxLength={100}
+        secureTextEntry={!showPassword}
       />
+      <TouchableOpacity onPress={toggleShowPassword}>
+       <Text style={styles.text}>{showPassword ? '🙅🏿‍♂️' : '👁️'}</Text>
+       </TouchableOpacity>
       <ButtonStandart title="Зарегистрироваться" onPress={registerHandler} />
       <CameraButton title="🖼" onPress={pickImage} />
       <CameraButton title="📷" onPress={takePhoto} />
@@ -185,4 +194,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginBottom: 10
   },
+  text:{
+    position: 'absolute',
+    top: -45,
+    right: -150,
+    fontSize: 20,
+  }
 });

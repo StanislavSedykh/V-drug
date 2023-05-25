@@ -7,7 +7,7 @@ import { API_URL } from '@env';
 export default function ProfilePage() {
   const user = useAppSelector((state) => state.user);
   const {image} = useAppSelector((state) => state.user);
-  const { score } = useAppSelector((state) => state.score);
+  const { score } = useAppSelector((state) => state.game);
   const dispatch = useAppDispatch();
 
 useEffect(() => {
@@ -27,7 +27,9 @@ useEffect(() => {
             name: user.status === 'logged' ? user.name : 'Guest',
           },
         ]}
-        renderItem={({ item }) => <Text style={styles.name}> name: {item.name}</Text>}
+        renderItem={({ item }) => <>
+      <Text style={styles.name}> name: {item.name}</Text>
+        <Text style={styles.score}>Счет за все игры: {score}</Text></>}
       />
       <Text style={styles.score}>{score}</Text>
     </View>
@@ -47,11 +49,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   name: {
+    // marginTop: 1 
+    marginLeft: 35,
     fontSize: 18,
     marginBottom: 10,
+    alignContent: 'center',
+    justifyContent:'flex-end'
   },
   score: {
     fontSize: 20,
     fontWeight: 'bold',
+    alignItems: 'center',
   },
 });

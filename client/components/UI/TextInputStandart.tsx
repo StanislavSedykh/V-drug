@@ -10,10 +10,12 @@ type InputProps = {
   spellCheck?: boolean,
   maxLength?: number,
   value?: string,
-  onChangeText?: any
+  onChangeText?: any,
+  secureTextEntry? : boolean
 }
 
-export default function TextInputStandart({placeholder, keyboardType, textContentType, autoCapitalize, autoCorrect, spellCheck, maxLength, value, onChangeText}: InputProps):JSX.Element {
+export default function TextInputStandart({placeholder, keyboardType, textContentType, autoCapitalize, autoCorrect, spellCheck, maxLength, value, onChangeText,  secureTextEntry = false
+  }: InputProps):JSX.Element {
   return (
    <TextInput style={styles.input} placeholder={placeholder} keyboardType={keyboardType}
    textContentType={textContentType}
@@ -23,6 +25,7 @@ export default function TextInputStandart({placeholder, keyboardType, textConten
    maxLength={maxLength}
    value={value}
    onChangeText={onChangeText}
+   secureTextEntry={secureTextEntry}
    />
   )
 }
