@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { Button, Image, Platform, StyleSheet, Text, View } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../features/redux/hooks";
 import {
   deleteGameThunk,
@@ -7,6 +7,8 @@ import {
 } from "../../features/redux/slices/game/countThunk";
 import { updateGameStatus } from "../../features/redux/slices/game/gameSlice";
 import { startGameAction } from "../../features/redux/slices/game/gameAction";
+import ButtonStandart from "../UI/ButtonStandart";
+import { API_URL } from "@env";
 
 export default function Lobby({ navigation }): JSX.Element {
   const [changeStatus, setChangeStatus] = useState(false);
@@ -15,13 +17,13 @@ export default function Lobby({ navigation }): JSX.Element {
   const dispatch = useAppDispatch();
   const { pin } = useAppSelector((state) => state.pin);
   const {id} = useAppSelector((state) => state.user);
-  console.log(status);
+
   useEffect(() => {
     if (status === 'ChooseFacts') {
       navigation.navigate('FactPage');
     }
   }, [status]);
-
+ 
   useEffect(() => {
     dispatch(updateGameStatus("PlayerFind"));
   }, []);
@@ -37,22 +39,24 @@ export default function Lobby({ navigation }): JSX.Element {
         <View key={el.id}>
           <Image
             style={styles.avatar}
-            source={require('../../assets/favicon.png')}
+            source={{uri:  `http://${
+              Platform.OS === 'android' || Platform.OS === 'ios'
+                ? API_URL
+                : 'localhost'
+            }:3001/${el.image}`,}}
           />
           <Text style={styles.playerName}>{el.name}</Text>
         </View>
       ))}
       {creatorId === id && (<><Text style={styles.pin}>Ваш PIN: {pin}</Text>
       
-      <Button
+      <ButtonStandart
         onPress={() => dispatch(startGameAction('ChooseFacts'))}
         title="Начать игру"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
       /></>)
     }
       
-      <Button
+      <ButtonStandart
         onPress={deleteHandler}
         title="Отменить"
       />
@@ -74,12 +78,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   avatar: {
-    width: 50,
-    height: 50,
+    width: 80,
+    height: 80,
     marginRight: 10,
+    borderRadius: 50,
+    borderColor: 'green',
+    borderWidth: 3,
+    backgroundColor: 'white',
+    marginBottom: 10
   },
   playerName: {
     fontSize: 18,
+    marginBottom: 20
   },
   pin: {
     fontSize: 24,

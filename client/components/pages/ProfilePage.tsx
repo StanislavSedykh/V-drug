@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, Platform, StyleSheet, Text, View } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../../features/redux/hooks';
 import { scoreThunk } from '../../features/redux/slices/user/thunkAction';
+import { API_URL } from '@env';
 
 export default function ProfilePage() {
   const user = useAppSelector((state) => state.user);
+  const {image} = useAppSelector((state) => state.user);
   const { score } = useAppSelector((state) => state.score);
   const dispatch = useAppDispatch();
 
@@ -14,7 +16,11 @@ useEffect(() => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require('../../assets/favicon.png')} />
+      <Image style={styles.logo}  source={{uri:  `http://${
+              Platform.OS === 'android' || Platform.OS === 'ios'
+                ? API_URL
+                : 'localhost'
+            }:3001/${image}`,}} />
       <FlatList
         data={[
           {

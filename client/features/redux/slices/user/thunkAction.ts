@@ -9,6 +9,7 @@ import { Platform } from "react-native";
 import { setScore } from "./csoreSlicer";
 import { setUser } from "./userSlicer";
 import {API_URL} from '@env'
+import { BackendUserType } from "../../../../types/user/user";
 
 export const checkUserThunk: ThunkActionCreater = () => (dispatch) => {
   axios(
@@ -31,7 +32,7 @@ export const logoutThunk: ThunkActionCreater = () => (dispatch) => {
           : 'localhost'
       }:3001/api/auth/logout`
     )
-    .then(() => {dispatch(logoutUser()); dispatch(setUser({ status: 'guest' }))})
+    .then(() => {dispatch(logoutUser()); dispatch(setUser({status:"guest"}))})
     .catch((err) => console.log(err));
 };
 
