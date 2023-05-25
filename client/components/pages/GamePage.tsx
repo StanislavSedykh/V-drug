@@ -3,8 +3,7 @@ import { Button, StyleSheet, Text, View } from "react-native";
 import ButtonStandart from "../UI/ButtonStandart";
 import { useAppDispatch, useAppSelector } from "../../features/redux/hooks";
 import {
-  nextRound,
-  userVote,
+  nextRound, scoreUp, trueVote,
 } from "../../features/redux/slices/game/gameSlice";
 import { voteAction } from "../../features/redux/slices/game/gameAction";
 import { clearVote } from "../../features/redux/slices/game/gameAction";
@@ -17,8 +16,6 @@ export default function GamePage({ navigation }): JSX.Element {
   const [voteUser, setVoteUser] = useState(false);
   const owner = useAppSelector((state)=> state.user);
 
-  console.log(facts);
-
   useEffect(() => {
     if (allPlayers.length === vote.length) {
       dispatch(nextRound());
@@ -26,20 +23,23 @@ export default function GamePage({ navigation }): JSX.Element {
       dispatch(clearVote(''));
     }
   }, [vote]);
-
-  useEffect(() => {
-    if (allPlayers.length === round - 1) {
-      navigation.navigate("ResultPage");
-    }
-  }, [round]);
-
-  const voteHandler = (participant_id) => {
-    if (participant_id === facts[round -1].user_id) {
+  
+  const voteHandler = (participant_id, name) => {
+    if (participant_id === facts[round - 1].user_id) {
       dispatch(addVote({user_id: owner.id, participant_id: participant_id, status: true}))
+      dispatch(scoreUp());
+      dispatch(trueVote({fact: facts[round-1], user_name: name}))
     } else {
       dispatch(addVote({user_id: owner.id, participant_id: participant_id, status: false}))
     }
   };
+
+  useEffect(() => {
+    if (allPlayers.length === round - 1  || round - 1 === facts.length) {
+      navigation.navigate("ResultPage");
+    }
+  }, [round]);
+
 
   return (
     <View style={styles.container}>
@@ -48,11 +48,11 @@ export default function GamePage({ navigation }): JSX.Element {
           <Text style={styles.text}>
             Раунд {`${round}`} из {`${allPlayers.length}`}
           </Text>
-          <Text style={styles.text1}>{`${facts[round - 1].fact}`}</Text>
+          <Text style={styles.text1}>{`${facts[round - 1]?.fact}`}</Text>
           {allPlayers.map((user) => (
             <ButtonStandart key={user.id}
               onPress={() => {
-                voteHandler(user.id);
+                voteHandler(user.id,  user.name);
                 dispatch(voteAction(user.name));
                 setVoteUser(true);
               }}

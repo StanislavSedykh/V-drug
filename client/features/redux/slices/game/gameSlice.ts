@@ -8,6 +8,8 @@ const initialState: GameStateType = {
   round: 1,
   userid: null,
   vote: [],
+  score: 0,
+  trueVote: [],
 };
 
 export const gameSlice = createSlice({
@@ -41,10 +43,7 @@ export const gameSlice = createSlice({
       state.status = action.payload;
     },
 
-    setupRoom: (
-      state,
-      action: PayloadAction<{ userid: number }>
-    ) => {
+    setupRoom: (state, action: PayloadAction<{ userid: number }>) => {
       state.userid = action.payload.userid;
     },
 
@@ -65,7 +64,13 @@ export const gameSlice = createSlice({
 
     claerAllVote: (state) => {
       state.vote = [];
-    }
+    },
+    scoreUp: (state) => {
+      state.score += 1;
+    },
+    trueVote: (state, action) => {
+      state.trueVote.push(action.payload);
+    },
   },
 });
 
@@ -77,7 +82,9 @@ export const {
   resetRoom,
   updatePlayers,
   userVote,
-  claerAllVote
+  claerAllVote,
+  scoreUp,
+  trueVote,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;
