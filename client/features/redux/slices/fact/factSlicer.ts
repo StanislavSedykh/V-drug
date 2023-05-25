@@ -5,8 +5,8 @@ type FactType = {
   fact: ParticipantsType['fact'];
 };
 
-const initialState: FactType = {
-  fact: '',
+const initialState = {
+  facts: [],
 };
 
 export const factSlice = createSlice({
@@ -14,7 +14,7 @@ export const factSlice = createSlice({
   initialState,
   reducers: {
     setFact: (state, action) => {
-      state.fact = action.payload;
+      state.facts.push(action.payload);
     },
   },
 });

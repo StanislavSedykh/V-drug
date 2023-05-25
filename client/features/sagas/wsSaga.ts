@@ -58,7 +58,21 @@ function* joinGameWorker(socket) {
 
 function* startGameWorker(socket) {
   while (true) {
-    const message = yield take('START_GAME');
+    const message = yield take("START_GAME");
+    socket.send(JSON.stringify(message));
+  }
+}
+
+function* addFactWorker(socket) {
+  while (true) {
+    const message = yield take("ADD_FACT");
+    socket.send(JSON.stringify(message));
+  }
+}
+
+function* clearVoteWorker(socket) {
+  while (true) {
+    const message = yield take("CLEAR_VOTE");
     socket.send(JSON.stringify(message));
   }
 }
@@ -70,6 +84,13 @@ function* closeConnection(socket) {
   yield put({ type: SET_WS, payload: null });
 }
 
+function* voteWorker(socket) {
+  while (true) {
+    const message = yield take("VOTE");
+    socket.send(JSON.stringify(message));
+  }
+}
+
 function* wsWorker(action) {
   const socket = yield call(createWebSocketConnection);
   const socketChannel = yield call(createSocketChannel, socket);
@@ -78,6 +99,9 @@ function* wsWorker(action) {
   yield fork(closeConnection, socket);
   yield fork(joinGameWorker, socket);
   yield fork(startGameWorker, socket);
+  yield fork(addFactWorker, socket);
+  yield fork(voteWorker, socket);
+  yield fork(clearVoteWorker, socket);
 
   while (true) {
     try {
